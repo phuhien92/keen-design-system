@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="t">
+  <title id="t">Keen</title>
+  <defs>
+    <linearGradient id="kStem" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" style="stop-color: var(--keen-k1, #1F7BFF)"/>
+      <stop offset="1" style="stop-color: var(--keen-k2, #1565F0)"/>
+    </linearGradient>
+    <linearGradient id="kUp" gradientUnits="userSpaceOnUse" x1="58" y1="64" x2="100" y2="22">
+      <stop offset="0" style="stop-color: var(--keen-k1, #1F7BFF)"/>
+      <stop offset="1" style="stop-color: var(--keen-k3, #33C6FF)"/>
+    </linearGradient>
+    <linearGradient id="kDown" gradientUnits="userSpaceOnUse" x1="58" y1="64" x2="100" y2="106">
+      <stop offset="0" style="stop-color: var(--keen-k3, #33C6FF)"/>
+      <stop offset="1" style="stop-color: var(--keen-k4, #3EE8D6)"/>
+    </linearGradient>
+  </defs>
+  <path d="M58 64 L99 23" stroke="url(#kUp)" stroke-width="30" stroke-linecap="round" fill="none"/>
+  <path d="M58 64 L99 105" stroke="url(#kDown)" stroke-width="30" stroke-linecap="round" fill="none"/>
+  <rect x="18" y="12" width="36" height="104" rx="18" fill="url(#kStem)"/>
+  <path d="M54 43 L75 64 L54 85 Z" style="fill: var(--keen-k0, #1450E6)"/>
+</svg>
