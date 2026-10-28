@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="docs/assets/keen-banner.png" alt="Keen Design System: a gradient K mark beside the pixel Keen wordmark on a blueprint of UI components and color tokens" width="100%" />
+</p>
+
 # Keen
 
 Keen is a shared, themeable design system. It gives every project the same component core while each product keeps its own visual identity.
@@ -66,6 +70,14 @@ After the portfolio-blog integration, validate the same components in more repos
 ## Tracking
 
 Work is tracked in Linear under the Keen Design System project. Branches use Linear's issue branch names, and PRs reference their issue (for example, `Fixes HIE-18`) so status updates on merge.
+
+## Brand assets
+
+- [`keen-mark.svg`](docs/assets/keen-mark.svg): the K mark, for favicons and avatars.
+- [`keen-logo.svg`](docs/assets/keen-logo.svg): the mark and wordmark lockup.
+- [`keen-banner.png`](docs/assets/keen-banner.png): the README hero image only, since it is a raster render.
+
+The SVG colors are CSS custom properties (`--keen-k1` to `--keen-k4`, `--keen-bg`, `--keen-ink`, `--keen-accent`), so an inline logo themes the same way Keen's components do.
 
 ## License
 
