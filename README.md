@@ -4,7 +4,7 @@ Keen is a shared, themeable design system. It gives every project the same compo
 
 The name suggests curiosity and attentiveness.
 
-**Status:** pre-alpha. Milestone 1 (AI chat in portfolio-blog) is in progress. Decisions are recorded in [docs/decisions.md](docs/decisions.md) as they land.
+**Status:** pre-alpha. Milestone 1 (AI chat in portfolio-blog) is in progress. Decisions are recorded in [docs/decisions.md](docs/decisions.md) as they land, and the research behind them is in [docs/research.md](docs/research.md).
 
 ## Project vision
 
@@ -24,6 +24,8 @@ The chat work establishes:
 - Responsive layouts and accessible keyboard and focus behavior.
 - Integration guidance showing how portfolio-blog consumes and themes the component.
 
+Keen owns the chat UI and its interaction behavior. The host owns the AI model, provider, credentials, and conversation persistence, and connects them through props or adapters.
+
 ### Done when
 
 - Every conversation state above renders and is reachable in an example.
@@ -35,11 +37,13 @@ The chat work establishes:
 
 ### Open decisions
 
-These are settled before the build starts and recorded in [docs/decisions.md](docs/decisions.md):
+The approach is settled: Keen owns its components, tokens, and docs, builds on accessible primitives, and generates three token tiers from one canonical source. These remain open, and the first two wait on inspecting portfolio-blog's framework and styling setup:
 
 - Component technology: React, Web Components, or headless hooks.
 - Token format: CSS custom properties, DTCG JSON, or Tailwind theme variables.
 - Distribution: npm package, workspace package, or copy-in source.
+
+Each is recorded in [docs/decisions.md](docs/decisions.md) when it lands.
 
 ## AI-ready design-system knowledge
 
