@@ -130,7 +130,7 @@ A useful completion check is: portfolio-blog imports the shared chat component, 
 ## 6. Suggested implementation sequence
 
 1. **Write the vision and boundaries.** Define what Keen owns, what the host app owns, and the first consumer.
-2. **Inspect portfolio-blog.** Confirm its framework, styling setup, deployment constraints, and UI conventions before choosing packaging and integration details.
+2. **Inspect portfolio-blog.** Confirm its framework, styling setup, deployment constraints, and UI conventions, then validate the settled React, package, token, and integration decisions against the host.
 3. **Design the chat experience.** Specify layout, interaction states, responsive behavior, and accessibility expectations.
 4. **Define the initial theme contract.** Choose only the semantic tokens the chat needs, then test that portfolio-blog can map its brand into them.
 5. **Implement a narrow shared package.** Keep its exports and dependencies focused on the chat milestone.
@@ -155,7 +155,7 @@ Build Keen's design-system layer, using established accessible primitives where 
 
 - Building a full design-system portal before a component is used
 - Treating a knowledge graph as a prerequisite
-- Publishing a package before the API and consumer needs are understood
+- Publishing to public npm before the API and consumer needs are understood
 - Copying the same component implementation between repositories
 - Putting product-specific logic or provider secrets in the shared UI package
 - Documenting components separately from their actual APIs and states
