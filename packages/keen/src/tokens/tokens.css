@@ -1,0 +1,84 @@
+/* Generated from tokens/*.json by tools/token-generator. Do not edit; run pnpm tokens:build. */
+/* Alias tokens are not declared here: read them through keenTokens, which falls back to their target. */
+
+:root {
+  --keen-color-primitive-amber-50: #FFFAEB;
+  --keen-color-primitive-amber-400: #FDB022;
+  --keen-color-primitive-amber-700: #B54708;
+  --keen-color-primitive-amber-950: #2B2114;
+  --keen-color-primitive-blue-200: #A4BEFF;
+  --keen-color-primitive-blue-300: #86A8FF;
+  --keen-color-primitive-blue-600: #2557D6;
+  --keen-color-primitive-blue-700: #1D4ED8;
+  --keen-color-primitive-blue-950: #0B1020;
+  --keen-color-primitive-gray-50: #F2F4F7;
+  --keen-color-primitive-gray-100: #E4E7EC;
+  --keen-color-primitive-gray-300: #A3ABB8;
+  --keen-color-primitive-gray-400: #7A8394;
+  --keen-color-primitive-gray-500: #6E7787;
+  --keen-color-primitive-gray-600: #475467;
+  --keen-color-primitive-gray-800: #262B35;
+  --keen-color-primitive-gray-850: #1C2029;
+  --keen-color-primitive-gray-900: #101828;
+  --keen-color-primitive-gray-950: #0F1115;
+  --keen-color-primitive-red-50: #FEF3F2;
+  --keen-color-primitive-red-300: #FF9C94;
+  --keen-color-primitive-red-700: #B42318;
+  --keen-color-primitive-red-950: #2B1717;
+  --keen-color-primitive-white: #FFFFFF;
+  --keen-font-primitive-family-inter: "Inter", system-ui, sans-serif;
+  --keen-font-primitive-line-height-150: 1.5;
+  --keen-font-primitive-size-13: 13px;
+  --keen-font-primitive-size-15: 15px;
+  --keen-font-primitive-size-16: 16px;
+  --keen-font-primitive-weight-semibold: 600;
+  --keen-radius-primitive-lg: 12px;
+  --keen-radius-primitive-md: 8px;
+  --keen-radius-primitive-xl: 16px;
+  --keen-space-primitive-md: 16px;
+  --keen-space-primitive-sm: 8px;
+  --keen-color-semantic-action: var(--keen-color-primitive-blue-600);
+  --keen-color-semantic-border: var(--keen-color-primitive-gray-100);
+  --keen-color-semantic-border-strong: var(--keen-color-primitive-gray-400);
+  --keen-color-semantic-danger: var(--keen-color-primitive-red-700);
+  --keen-color-semantic-danger-surface: var(--keen-color-primitive-red-50);
+  --keen-color-semantic-focus: var(--keen-color-primitive-blue-700);
+  --keen-color-semantic-surface: var(--keen-color-primitive-white);
+  --keen-color-semantic-surface-raised: var(--keen-color-primitive-gray-50);
+  --keen-color-semantic-text-on-action: var(--keen-color-primitive-white);
+  --keen-color-semantic-text-primary: var(--keen-color-primitive-gray-900);
+  --keen-color-semantic-text-subtle: var(--keen-color-primitive-gray-600);
+  --keen-color-semantic-warning: var(--keen-color-primitive-amber-700);
+  --keen-color-semantic-warning-surface: var(--keen-color-primitive-amber-50);
+  --keen-font-semantic-family-body: var(--keen-font-primitive-family-inter);
+  --keen-font-semantic-line-height-body: var(--keen-font-primitive-line-height-150);
+  --keen-font-semantic-size-body: var(--keen-font-primitive-size-15);
+  --keen-font-semantic-size-caption: var(--keen-font-primitive-size-13);
+  --keen-font-semantic-size-title: var(--keen-font-primitive-size-16);
+  --keen-font-semantic-weight-strong: var(--keen-font-primitive-weight-semibold);
+  --keen-radius-semantic-container: var(--keen-radius-primitive-lg);
+  --keen-radius-semantic-control: var(--keen-radius-primitive-md);
+  --keen-space-semantic-gap-sm: var(--keen-space-primitive-sm);
+  --keen-space-semantic-inset-md: var(--keen-space-primitive-md);
+  --keen-space-semantic-inset-sm: var(--keen-space-primitive-sm);
+  --keen-chat-composer-height: 48px;
+  --keen-chat-message-gap: var(--keen-space-primitive-md);
+  --keen-chat-message-max-width: 320px;
+  --keen-chat-message-radius: var(--keen-radius-primitive-xl);
+}
+
+[data-keen-mode="dark"] {
+  --keen-color-semantic-action: var(--keen-color-primitive-blue-300);
+  --keen-color-semantic-border: var(--keen-color-primitive-gray-800);
+  --keen-color-semantic-border-strong: var(--keen-color-primitive-gray-500);
+  --keen-color-semantic-danger: var(--keen-color-primitive-red-300);
+  --keen-color-semantic-danger-surface: var(--keen-color-primitive-red-950);
+  --keen-color-semantic-focus: var(--keen-color-primitive-blue-200);
+  --keen-color-semantic-surface: var(--keen-color-primitive-gray-950);
+  --keen-color-semantic-surface-raised: var(--keen-color-primitive-gray-850);
+  --keen-color-semantic-text-on-action: var(--keen-color-primitive-blue-950);
+  --keen-color-semantic-text-primary: var(--keen-color-primitive-gray-50);
+  --keen-color-semantic-text-subtle: var(--keen-color-primitive-gray-300);
+  --keen-color-semantic-warning: var(--keen-color-primitive-amber-400);
+  --keen-color-semantic-warning-surface: var(--keen-color-primitive-amber-950);
+}

@@ -1,0 +1,7 @@
+{
+  "name": "@keen/design-system",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Keen's React components, generated token stylesheet, and typed token map."
+}

@@ -1,0 +1,17 @@
+{
+  "$comment": "Keen verification gates. pnpm verify runs the fast tier, pnpm verify:build the build tier, pnpm verify:live the live tier. Every gate in tools/token-generator/src/gates.ts must be listed here.",
+  "gates": [
+    {
+      "id": "tokens-valid",
+      "tier": "fast",
+      "description": "token files are valid DTCG with tiers, types, units, descriptions, and resolvable references"
+    },
+    {
+      "id": "tokens-generated",
+      "tier": "fast",
+      "description": "generated CSS and typed map are deterministic and match the token sources"
+    },
+    { "id": "tokens-baseline", "tier": "fast", "description": "the committed resolved-token baseline matches the token sources" },
+    { "id": "tokens-contrast", "tier": "fast", "description": "every Component Contract contrast pair passes in light and dark" }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.6.3/schema.json",
+  "vcs": { "enabled": true, "clientKind": "git", "useIgnoreFile": true },
+  "files": {
+    "includes": ["**", "!design", "!docs", "!.claude", "!pnpm-lock.yaml", "!.keen/baselines", "!packages/keen/src/tokens/tokens.*"]
+  },
+  "formatter": { "indentStyle": "space", "indentWidth": 2, "lineWidth": 140 },
+  "linter": { "enabled": true }
+}

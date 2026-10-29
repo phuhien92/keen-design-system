@@ -81,6 +81,15 @@ After the portfolio-blog integration, validate the same components in more repos
 
 Work is tracked in Linear under the Keen Design System project. Branches use Linear's issue branch names, and PRs reference their issue (for example, `Fixes HIE-18`) so status updates on merge.
 
+## Development
+
+Keen is a pnpm workspace (Node 22.18 or later). `tokens/*.json` is the only hand-edited token source.
+
+- `pnpm install`
+- `pnpm tokens:build` regenerates the CSS custom properties, typed token map, and `.keen/baselines/tokens.json` from the token files.
+- `pnpm verify` runs the fast verification tier listed in `.keen/gates.json`; skipped checks are reported as skipped.
+- `pnpm lint`, `pnpm typecheck`, `pnpm test`, and `pnpm contract:check` (Component Contracts and their guides).
+
 ## Brand assets
 
 - [`keen-mark.svg`](docs/assets/keen-mark.svg): the K mark, for favicons and avatars.
