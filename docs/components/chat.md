@@ -43,9 +43,9 @@ A provider-agnostic AI chat panel. Keen renders the conversation, streams the as
 | `loading`, `streaming` | stop | `stopped` |
 | `error` | retry: resend the same request | `loading` |
 | `error-mid-stream` | retry: drop the partial, resend the same request | `loading` |
-| `empty`, `completed`, `error`, `stopped`, `error-mid-stream`, `offline` | host sets rateLimit | `rate-limited` |
+| `empty`, `completed`, `error`, `stopped`, `error-mid-stream` | host sets rateLimit, or rateLimit is still set when this state is entered | `rate-limited` |
 | `rate-limited` | retryAt passes or host sets rateLimit to null | the state it interrupted |
-| `empty`, `completed`, `error`, `stopped`, `error-mid-stream`, `rate-limited` | host sets online to false | `offline` |
+| `empty`, `completed`, `error`, `stopped`, `error-mid-stream` | host sets online to false, or online is still false when this state is entered | `offline` |
 | `offline` | host sets online to true | the state it interrupted |
 
 ## Anatomy
@@ -129,10 +129,10 @@ Default labels (`api.labels`):
 - To reset a conversation, the host remounts Chat with a new key and initialMessages.
 - online and rateLimit are host signals. Keen never detects connectivity or limits and never reconnects or retries on its own; a request that fails goes to error or error-mid-stream as usual.
 - While online is false, the input still takes a draft, but Enter, Send, Retry, and suggestions do not send. When online turns true, the banner goes and the live region says labels.backOnline.
-- While rateLimit is set, the rate-limit notice replaces the input and the draft is kept for when the input returns. With retryAt, the notice shows labels.rateLimitCountdown with {time} as the remaining m:ss; without it, labels.rateLimitDetail.
+- While rateLimit is set, the rate-limit notice replaces the input and the draft is kept for when the input returns. Enter, Send, Retry, and suggestions do not send. With retryAt, the notice shows labels.rateLimitCountdown with {time} as the remaining m:ss; without it, labels.rateLimitDetail.
 - The input returns when retryAt passes or the host sets rateLimit to null, whichever is first, and the live region says labels.rateLimitLifted.
-- Neither signal changes the log, so leaving rate-limited or offline returns to the state it interrupted. Both can apply at once: the banner shows and the notice replaces the input.
-- Set during loading or streaming, neither signal interrupts the reply: the banner shows at once with Stop still available, and the notice waits for the reply to end. A host that learns of a limit from a failed send can set rateLimit from onError; the error notice stays, with Retry disabled until the limit lifts.
+- Each signal is tracked on its own: the banner shows while online is false and the notice replaces the input while rateLimit is set, whichever state is active, so both can apply at once. Neither signal changes the log, so leaving rate-limited or offline returns to the state it interrupted, and the other state follows at once only if its signal still applies. If both apply when a state is entered, rate-limited is entered.
+- Set during loading or streaming, neither signal interrupts the reply: the banner shows at once with Stop still available, and the notice waits for the reply to end. When the reply ends, the chat enters rate-limited or offline if its signal still applies. A host that learns of a limit from a failed send can set rateLimit from onError; the error notice stays, with Retry disabled until the limit lifts.
 
 ## Customization
 
