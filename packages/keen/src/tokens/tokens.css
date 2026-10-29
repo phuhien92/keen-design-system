@@ -1,5 +1,4 @@
 /* Generated from tokens/*.json by tools/token-generator. Do not edit; run pnpm tokens:build. */
-/* Alias tokens are not declared here: read them through keenTokens, which falls back to their target. */
 
 :root {
   --keen-color-primitive-amber-50: #FFFAEB;
@@ -62,9 +61,12 @@
   --keen-space-semantic-inset-md: var(--keen-space-primitive-md);
   --keen-space-semantic-inset-sm: var(--keen-space-primitive-sm);
   --keen-chat-composer-height: 48px;
+  --keen-chat-message-assistant-background: var(--keen-color-semantic-surface-raised);
   --keen-chat-message-gap: var(--keen-space-primitive-md);
   --keen-chat-message-max-width: 320px;
   --keen-chat-message-radius: var(--keen-radius-primitive-xl);
+  --keen-chat-message-user-background: var(--keen-color-semantic-action);
+  --keen-chat-message-user-text: var(--keen-color-semantic-text-on-action);
 }
 
 [data-keen-mode="dark"] {
@@ -81,4 +83,7 @@
   --keen-color-semantic-text-subtle: var(--keen-color-primitive-gray-300);
   --keen-color-semantic-warning: var(--keen-color-primitive-amber-400);
   --keen-color-semantic-warning-surface: var(--keen-color-primitive-amber-950);
+  --keen-chat-message-assistant-background: var(--keen-color-semantic-surface-raised);
+  --keen-chat-message-user-background: var(--keen-color-semantic-action);
+  --keen-chat-message-user-text: var(--keen-color-semantic-text-on-action);
 }

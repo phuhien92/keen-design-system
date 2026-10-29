@@ -91,9 +91,3 @@ The README's last "Done when" item stays unchanged: "portfolio-blog renders the 
 DTCG 2025.10 has no modes, so a semantic token's `$value` is its light value and `$extensions.keen.modes.dark` holds its dark value, both as references to primitives. The generator declares the light values on `:root` and the dark values under `[data-keen-mode="dark"]`, so a host switches a page or a subtree by setting that attribute. Every token whose value depends on the mode is declared again in the dark block, because a custom property resolves its `var()` where it is declared.
 
 Rejected: one token file per mode, which would duplicate every non-color token and let the files drift, and the separate DTCG resolver format, which no tool Keen uses reads yet. Moving to the resolver format later changes the token files and the generator, not the generated variable names.
-
-### 2026-10-29: Alias tokens are read through fallbacks, not declared
-
-A semantic or component token whose value is another semantic or component token, such as `chat.message-user-background` pointing at `color.semantic.action`, is not declared on `:root`. Declared there, it would resolve once at `:root` and ignore a host that overrides `color.semantic.action` on a subtree. Instead the typed token map reads it as `var(--keen-chat-message-user-background, var(--keen-color-semantic-action))`, which resolves where it is used, so overriding either the component token or its semantic target works at any level.
-
-Primitives are declared on `:root` and semantic roles resolve through them there, so a host shifts a whole primitive ramp by overriding primitives on `:root`, and overrides a semantic role on any element.

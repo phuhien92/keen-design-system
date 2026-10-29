@@ -83,3 +83,16 @@ describe("fast tier", () => {
     }
   });
 });
+
+describe("tiers without gates", () => {
+  for (const tier of ["build", "live"] as const) {
+    it(`reports the ${tier} tier as skipped, not passed`, () => {
+      const lines: string[] = [];
+      const ok = runGates(repoRoot, tier, (line) => lines.push(line));
+      const output = lines.join("\n");
+      expect(ok).toBe(true);
+      expect(output).toContain(`SKIP ${tier} tier: no ${tier} gates exist yet`);
+      expect(output).toMatch(/0 passed, 0 failed, 1 skipped/);
+    });
+  }
+});

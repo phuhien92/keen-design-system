@@ -43,12 +43,12 @@ export const keenTokens = {
   },
   chat: {
     "composer-height": "var(--keen-chat-composer-height)",
-    "message-assistant-background": "var(--keen-chat-message-assistant-background, var(--keen-color-semantic-surface-raised))",
+    "message-assistant-background": "var(--keen-chat-message-assistant-background)",
     "message-gap": "var(--keen-chat-message-gap)",
     "message-max-width": "var(--keen-chat-message-max-width)",
     "message-radius": "var(--keen-chat-message-radius)",
-    "message-user-background": "var(--keen-chat-message-user-background, var(--keen-color-semantic-action))",
-    "message-user-text": "var(--keen-chat-message-user-text, var(--keen-color-semantic-text-on-action))",
+    "message-user-background": "var(--keen-chat-message-user-background)",
+    "message-user-text": "var(--keen-chat-message-user-text)",
   },
 } as const;
 

@@ -161,14 +161,12 @@ describe("generated output", () => {
     expect(css).toMatch(/\[data-keen-mode="dark"\] \{\n {2}--keen-color-semantic-surface: var\(--keen-color-primitive-blue-600\);\n\}/);
   });
 
-  it("reads alias tokens through a fallback chain instead of declaring them", () => {
+  it("declares an alias token as a custom property that references its target", () => {
     const f = fixture();
     f.component.chat["user-background"] = { $type: "color", $value: "{color.semantic.action}", $description: "User bubble." };
     const { files } = generate(sources(f));
-    expect(files["packages/keen/src/tokens/tokens.css"]).not.toContain("--keen-chat-user-background");
-    expect(files["packages/keen/src/tokens/tokens.ts"]).toContain(
-      '"user-background": "var(--keen-chat-user-background, var(--keen-color-semantic-action))"',
-    );
+    expect(files["packages/keen/src/tokens/tokens.css"]).toContain("--keen-chat-user-background: var(--keen-color-semantic-action);");
+    expect(files["packages/keen/src/tokens/tokens.ts"]).toContain('"user-background": "var(--keen-chat-user-background)"');
   });
 
   it("leaves primitives out of the typed token map", () => {

@@ -31,22 +31,6 @@ export function compareTokens(a: Token, b: Token): number {
   return left.length - right.length;
 }
 
-// An alias is a semantic or component token whose value is another semantic or component token. Declared at
-// :root, it would resolve there and ignore a host override of its target on a subtree, so it is never declared:
-// readers use a fallback chain instead, which resolves where the token is read.
-export const aliasTarget = (token: Token, byName: Map<string, Token>): Token | undefined => {
-  const authored = token.values.light;
-  if (token.tier === "primitive" || Object.keys(token.values).length > 1 || !isReference(authored)) return undefined;
-  const target = byName.get(referenceName(authored));
-  return target && target.tier !== "primitive" ? target : undefined;
-};
-
-// The expression a consumer uses to read a token: var(--self), plus the alias chain as fallbacks.
-export const readExpression = (token: Token, byName: Map<string, Token>): string => {
-  const target = aliasTarget(token, byName);
-  return target ? `var(${cssVar(token.name)}, ${readExpression(target, byName)})` : `var(${cssVar(token.name)})`;
-};
-
 // Whether a token is a CSS custom property a consumer can read. Transitions are composites expanded where used.
 export const emitsVariable = (token: Token) => token.type !== "transition";
 
@@ -89,8 +73,8 @@ const dependsOnMode = (token: Token, mode: string, byName: Map<string, Token>): 
 
 export function emitCss(tokens: Token[]): string {
   const byName = new Map(tokens.map((t) => [t.name, t]));
-  const sorted = tokens.filter((t) => emitsVariable(t) && !aliasTarget(t, byName)).sort(compareTokens);
-  let css = `${cssHeader}/* Alias tokens are not declared here: read them through keenTokens, which falls back to their target. */\n\n:root {\n`;
+  const sorted = tokens.filter(emitsVariable).sort(compareTokens);
+  let css = `${cssHeader}\n:root {\n`;
   for (const token of sorted) css += declaration(token, token.values.light);
   css += "}\n";
   for (const mode of modes.slice(1)) {
@@ -107,14 +91,13 @@ type Tree = { [key: string]: Tree | string };
 
 export function emitTypes(tokens: Token[]): string {
   const tree: Tree = {};
-  const byName = new Map(tokens.map((t) => [t.name, t]));
   for (const token of tokens.filter((t) => t.tier !== "primitive" && emitsVariable(t)).sort(compareTokens)) {
     let node = tree;
     for (const part of token.path.slice(0, -1)) {
       node[part] ??= {};
       node = node[part] as Tree;
     }
-    node[token.path[token.path.length - 1]] = readExpression(token, byName);
+    node[token.path[token.path.length - 1]] = `var(${cssVar(token.name)})`;
   }
   const key = (k: string) => (/^[A-Za-z_$][\w$]*$/.test(k) ? k : JSON.stringify(k));
   const print = (node: Tree, depth: number): string => {
@@ -141,13 +124,12 @@ const formatResolved = (type: string, value: unknown): unknown => {
 };
 
 export function emitBaseline(resolved: Map<string, Resolved>): string {
-  const byName = new Map([...resolved.values()].map(({ token }) => [token.name, token]));
   const entries = [...resolved.values()]
     .sort((a, b) => compareTokens(a.token, b.token))
     .map(({ token, modes: values }) => ({
       name: token.name,
       cssVar: emitsVariable(token) ? cssVar(token.name) : null,
-      read: emitsVariable(token) ? readExpression(token, byName) : null,
+      read: emitsVariable(token) ? `var(${cssVar(token.name)})` : null,
       tier: token.tier,
       type: token.type,
       ...Object.fromEntries(

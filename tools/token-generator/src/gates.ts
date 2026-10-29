@@ -83,7 +83,12 @@ export function runGates(root: string, tier: Tier, log: (line: string) => void):
   const ctx: Context = { root, generation: () => (generation ??= generate(readSources(root))) };
   const counts = { pass: 0, fail: 0, skip: 0 };
   log(`keen verify: ${tier} tier`);
-  for (const spec of specs.filter((s) => s.tier === tier)) {
+  const tierSpecs = specs.filter((s) => s.tier === tier);
+  if (tierSpecs.length === 0) {
+    counts.skip++;
+    log(`  SKIP ${tier} tier: no ${tier} gates exist yet`);
+  }
+  for (const spec of tierSpecs) {
     let outcome: GateResult;
     try {
       outcome = gates[spec.id](ctx);
