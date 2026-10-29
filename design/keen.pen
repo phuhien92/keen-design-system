@@ -1,0 +1,4726 @@
+{
+  "version": "2.21",
+  "children": [
+    {
+      "type": "frame",
+      "id": "X0DYY",
+      "x": 0,
+      "y": 0,
+      "name": "Chat / Message / User",
+      "reusable": true,
+      "width": 368,
+      "justifyContent": "end",
+      "children": [
+        {
+          "type": "frame",
+          "id": "BlAXf",
+          "name": "Bubble",
+          "fill": "$chat.message-user-background",
+          "cornerRadius": "$chat.message-radius",
+          "padding": [
+            "$space.semantic.inset-sm",
+            "$space.semantic.inset-md"
+          ],
+          "children": [
+            {
+              "type": "text",
+              "id": "sSqbJ",
+              "name": "Text",
+              "fill": "$chat.message-user-text",
+              "content": "Message",
+              "lineHeight": "$font.semantic.line-height-body",
+              "fontFamily": "$font.semantic.family-body",
+              "fontSize": "$font.semantic.size-body",
+              "fontWeight": "normal"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "VIwGB",
+      "x": 416,
+      "y": 0,
+      "name": "Chat / Message / Assistant",
+      "reusable": true,
+      "width": 368,
+      "layout": "vertical",
+      "gap": 6,
+      "children": [
+        {
+          "type": "frame",
+          "id": "juYls",
+          "name": "Bubble",
+          "metadata": {
+            "type": "keen-token",
+            "width": "chat.message-max-width"
+          },
+          "width": 320,
+          "fill": "$chat.message-assistant-background",
+          "cornerRadius": "$chat.message-radius",
+          "layout": "vertical",
+          "padding": [
+            "$space.semantic.inset-sm",
+            "$space.semantic.inset-md"
+          ],
+          "children": [
+            {
+              "type": "text",
+              "id": "MvYA9",
+              "name": "Text",
+              "fill": "$color.semantic.text-primary",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "Response",
+              "lineHeight": "$font.semantic.line-height-body",
+              "fontFamily": "$font.semantic.family-body",
+              "fontSize": "$font.semantic.size-body",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "ewnuP",
+          "x": 0,
+          "y": 0,
+          "name": "Status",
+          "enabled": false,
+          "gap": 6,
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "qhbIT",
+              "name": "Status Icon",
+              "width": 12,
+              "height": 12,
+              "icon": "square",
+              "library": "lucide",
+              "fill": "$color.semantic.text-subtle"
+            },
+            {
+              "type": "text",
+              "id": "OKLsR",
+              "name": "Status Text",
+              "fill": "$color.semantic.text-subtle",
+              "content": "Response stopped",
+              "fontFamily": "$font.semantic.family-body",
+              "fontSize": "$font.semantic.size-caption",
+              "fontWeight": "normal"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "clEGu",
+      "x": 832,
+      "y": 0,
+      "name": "Chat / Message / Pending",
+      "reusable": true,
+      "width": 368,
+      "children": [
+        {
+          "type": "frame",
+          "id": "mVqU8",
+          "name": "Bubble",
+          "fill": "$chat.message-assistant-background",
+          "cornerRadius": "$chat.message-radius",
+          "gap": "$space.semantic.gap-sm",
+          "padding": [
+            "$space.semantic.inset-sm",
+            "$space.semantic.inset-md"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "OcwMa",
+              "name": "Dots",
+              "gap": 4,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "ellipse",
+                  "id": "t6UsO",
+                  "name": "Dot",
+                  "fill": "$color.semantic.text-subtle",
+                  "width": 6,
+                  "height": 6
+                },
+                {
+                  "type": "ellipse",
+                  "id": "x5N2P",
+                  "name": "Dot",
+                  "opacity": 0.6,
+                  "fill": "$color.semantic.text-subtle",
+                  "width": 6,
+                  "height": 6
+                },
+                {
+                  "type": "ellipse",
+                  "id": "K1X3E",
+                  "name": "Dot",
+                  "opacity": 0.3,
+                  "fill": "$color.semantic.text-subtle",
+                  "width": 6,
+                  "height": 6
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "JNQiw",
+              "name": "Label",
+              "fill": "$color.semantic.text-subtle",
+              "content": "Thinking…",
+              "fontFamily": "$font.semantic.family-body",
+              "fontSize": "$font.semantic.size-caption",
+              "fontWeight": "normal"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "u72i0s",
+      "x": 1248,
+      "y": 0,
+      "name": "Chat / Notice / Error",
+      "reusable": true,
+      "width": 368,
+      "fill": "$color.semantic.danger-surface",
+      "cornerRadius": "$radius.semantic.control",
+      "stroke": "$color.semantic.danger",
+      "strokeWidth": 1,
+      "gap": "$space.semantic.gap-sm",
+      "padding": [
+        "$space.semantic.inset-sm",
+        "$space.semantic.inset-md"
+      ],
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "icon",
+          "id": "fP1Ka",
+          "name": "Error Icon",
+          "width": 18,
+          "height": 18,
+          "icon": "circle-alert",
+          "library": "lucide",
+          "fill": "$color.semantic.danger"
+        },
+        {
+          "type": "frame",
+          "id": "a4TRG",
+          "name": "Copy",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 2,
+          "children": [
+            {
+              "type": "text",
+              "id": "xtTc2",
+              "name": "Title",
+              "fill": "$color.semantic.danger",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "Error",
+              "fontFamily": "$font.semantic.family-body",
+              "fontSize": "$font.semantic.size-caption",
+              "fontWeight": "$font.semantic.weight-strong"
+            },
+            {
+              "type": "text",
+              "id": "Y0dPz",
+              "name": "Detail",
+              "fill": "$color.semantic.text-primary",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "Detail",
+              "fontFamily": "$font.semantic.family-body",
+              "fontSize": "$font.semantic.size-caption",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "pj17W",
+          "name": "Retry",
+          "height": 28,
+          "fill": "$color.semantic.surface",
+          "cornerRadius": "$radius.semantic.control",
+          "stroke": "$color.semantic.border-strong",
+          "strokeWidth": 1,
+          "gap": 6,
+          "padding": [
+            0,
+            10
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "lblPU",
+              "name": "Retry Icon",
+              "width": 12,
+              "height": 12,
+              "icon": "rotate-ccw",
+              "library": "lucide",
+              "fill": "$color.semantic.text-primary"
+            },
+            {
+              "type": "text",
+              "id": "tEXqH",
+              "name": "Retry Label",
+              "fill": "$color.semantic.text-primary",
+              "content": "Retry",
+              "fontFamily": "$font.semantic.family-body",
+              "fontSize": "$font.semantic.size-caption",
+              "fontWeight": "$font.semantic.weight-strong"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "rNbH6",
+      "x": 1664,
+      "y": 0,
+      "name": "Chat / Composer",
+      "reusable": true,
+      "width": 400,
+      "stroke": "$color.semantic.border",
+      "strokeWidth": {
+        "top": 1
+      },
+      "layout": "vertical",
+      "padding": "$space.semantic.inset-md",
+      "children": [
+        {
+          "type": "frame",
+          "id": "ObpBo",
+          "name": "Field",
+          "metadata": {
+            "type": "keen-token",
+            "height": "chat.composer-height"
+          },
+          "width": "fill_container",
+          "height": 48,
+          "fill": "$color.semantic.surface",
+          "cornerRadius": "$radius.semantic.control",
+          "stroke": "$color.semantic.border-strong",
+          "strokeWidth": 1,
+          "gap": "$space.semantic.gap-sm",
+          "padding": [
+            0,
+            "$space.semantic.inset-sm",
+            0,
+            "$space.semantic.inset-md"
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "Peu3t",
+              "name": "Input",
+              "fill": "$color.semantic.text-subtle",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "Ask a question…",
+              "lineHeight": "$font.semantic.line-height-body",
+              "fontFamily": "$font.semantic.family-body",
+              "fontSize": "$font.semantic.size-body",
+              "fontWeight": "normal"
+            },
+            {
+              "type": "frame",
+              "id": "I99YZ",
+              "name": "Send",
+              "width": 32,
+              "height": 32,
+              "fill": "$color.semantic.action",
+              "cornerRadius": "$radius.semantic.control",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "C1lfpT",
+                  "name": "Send Icon",
+                  "width": 18,
+                  "height": 18,
+                  "icon": "arrow-up",
+                  "library": "lucide",
+                  "fill": "$color.semantic.text-on-action"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "bNgfp",
+              "x": 0,
+              "y": 0,
+              "name": "Stop",
+              "enabled": false,
+              "height": 32,
+              "fill": "$color.semantic.surface",
+              "cornerRadius": "$radius.semantic.control",
+              "stroke": "$color.semantic.border-strong",
+              "strokeWidth": 1,
+              "gap": 6,
+              "padding": [
+                0,
+                10
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "LpwuN",
+                  "name": "Stop Icon",
+                  "width": 12,
+                  "height": 12,
+                  "icon": "square",
+                  "library": "lucide",
+                  "fill": "$color.semantic.text-primary"
+                },
+                {
+                  "type": "text",
+                  "id": "d5hcg",
+                  "name": "Stop Label",
+                  "fill": "$color.semantic.text-primary",
+                  "content": "Stop",
+                  "fontFamily": "$font.semantic.family-body",
+                  "fontSize": "$font.semantic.size-caption",
+                  "fontWeight": "$font.semantic.weight-strong"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "b41lh4",
+      "x": 0,
+      "y": 200,
+      "name": "State 01 · empty · light",
+      "width": 464,
+      "fill": "#E8EBF0",
+      "cornerRadius": 24,
+      "layout": "vertical",
+      "gap": 20,
+      "padding": 32,
+      "children": [
+        {
+          "type": "frame",
+          "id": "CQMXx",
+          "name": "Annotation / Heading",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 4,
+          "children": [
+            {
+              "type": "text",
+              "id": "hgFoF",
+              "name": "Annotation / Index",
+              "fill": "#4A5361",
+              "content": "STATE 01 · EMPTY",
+              "fontFamily": "Inter",
+              "fontSize": 11,
+              "fontWeight": "600",
+              "letterSpacing": 1
+            },
+            {
+              "type": "text",
+              "id": "NeV5R",
+              "name": "Annotation / Title",
+              "fill": "#101828",
+              "content": "Empty",
+              "fontFamily": "Inter",
+              "fontSize": 22,
+              "fontWeight": "600"
+            },
+            {
+              "type": "text",
+              "id": "GRPfK",
+              "name": "Annotation / Summary",
+              "fill": "#344054",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "No messages yet. The empty slot shows host copy and optional suggestions.",
+              "lineHeight": 1.45,
+              "fontFamily": "Inter",
+              "fontSize": 13,
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "djQFx",
+          "name": "Chat",
+          "clip": true,
+          "width": 400,
+          "height": 620,
+          "fill": "$color.semantic.surface",
+          "cornerRadius": "$radius.semantic.container",
+          "stroke": "$color.semantic.border",
+          "strokeWidth": 1,
+          "layout": "vertical",
+          "children": [
+            {
+              "type": "frame",
+              "id": "AXp9f",
+              "name": "Header (slot: header)",
+              "width": "fill_container",
+              "stroke": "$color.semantic.border",
+              "strokeWidth": {
+                "bottom": 1
+              },
+              "padding": "$space.semantic.inset-md",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "d3QZDA",
+                  "name": "Title",
+                  "fill": "$color.semantic.text-primary",
+                  "content": "Assistant",
+                  "lineHeight": "$font.semantic.line-height-body",
+                  "fontFamily": "$font.semantic.family-body",
+                  "fontSize": "$font.semantic.size-title",
+                  "fontWeight": "$font.semantic.weight-strong"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "e1NnN",
+              "name": "Message log",
+              "clip": true,
+              "width": "fill_container",
+              "height": "fill_container",
+              "layout": "vertical",
+              "gap": "$chat.message-gap",
+              "padding": "$space.semantic.inset-md",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "b8Tdye",
+                  "name": "Empty state (slot: empty)",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 12,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "AOpUs",
+                      "name": "Empty Icon",
+                      "width": 44,
+                      "height": 44,
+                      "fill": "$color.semantic.surface-raised",
+                      "cornerRadius": 22,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "WiS0C",
+                          "name": "Sparkles",
+                          "width": 22,
+                          "height": 22,
+                          "icon": "sparkles",
+                          "library": "lucide",
+                          "fill": "$color.semantic.action"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "Nw55F",
+                      "name": "Empty Title",
+                      "fill": "$color.semantic.text-primary",
+                      "content": "How can I help?",
+                      "lineHeight": "$font.semantic.line-height-body",
+                      "fontFamily": "$font.semantic.family-body",
+                      "fontSize": "$font.semantic.size-title",
+                      "fontWeight": "$font.semantic.weight-strong"
+                    },
+                    {
+                      "type": "text",
+                      "id": "xHQOw",
+                      "name": "Empty Body",
+                      "fill": "$color.semantic.text-subtle",
+                      "textGrowth": "fixed-width",
+                      "width": 280,
+                      "content": "Ask about the projects, writing, or experience on this site.",
+                      "lineHeight": "$font.semantic.line-height-body",
+                      "textAlign": "center",
+                      "fontFamily": "$font.semantic.family-body",
+                      "fontSize": "$font.semantic.size-body",
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "Bi4X7",
+                      "name": "Suggestions",
+                      "layout": "vertical",
+                      "gap": "$space.semantic.gap-sm",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "cCfjw",
+                          "name": "Suggestion",
+                          "fill": "$color.semantic.surface-raised",
+                          "cornerRadius": "$radius.semantic.control",
+                          "stroke": "$color.semantic.border",
+                          "strokeWidth": 1,
+                          "padding": [
+                            "$space.semantic.inset-sm",
+                            "$space.semantic.inset-md"
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "YRONX",
+                              "name": "Suggestion Label",
+                              "fill": "$color.semantic.text-primary",
+                              "content": "What is Keen?",
+                              "fontFamily": "$font.semantic.family-body",
+                              "fontSize": "$font.semantic.size-caption",
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "YTNi6",
+                          "name": "Suggestion",
+                          "fill": "$color.semantic.surface-raised",
+                          "cornerRadius": "$radius.semantic.control",
+                          "stroke": "$color.semantic.border",
+                          "strokeWidth": 1,
+                          "padding": [
+                            "$space.semantic.inset-sm",
+                            "$space.semantic.inset-md"
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "kVZ2L",
+                              "name": "Suggestion Label",
+                              "fill": "$color.semantic.text-primary",
+                              "content": "How is the chat themed?",
+                              "fontFamily": "$font.semantic.family-body",
+                              "fontSize": "$font.semantic.size-caption",
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "FRIQ4",
+                          "name": "Suggestion",
+                          "fill": "$color.semantic.surface-raised",
+                          "cornerRadius": "$radius.semantic.control",
+                          "stroke": "$color.semantic.border",
+                          "strokeWidth": 1,
+                          "padding": [
+                            "$space.semantic.inset-sm",
+                            "$space.semantic.inset-md"
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "OQOqd",
+                              "name": "Suggestion Label",
+                              "fill": "$color.semantic.text-primary",
+                              "content": "Show recent projects",
+                              "fontFamily": "$font.semantic.family-body",
+                              "fontSize": "$font.semantic.size-caption",
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "bj3Fh",
+              "type": "ref",
+              "ref": "rNbH6",
+              "name": "Composer",
+              "width": "fill_container",
+              "descendants": {
+                "I99YZ": {
+                  "opacity": 0.4
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "Snbah",
+          "name": "Annotation / Intent",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 8,
+          "children": [
+            {
+              "type": "frame",
+              "id": "mHRR4",
+              "name": "Intent / Focus",
+              "width": "fill_container",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "yCQut",
+                  "name": "Intent Key",
+                  "fill": "#4A5361",
+                  "textGrowth": "fixed-width",
+                  "width": 72,
+                  "content": "FOCUS",
+                  "fontFamily": "Inter",
+                  "fontSize": 10,
+                  "fontWeight": "700",
+                  "letterSpacing": 0.8
+                },
+                {
+                  "type": "text",
+                  "id": "dBmEd",
+                  "name": "Intent Text",
+                  "fill": "#1D2939",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Normal tab order: suggestions, input, Send. Send is disabled while the input is empty.",
+                  "lineHeight": 1.45,
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "MTWD2",
+              "name": "Intent / Keyboard",
+              "width": "fill_container",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "o6lW7X",
+                  "name": "Intent Key",
+                  "fill": "#4A5361",
+                  "textGrowth": "fixed-width",
+                  "width": 72,
+                  "content": "KEYBOARD",
+                  "fontFamily": "Inter",
+                  "fontSize": 10,
+                  "fontWeight": "700",
+                  "letterSpacing": 0.8
+                },
+                {
+                  "type": "text",
+                  "id": "B10tP",
+                  "name": "Intent Text",
+                  "fill": "#1D2939",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Enter sends. Shift+Enter adds a newline. A suggestion button sends its text.",
+                  "lineHeight": 1.45,
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "qQcLD",
+              "name": "Intent / Announce",
+              "width": "fill_container",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "MTvvo",
+                  "name": "Intent Key",
+                  "fill": "#4A5361",
+                  "textGrowth": "fixed-width",
+                  "width": 72,
+                  "content": "ANNOUNCE",
+                  "fontFamily": "Inter",
+                  "fontSize": 10,
+                  "fontWeight": "700",
+                  "letterSpacing": 0.8
+                },
+                {
+                  "type": "text",
+                  "id": "B1Bgk",
+                  "name": "Intent Text",
+                  "fill": "#1D2939",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "The region is named by the header title. Nothing is announced.",
+                  "lineHeight": 1.45,
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "U7KdQ",
+      "x": 512,
+      "y": 200,
+      "name": "State 02 · loading · light",
+      "width": 464,
+      "fill": "#E8EBF0",
+      "cornerRadius": 24,
+      "layout": "vertical",
+      "gap": 20,
+      "padding": 32,
+      "children": [
+        {
+          "type": "frame",
+          "id": "pmUc7",
+          "name": "Annotation / Heading",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 4,
+          "children": [
+            {
+              "type": "text",
+              "id": "MTapM",
+              "name": "Annotation / Index",
+              "fill": "#4A5361",
+              "content": "STATE 02 · LOADING",
+              "fontFamily": "Inter",
+              "fontSize": 11,
+              "fontWeight": "600",
+              "letterSpacing": 1
+            },
+            {
+              "type": "text",
+              "id": "mDUgi",
+              "name": "Annotation / Title",
+              "fill": "#101828",
+              "content": "Loading",
+              "fontFamily": "Inter",
+              "fontSize": 22,
+              "fontWeight": "600"
+            },
+            {
+              "type": "text",
+              "id": "HGI5e",
+              "name": "Annotation / Summary",
+              "fill": "#344054",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "The request is sent and no token has arrived yet.",
+              "lineHeight": 1.45,
+              "fontFamily": "Inter",
+              "fontSize": 13,
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "J6miRS",
+          "name": "Chat",
+          "clip": true,
+          "width": 400,
+          "height": 620,
+          "fill": "$color.semantic.surface",
+          "cornerRadius": "$radius.semantic.container",
+          "stroke": "$color.semantic.border",
+          "strokeWidth": 1,
+          "layout": "vertical",
+          "children": [
+            {
+              "type": "frame",
+              "id": "JsetS",
+              "name": "Header (slot: header)",
+              "width": "fill_container",
+              "stroke": "$color.semantic.border",
+              "strokeWidth": {
+                "bottom": 1
+              },
+              "padding": "$space.semantic.inset-md",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "lsaac",
+                  "name": "Title",
+                  "fill": "$color.semantic.text-primary",
+                  "content": "Assistant",
+                  "lineHeight": "$font.semantic.line-height-body",
+                  "fontFamily": "$font.semantic.family-body",
+                  "fontSize": "$font.semantic.size-title",
+                  "fontWeight": "$font.semantic.weight-strong"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "EyQyJ",
+              "name": "Message log",
+              "clip": true,
+              "width": "fill_container",
+              "height": "fill_container",
+              "layout": "vertical",
+              "gap": "$chat.message-gap",
+              "padding": "$space.semantic.inset-md",
+              "children": [
+                {
+                  "id": "FFMjr",
+                  "type": "ref",
+                  "ref": "X0DYY",
+                  "name": "User message",
+                  "width": "fill_container",
+                  "descendants": {
+                    "sSqbJ": {
+                      "content": "What does Keen own versus the host?"
+                    }
+                  }
+                },
+                {
+                  "id": "jXSVy",
+                  "type": "ref",
+                  "ref": "clEGu",
+                  "name": "Pending message",
+                  "width": "fill_container"
+                }
+              ]
+            },
+            {
+              "id": "O7U7b",
+              "type": "ref",
+              "ref": "rNbH6",
+              "name": "Composer",
+              "width": "fill_container",
+              "descendants": {
+                "ObpBo": {
+                  "stroke": "$color.semantic.focus",
+                  "strokeWidth": 2
+                },
+                "I99YZ": {
+                  "enabled": false
+                },
+                "bNgfp": {
+                  "enabled": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "er6tr",
+          "name": "Annotation / Intent",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 8,
+          "children": [
+            {
+              "type": "frame",
+              "id": "P01no8",
+              "name": "Intent / Focus",
+              "width": "fill_container",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "L737Nj",
+                  "name": "Intent Key",
+                  "fill": "#4A5361",
+                  "textGrowth": "fixed-width",
+                  "width": 72,
+                  "content": "FOCUS",
+                  "fontFamily": "Inter",
+                  "fontSize": 10,
+                  "fontWeight": "700",
+                  "letterSpacing": 0.8
+                },
+                {
+                  "type": "text",
+                  "id": "FhKD2",
+                  "name": "Intent Text",
+                  "fill": "#1D2939",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Stays in the input, which was cleared on send. Send is replaced by Stop.",
+                  "lineHeight": 1.45,
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "GJNel",
+              "name": "Intent / Keyboard",
+              "width": "fill_container",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "RHLp0",
+                  "name": "Intent Key",
+                  "fill": "#4A5361",
+                  "textGrowth": "fixed-width",
+                  "width": 72,
+                  "content": "KEYBOARD",
+                  "fontFamily": "Inter",
+                  "fontSize": 10,
+                  "fontWeight": "700",
+                  "letterSpacing": 0.8
+                },
+                {
+                  "type": "text",
+                  "id": "pG7Zy",
+                  "name": "Intent Text",
+                  "fill": "#1D2939",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Esc in the input or the Stop button cancels and goes to stopped. Enter does not send while busy.",
+                  "lineHeight": 1.45,
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "qYEEK",
+              "name": "Intent / Announce",
+              "width": "fill_container",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "YfhOA",
+                  "name": "Intent Key",
+                  "fill": "#4A5361",
+                  "textGrowth": "fixed-width",
+                  "width": 72,
+                  "content": "ANNOUNCE",
+                  "fontFamily": "Inter",
+                  "fontSize": 10,
+                  "fontWeight": "700",
+                  "letterSpacing": 0.8
+                },
+                {
+                  "type": "text",
+                  "id": "b8z7fg",
+                  "name": "Intent Text",
+                  "fill": "#1D2939",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "The polite live region says \"Thinking…\" once.",
+                  "lineHeight": 1.45,
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "t1wn4",
+      "x": 1024,
+      "y": 200,
+      "name": "State 03 · streaming · light",
+      "width": 464,
+      "fill": "#E8EBF0",
+      "cornerRadius": 24,
+      "layout": "vertical",
+      "gap": 20,
+      "padding": 32,
+      "children": [
+        {
+          "type": "frame",
+          "id": "s8kTmp",
+          "name": "Annotation / Heading",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 4,
+          "children": [
+            {
+              "type": "text",
+              "id": "i8UdL",
+              "name": "Annotation / Index",
+              "fill": "#4A5361",
+              "content": "STATE 03 · STREAMING",
+              "fontFamily": "Inter",
+              "fontSize": 11,
+              "fontWeight": "600",
+              "letterSpacing": 1
+            },
+            {
+              "type": "text",
+              "id": "XeC2Y",
+              "name": "Annotation / Title",
+              "fill": "#101828",
+              "content": "Streaming",
+              "fontFamily": "Inter",
+              "fontSize": 22,
+              "fontWeight": "600"
+            },
+            {
+              "type": "text",
+              "id": "MP11Z",
+              "name": "Annotation / Summary",
+              "fill": "#344054",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "Tokens arrive and append to the assistant message.",
+              "lineHeight": 1.45,
+              "fontFamily": "Inter",
+              "fontSize": 13,
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "vUS23",
+          "name": "Chat",
+          "clip": true,
+          "width": 400,
+          "height": 620,
+          "fill": "$color.semantic.surface",
+          "cornerRadius": "$radius.semantic.container",
+          "stroke": "$color.semantic.border",
+          "strokeWidth": 1,
+          "layout": "vertical",
+          "children": [
+            {
+              "type": "frame",
+              "id": "ESQ7F",
+              "name": "Header (slot: header)",
+              "width": "fill_container",
+              "stroke": "$color.semantic.border",
+              "strokeWidth": {
+                "bottom": 1
+              },
+              "padding": "$space.semantic.inset-md",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "D9zfL",
+                  "name": "Title",
+                  "fill": "$color.semantic.text-primary",
+                  "content": "Assistant",
+                  "lineHeight": "$font.semantic.line-height-body",
+                  "fontFamily": "$font.semantic.family-body",
+                  "fontSize": "$font.semantic.size-title",
+                  "fontWeight": "$font.semantic.weight-strong"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "hMysr",
+              "name": "Message log",
+              "clip": true,
+              "width": "fill_container",
+              "height": "fill_container",
+              "layout": "vertical",
+              "gap": "$chat.message-gap",
+              "padding": "$space.semantic.inset-md",
+              "children": [
+                {
+                  "id": "Q9Xpn",
+                  "type": "ref",
+                  "ref": "X0DYY",
+                  "name": "User message",
+                  "width": "fill_container",
+                  "descendants": {
+                    "sSqbJ": {
+                      "content": "What does Keen own versus the host?"
+                    }
+                  }
+                },
+                {
+                  "id": "jMwuX",
+                  "type": "ref",
+                  "ref": "VIwGB",
+                  "name": "Assistant message",
+                  "width": "fill_container",
+                  "descendants": {
+                    "MvYA9": {
+                      "content": "Keen owns the chat UI, its behavior, accessibility, tokens, and docs. Your app owns the AI provider, ▍"
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "id": "MTq1u",
+              "type": "ref",
+              "ref": "rNbH6",
+              "name": "Composer",
+              "width": "fill_container",
+              "descendants": {
+                "ObpBo": {
+                  "stroke": "$color.semantic.focus",
+                  "strokeWidth": 2
+                },
+                "I99YZ": {
+                  "enabled": false
+                },
+                "bNgfp": {
+                  "enabled": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "xnEXT",
+          "name": "Annotation / Intent",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 8,
+          "children": [
+            {
+              "type": "frame",
+              "id": "w8vlS",
+              "name": "Intent / Focus",
+              "width": "fill_container",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "ZM7tL",
+                  "name": "Intent Key",
+                  "fill": "#4A5361",
+                  "textGrowth": "fixed-width",
+                  "width": 72,
+                  "content": "FOCUS",
+                  "fontFamily": "Inter",
+                  "fontSize": 10,
+                  "fontWeight": "700",
+                  "letterSpacing": 0.8
+                },
+                {
+                  "type": "text",
+                  "id": "b3S2ji",
+                  "name": "Intent Text",
+                  "fill": "#1D2939",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Stays in the input so the next message can be drafted.",
+                  "lineHeight": 1.45,
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "hdvmy",
+              "name": "Intent / Keyboard",
+              "width": "fill_container",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "wowB9",
+                  "name": "Intent Key",
+                  "fill": "#4A5361",
+                  "textGrowth": "fixed-width",
+                  "width": 72,
+                  "content": "KEYBOARD",
+                  "fontFamily": "Inter",
+                  "fontSize": 10,
+                  "fontWeight": "700",
+                  "letterSpacing": 0.8
+                },
+                {
+                  "type": "text",
+                  "id": "rk2NQ",
+                  "name": "Intent Text",
+                  "fill": "#1D2939",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Esc or Stop cancels and goes to stopped with the partial text kept.",
+                  "lineHeight": 1.45,
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "fBxke",
+              "name": "Intent / Announce",
+              "width": "fill_container",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "kR3UJ",
+                  "name": "Intent Key",
+                  "fill": "#4A5361",
+                  "textGrowth": "fixed-width",
+                  "width": 72,
+                  "content": "ANNOUNCE",
+                  "fontFamily": "Inter",
+                  "fontSize": 10,
+                  "fontWeight": "700",
+                  "letterSpacing": 0.8
+                },
+                {
+                  "type": "text",
+                  "id": "IKsgi",
+                  "name": "Intent Text",
+                  "fill": "#1D2939",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Only newly appended text goes to the polite live region, flushed at sentence ends. The message is aria-busy.",
+                  "lineHeight": 1.45,
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "S283Q",
+      "x": 1536,
+      "y": 200,
+      "name": "State 04 · completed · light",
+      "width": 464,
+      "fill": "#E8EBF0",
+      "cornerRadius": 24,
+      "layout": "vertical",
+      "gap": 20,
+      "padding": 32,
+      "children": [
+        {
+          "type": "frame",
+          "id": "pzbxJ",
+          "name": "Annotation / Heading",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 4,
+          "children": [
+            {
+              "type": "text",
+              "id": "jlU9K",
+              "name": "Annotation / Index",
+              "fill": "#4A5361",
+              "content": "STATE 04 · COMPLETED",
+              "fontFamily": "Inter",
+              "fontSize": 11,
+              "fontWeight": "600",
+              "letterSpacing": 1
+            },
+            {
+              "type": "text",
+              "id": "UXXKv",
+              "name": "Annotation / Title",
+              "fill": "#101828",
+              "content": "Completed",
+              "fontFamily": "Inter",
+              "fontSize": 22,
+              "fontWeight": "600"
+            },
+            {
+              "type": "text",
+              "id": "xeWTd",
+              "name": "Annotation / Summary",
+              "fill": "#344054",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "The stream finished. The full response is in the log.",
+              "lineHeight": 1.45,
+              "fontFamily": "Inter",
+              "fontSize": 13,
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "Omme4",
+          "name": "Chat",
+          "clip": true,
+          "width": 400,
+          "height": 620,
+          "fill": "$color.semantic.surface",
+          "cornerRadius": "$radius.semantic.container",
+          "stroke": "$color.semantic.border",
+          "strokeWidth": 1,
+          "layout": "vertical",
+          "children": [
+            {
+              "type": "frame",
+              "id": "B7MDW",
+              "name": "Header (slot: header)",
+              "width": "fill_container",
+              "stroke": "$color.semantic.border",
+              "strokeWidth": {
+                "bottom": 1
+              },
+              "padding": "$space.semantic.inset-md",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "eCtdj",
+                  "name": "Title",
+                  "fill": "$color.semantic.text-primary",
+                  "content": "Assistant",
+                  "lineHeight": "$font.semantic.line-height-body",
+                  "fontFamily": "$font.semantic.family-body",
+                  "fontSize": "$font.semantic.size-title",
+                  "fontWeight": "$font.semantic.weight-strong"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "s8y5P",
+              "name": "Message log",
+              "clip": true,
+              "width": "fill_container",
+              "height": "fill_container",
+              "layout": "vertical",
+              "gap": "$chat.message-gap",
+              "padding": "$space.semantic.inset-md",
+              "children": [
+                {
+                  "id": "fPTWF",
+                  "type": "ref",
+                  "ref": "X0DYY",
+                  "name": "User message",
+                  "width": "fill_container",
+                  "descendants": {
+                    "sSqbJ": {
+                      "content": "What does Keen own versus the host?"
+                    }
+                  }
+                },
+                {
+                  "id": "d9Vjd",
+                  "type": "ref",
+                  "ref": "VIwGB",
+                  "name": "Assistant message",
+                  "width": "fill_container",
+                  "descendants": {
+                    "MvYA9": {
+                      "content": "Keen owns the chat UI, its behavior, accessibility, tokens, and docs. Your app owns the AI provider, credentials, persistence, and the conversation lifecycle, and connects them through an adapter."
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "id": "EqYAn",
+              "type": "ref",
+              "ref": "rNbH6",
+              "name": "Composer",
+              "width": "fill_container",
+              "descendants": {
+                "ObpBo": {
+                  "stroke": "$color.semantic.focus",
+                  "strokeWidth": 2
+                },
+                "Peu3t": {
+                  "content": "Can a host change the bubble color?",
+                  "fill": "$color.semantic.text-primary"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "Tdtrc",
+          "name": "Annotation / Intent",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 8,
+          "children": [
+            {
+              "type": "frame",
+              "id": "dHtlb",
+              "name": "Intent / Focus",
+              "width": "fill_container",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "As0eu",
+                  "name": "Intent Key",
+                  "fill": "#4A5361",
+                  "textGrowth": "fixed-width",
+                  "width": 72,
+                  "content": "FOCUS",
+                  "fontFamily": "Inter",
+                  "fontSize": 10,
+                  "fontWeight": "700",
+                  "letterSpacing": 0.8
+                },
+                {
+                  "type": "text",
+                  "id": "i3dE0O",
+                  "name": "Intent Text",
+                  "fill": "#1D2939",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Returned to the input after send and stays there (focus ring shown).",
+                  "lineHeight": 1.45,
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "cWMlx",
+              "name": "Intent / Keyboard",
+              "width": "fill_container",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "nbu1v",
+                  "name": "Intent Key",
+                  "fill": "#4A5361",
+                  "textGrowth": "fixed-width",
+                  "width": 72,
+                  "content": "KEYBOARD",
+                  "fontFamily": "Inter",
+                  "fontSize": 10,
+                  "fontWeight": "700",
+                  "letterSpacing": 0.8
+                },
+                {
+                  "type": "text",
+                  "id": "nkVOM",
+                  "name": "Intent Text",
+                  "fill": "#1D2939",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Enter sends the drafted message. Stop is gone, Send is back.",
+                  "lineHeight": 1.45,
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "h63MRY",
+              "name": "Intent / Announce",
+              "width": "fill_container",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "vlysv",
+                  "name": "Intent Key",
+                  "fill": "#4A5361",
+                  "textGrowth": "fixed-width",
+                  "width": 72,
+                  "content": "ANNOUNCE",
+                  "fontFamily": "Inter",
+                  "fontSize": 10,
+                  "fontWeight": "700",
+                  "letterSpacing": 0.8
+                },
+                {
+                  "type": "text",
+                  "id": "cL8Mg",
+                  "name": "Intent Text",
+                  "fill": "#1D2939",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "aria-busy clears. The full message is not re-read.",
+                  "lineHeight": 1.45,
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "XUJCL",
+      "x": 2048,
+      "y": 200,
+      "name": "State 05 · error · light",
+      "width": 464,
+      "fill": "#E8EBF0",
+      "cornerRadius": 24,
+      "layout": "vertical",
+      "gap": 20,
+      "padding": 32,
+      "children": [
+        {
+          "type": "frame",
+          "id": "pOTZP",
+          "name": "Annotation / Heading",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 4,
+          "children": [
+            {
+              "type": "text",
+              "id": "QzX9T",
+              "name": "Annotation / Index",
+              "fill": "#4A5361",
+              "content": "STATE 05 · ERROR",
+              "fontFamily": "Inter",
+              "fontSize": 11,
+              "fontWeight": "600",
+              "letterSpacing": 1
+            },
+            {
+              "type": "text",
+              "id": "tgUyK",
+              "name": "Annotation / Title",
+              "fill": "#101828",
+              "content": "Error",
+              "fontFamily": "Inter",
+              "fontSize": 22,
+              "fontWeight": "600"
+            },
+            {
+              "type": "text",
+              "id": "x9SZC",
+              "name": "Annotation / Summary",
+              "fill": "#344054",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "The request failed before any token arrived.",
+              "lineHeight": 1.45,
+              "fontFamily": "Inter",
+              "fontSize": 13,
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "Y9YPpL",
+          "name": "Chat",
+          "clip": true,
+          "width": 400,
+          "height": 620,
+          "fill": "$color.semantic.surface",
+          "cornerRadius": "$radius.semantic.container",
+          "stroke": "$color.semantic.border",
+          "strokeWidth": 1,
+          "layout": "vertical",
+          "children": [
+            {
+              "type": "frame",
+              "id": "fONNz",
+              "name": "Header (slot: header)",
+              "width": "fill_container",
+              "stroke": "$color.semantic.border",
+              "strokeWidth": {
+                "bottom": 1
+              },
+              "padding": "$space.semantic.inset-md",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "krfS7",
+                  "name": "Title",
+                  "fill": "$color.semantic.text-primary",
+                  "content": "Assistant",
+                  "lineHeight": "$font.semantic.line-height-body",
+                  "fontFamily": "$font.semantic.family-body",
+                  "fontSize": "$font.semantic.size-title",
+                  "fontWeight": "$font.semantic.weight-strong"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "NyNdD",
+              "name": "Message log",
+              "clip": true,
+              "width": "fill_container",
+              "height": "fill_container",
+              "layout": "vertical",
+              "gap": "$chat.message-gap",
+              "padding": "$space.semantic.inset-md",
+              "children": [
+                {
+                  "id": "NgUld",
+                  "type": "ref",
+                  "ref": "X0DYY",
+                  "name": "User message",
+                  "width": "fill_container",
+                  "descendants": {
+                    "sSqbJ": {
+                      "content": "What does Keen own versus the host?"
+                    }
+                  }
+                },
+                {
+                  "id": "tkcPy",
+                  "type": "ref",
+                  "ref": "u72i0s",
+                  "name": "Error notice",
+                  "width": "fill_container",
+                  "descendants": {
+                    "xtTc2": {
+                      "content": "Couldn't get a response."
+                    },
+                    "Y0dPz": {
+                      "content": "Check your connection, then retry."
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "id": "DkAH0",
+              "type": "ref",
+              "ref": "rNbH6",
+              "name": "Composer",
+              "width": "fill_container",
+              "descendants": {
+                "ObpBo": {
+                  "stroke": "$color.semantic.focus",
+                  "strokeWidth": 2
+                },
+                "I99YZ": {
+                  "opacity": 0.4
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "mZlRW",
+          "name": "Annotation / Intent",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 8,
+          "children": [
+            {
+              "type": "frame",
+              "id": "FXC1a",
+              "name": "Intent / Focus",
+              "width": "fill_container",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "Dawwx",
+                  "name": "Intent Key",
+                  "fill": "#4A5361",
+                  "textGrowth": "fixed-width",
+                  "width": 72,
+                  "content": "FOCUS",
+                  "fontFamily": "Inter",
+                  "fontSize": 10,
+                  "fontWeight": "700",
+                  "letterSpacing": 0.8
+                },
+                {
+                  "type": "text",
+                  "id": "o6y5j",
+                  "name": "Intent Text",
+                  "fill": "#1D2939",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Moves to the input when Stop disappears. Retry precedes the composer in tab order.",
+                  "lineHeight": 1.45,
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "kucQb",
+              "name": "Intent / Keyboard",
+              "width": "fill_container",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "Cdwgg",
+                  "name": "Intent Key",
+                  "fill": "#4A5361",
+                  "textGrowth": "fixed-width",
+                  "width": 72,
+                  "content": "KEYBOARD",
+                  "fontFamily": "Inter",
+                  "fontSize": 10,
+                  "fontWeight": "700",
+                  "letterSpacing": 0.8
+                },
+                {
+                  "type": "text",
+                  "id": "aSHv4",
+                  "name": "Intent Text",
+                  "fill": "#1D2939",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Retry resends the last user message and goes to loading.",
+                  "lineHeight": 1.45,
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "Zk0qu",
+              "name": "Intent / Announce",
+              "width": "fill_container",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "N5mf25",
+                  "name": "Intent Key",
+                  "fill": "#4A5361",
+                  "textGrowth": "fixed-width",
+                  "width": 72,
+                  "content": "ANNOUNCE",
+                  "fontFamily": "Inter",
+                  "fontSize": 10,
+                  "fontWeight": "700",
+                  "letterSpacing": 0.8
+                },
+                {
+                  "type": "text",
+                  "id": "uhiGn",
+                  "name": "Intent Text",
+                  "fill": "#1D2939",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "The notice is a role=alert region, announced once.",
+                  "lineHeight": 1.45,
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "W4MqR",
+      "x": 2560,
+      "y": 200,
+      "name": "State 06 · stopped · light",
+      "width": 464,
+      "fill": "#E8EBF0",
+      "cornerRadius": 24,
+      "layout": "vertical",
+      "gap": 20,
+      "padding": 32,
+      "children": [
+        {
+          "type": "frame",
+          "id": "cUxgS",
+          "name": "Annotation / Heading",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 4,
+          "children": [
+            {
+              "type": "text",
+              "id": "FgFs3",
+              "name": "Annotation / Index",
+              "fill": "#4A5361",
+              "content": "STATE 06 · STOPPED",
+              "fontFamily": "Inter",
+              "fontSize": 11,
+              "fontWeight": "600",
+              "letterSpacing": 1
+            },
+            {
+              "type": "text",
+              "id": "u8VfGA",
+              "name": "Annotation / Title",
+              "fill": "#101828",
+              "content": "Stopped",
+              "fontFamily": "Inter",
+              "fontSize": 22,
+              "fontWeight": "600"
+            },
+            {
+              "type": "text",
+              "id": "C7rj7",
+              "name": "Annotation / Summary",
+              "fill": "#344054",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "The user stopped generation. The partial response is kept.",
+              "lineHeight": 1.45,
+              "fontFamily": "Inter",
+              "fontSize": 13,
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "n1tq8k",
+          "name": "Chat",
+          "clip": true,
+          "width": 400,
+          "height": 620,
+          "fill": "$color.semantic.surface",
+          "cornerRadius": "$radius.semantic.container",
+          "stroke": "$color.semantic.border",
+          "strokeWidth": 1,
+          "layout": "vertical",
+          "children": [
+            {
+              "type": "frame",
+              "id": "nDDil",
+              "name": "Header (slot: header)",
+              "width": "fill_container",
+              "stroke": "$color.semantic.border",
+              "strokeWidth": {
+                "bottom": 1
+              },
+              "padding": "$space.semantic.inset-md",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "sd0jl",
+                  "name": "Title",
+                  "fill": "$color.semantic.text-primary",
+                  "content": "Assistant",
+                  "lineHeight": "$font.semantic.line-height-body",
+                  "fontFamily": "$font.semantic.family-body",
+                  "fontSize": "$font.semantic.size-title",
+                  "fontWeight": "$font.semantic.weight-strong"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "ahJDF",
+              "name": "Message log",
+              "clip": true,
+              "width": "fill_container",
+              "height": "fill_container",
+              "layout": "vertical",
+              "gap": "$chat.message-gap",
+              "padding": "$space.semantic.inset-md",
+              "children": [
+                {
+                  "id": "mWKFl",
+                  "type": "ref",
+                  "ref": "X0DYY",
+                  "name": "User message",
+                  "width": "fill_container",
+                  "descendants": {
+                    "sSqbJ": {
+                      "content": "What does Keen own versus the host?"
+                    }
+                  }
+                },
+                {
+                  "id": "KCkFu",
+                  "type": "ref",
+                  "ref": "VIwGB",
+                  "name": "Assistant message",
+                  "width": "fill_container",
+                  "descendants": {
+                    "MvYA9": {
+                      "content": "Keen owns the chat UI, its behavior, accessibility, tokens, and docs. Your app owns the AI provider,"
+                    },
+                    "ewnuP": {
+                      "enabled": true
+                    },
+                    "OKLsR": {
+                      "content": "Response stopped"
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "id": "BAGvQ",
+              "type": "ref",
+              "ref": "rNbH6",
+              "name": "Composer",
+              "width": "fill_container",
+              "descendants": {
+                "ObpBo": {
+                  "stroke": "$color.semantic.focus",
+                  "strokeWidth": 2
+                },
+                "I99YZ": {
+                  "opacity": 0.4
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "hLaVq",
+          "name": "Annotation / Intent",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 8,
+          "children": [
+            {
+              "type": "frame",
+              "id": "bqeq8",
+              "name": "Intent / Focus",
+              "width": "fill_container",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "p5sT4",
+                  "name": "Intent Key",
+                  "fill": "#4A5361",
+                  "textGrowth": "fixed-width",
+                  "width": 72,
+                  "content": "FOCUS",
+                  "fontFamily": "Inter",
+                  "fontSize": 10,
+                  "fontWeight": "700",
+                  "letterSpacing": 0.8
+                },
+                {
+                  "type": "text",
+                  "id": "joCOf",
+                  "name": "Intent Text",
+                  "fill": "#1D2939",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Moves from the removed Stop button to the input.",
+                  "lineHeight": 1.45,
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "KTjnX",
+              "name": "Intent / Keyboard",
+              "width": "fill_container",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "AbTlH",
+                  "name": "Intent Key",
+                  "fill": "#4A5361",
+                  "textGrowth": "fixed-width",
+                  "width": 72,
+                  "content": "KEYBOARD",
+                  "fontFamily": "Inter",
+                  "fontSize": 10,
+                  "fontWeight": "700",
+                  "letterSpacing": 0.8
+                },
+                {
+                  "type": "text",
+                  "id": "AEvME",
+                  "name": "Intent Text",
+                  "fill": "#1D2939",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Enter sends a new message. The partial response stays in history.",
+                  "lineHeight": 1.45,
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "foZCw",
+              "name": "Intent / Announce",
+              "width": "fill_container",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "xa9YD",
+                  "name": "Intent Key",
+                  "fill": "#4A5361",
+                  "textGrowth": "fixed-width",
+                  "width": 72,
+                  "content": "ANNOUNCE",
+                  "fontFamily": "Inter",
+                  "fontSize": 10,
+                  "fontWeight": "700",
+                  "letterSpacing": 0.8
+                },
+                {
+                  "type": "text",
+                  "id": "dQePh",
+                  "name": "Intent Text",
+                  "fill": "#1D2939",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "The polite live region says \"Response stopped\".",
+                  "lineHeight": 1.45,
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "oPPqZ",
+      "x": 3072,
+      "y": 200,
+      "name": "State 07 · error-mid-stream · light",
+      "width": 464,
+      "fill": "#E8EBF0",
+      "cornerRadius": 24,
+      "layout": "vertical",
+      "gap": 20,
+      "padding": 32,
+      "children": [
+        {
+          "type": "frame",
+          "id": "e2gPm",
+          "name": "Annotation / Heading",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 4,
+          "children": [
+            {
+              "type": "text",
+              "id": "QyPFZ",
+              "name": "Annotation / Index",
+              "fill": "#4A5361",
+              "content": "STATE 07 · ERROR-MID-STREAM",
+              "fontFamily": "Inter",
+              "fontSize": 11,
+              "fontWeight": "600",
+              "letterSpacing": 1
+            },
+            {
+              "type": "text",
+              "id": "n12SpV",
+              "name": "Annotation / Title",
+              "fill": "#101828",
+              "content": "Error mid-stream",
+              "fontFamily": "Inter",
+              "fontSize": 22,
+              "fontWeight": "600"
+            },
+            {
+              "type": "text",
+              "id": "QOZ4v",
+              "name": "Annotation / Summary",
+              "fill": "#344054",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "The stream failed after tokens arrived. The partial response is kept.",
+              "lineHeight": 1.45,
+              "fontFamily": "Inter",
+              "fontSize": 13,
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "AG5up",
+          "name": "Chat",
+          "clip": true,
+          "width": 400,
+          "height": 620,
+          "fill": "$color.semantic.surface",
+          "cornerRadius": "$radius.semantic.container",
+          "stroke": "$color.semantic.border",
+          "strokeWidth": 1,
+          "layout": "vertical",
+          "children": [
+            {
+              "type": "frame",
+              "id": "wiGcG",
+              "name": "Header (slot: header)",
+              "width": "fill_container",
+              "stroke": "$color.semantic.border",
+              "strokeWidth": {
+                "bottom": 1
+              },
+              "padding": "$space.semantic.inset-md",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "ypEyN",
+                  "name": "Title",
+                  "fill": "$color.semantic.text-primary",
+                  "content": "Assistant",
+                  "lineHeight": "$font.semantic.line-height-body",
+                  "fontFamily": "$font.semantic.family-body",
+                  "fontSize": "$font.semantic.size-title",
+                  "fontWeight": "$font.semantic.weight-strong"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "e7huH",
+              "name": "Message log",
+              "clip": true,
+              "width": "fill_container",
+              "height": "fill_container",
+              "layout": "vertical",
+              "gap": "$chat.message-gap",
+              "padding": "$space.semantic.inset-md",
+              "children": [
+                {
+                  "id": "zCs1l",
+                  "type": "ref",
+                  "ref": "X0DYY",
+                  "name": "User message",
+                  "width": "fill_container",
+                  "descendants": {
+                    "sSqbJ": {
+                      "content": "What does Keen own versus the host?"
+                    }
+                  }
+                },
+                {
+                  "id": "JoWKP",
+                  "type": "ref",
+                  "ref": "VIwGB",
+                  "name": "Assistant message",
+                  "width": "fill_container",
+                  "descendants": {
+                    "MvYA9": {
+                      "content": "Keen owns the chat UI, its behavior, accessibility, tokens, and docs. Your app owns the AI provider,"
+                    }
+                  }
+                },
+                {
+                  "id": "ffBp1",
+                  "type": "ref",
+                  "ref": "u72i0s",
+                  "name": "Error notice",
+                  "width": "fill_container",
+                  "descendants": {
+                    "xtTc2": {
+                      "content": "Response interrupted."
+                    },
+                    "Y0dPz": {
+                      "content": "The partial reply above is kept. Retry replaces it."
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "id": "wqgPe",
+              "type": "ref",
+              "ref": "rNbH6",
+              "name": "Composer",
+              "width": "fill_container",
+              "descendants": {
+                "ObpBo": {
+                  "stroke": "$color.semantic.focus",
+                  "strokeWidth": 2
+                },
+                "I99YZ": {
+                  "opacity": 0.4
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "nCb2V",
+          "name": "Annotation / Intent",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 8,
+          "children": [
+            {
+              "type": "frame",
+              "id": "c9Oqj0",
+              "name": "Intent / Focus",
+              "width": "fill_container",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "ZLslt",
+                  "name": "Intent Key",
+                  "fill": "#4A5361",
+                  "textGrowth": "fixed-width",
+                  "width": 72,
+                  "content": "FOCUS",
+                  "fontFamily": "Inter",
+                  "fontSize": 10,
+                  "fontWeight": "700",
+                  "letterSpacing": 0.8
+                },
+                {
+                  "type": "text",
+                  "id": "hAdQM",
+                  "name": "Intent Text",
+                  "fill": "#1D2939",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Moves from the removed Stop button to the input.",
+                  "lineHeight": 1.45,
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "UZBNS",
+              "name": "Intent / Keyboard",
+              "width": "fill_container",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "inLuu",
+                  "name": "Intent Key",
+                  "fill": "#4A5361",
+                  "textGrowth": "fixed-width",
+                  "width": 72,
+                  "content": "KEYBOARD",
+                  "fontFamily": "Inter",
+                  "fontSize": 10,
+                  "fontWeight": "700",
+                  "letterSpacing": 0.8
+                },
+                {
+                  "type": "text",
+                  "id": "p1g8NC",
+                  "name": "Intent Text",
+                  "fill": "#1D2939",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Retry replaces the partial reply with a new stream and goes to loading.",
+                  "lineHeight": 1.45,
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "zYvBW",
+              "name": "Intent / Announce",
+              "width": "fill_container",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "C6gM2R",
+                  "name": "Intent Key",
+                  "fill": "#4A5361",
+                  "textGrowth": "fixed-width",
+                  "width": 72,
+                  "content": "ANNOUNCE",
+                  "fontFamily": "Inter",
+                  "fontSize": 10,
+                  "fontWeight": "700",
+                  "letterSpacing": 0.8
+                },
+                {
+                  "type": "text",
+                  "id": "fwp39",
+                  "name": "Intent Text",
+                  "fill": "#1D2939",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "The notice is a role=alert region, announced once.",
+                  "lineHeight": 1.45,
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "UtfEu",
+      "x": 0,
+      "y": 1260,
+      "name": "State 01 · empty · dark",
+      "theme": {
+        "mode": "dark"
+      },
+      "width": 464,
+      "fill": "#1A1D24",
+      "cornerRadius": 24,
+      "layout": "vertical",
+      "gap": 20,
+      "padding": 32,
+      "children": [
+        {
+          "type": "frame",
+          "id": "qr4No",
+          "name": "Annotation / Heading",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 4,
+          "children": [
+            {
+              "type": "text",
+              "id": "QY1pp",
+              "name": "Annotation / Index",
+              "fill": "#A3ABB8",
+              "content": "STATE 01 · EMPTY",
+              "fontFamily": "Inter",
+              "fontSize": 11,
+              "fontWeight": "600",
+              "letterSpacing": 1
+            },
+            {
+              "type": "text",
+              "id": "h64KsB",
+              "name": "Annotation / Title",
+              "fill": "#F2F4F7",
+              "content": "Empty",
+              "fontFamily": "Inter",
+              "fontSize": 22,
+              "fontWeight": "600"
+            },
+            {
+              "type": "text",
+              "id": "AKUNZ",
+              "name": "Annotation / Summary",
+              "fill": "#D0D5DD",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "No messages yet. The empty slot shows host copy and optional suggestions.",
+              "lineHeight": 1.45,
+              "fontFamily": "Inter",
+              "fontSize": 13,
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "kbBZQ",
+          "name": "Chat",
+          "clip": true,
+          "width": 400,
+          "height": 620,
+          "fill": "$color.semantic.surface",
+          "cornerRadius": "$radius.semantic.container",
+          "stroke": "$color.semantic.border",
+          "strokeWidth": 1,
+          "layout": "vertical",
+          "children": [
+            {
+              "type": "frame",
+              "id": "GgB0V",
+              "name": "Header (slot: header)",
+              "width": "fill_container",
+              "stroke": "$color.semantic.border",
+              "strokeWidth": {
+                "bottom": 1
+              },
+              "padding": "$space.semantic.inset-md",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "e0Gm0",
+                  "name": "Title",
+                  "fill": "$color.semantic.text-primary",
+                  "content": "Assistant",
+                  "lineHeight": "$font.semantic.line-height-body",
+                  "fontFamily": "$font.semantic.family-body",
+                  "fontSize": "$font.semantic.size-title",
+                  "fontWeight": "$font.semantic.weight-strong"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "b4tfIk",
+              "name": "Message log",
+              "clip": true,
+              "width": "fill_container",
+              "height": "fill_container",
+              "layout": "vertical",
+              "gap": "$chat.message-gap",
+              "padding": "$space.semantic.inset-md",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "JLCnG",
+                  "name": "Empty state (slot: empty)",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 12,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "Wp0d5",
+                      "name": "Empty Icon",
+                      "width": 44,
+                      "height": 44,
+                      "fill": "$color.semantic.surface-raised",
+                      "cornerRadius": 22,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "rYtiZ",
+                          "name": "Sparkles",
+                          "width": 22,
+                          "height": 22,
+                          "icon": "sparkles",
+                          "library": "lucide",
+                          "fill": "$color.semantic.action"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "sOkPF",
+                      "name": "Empty Title",
+                      "fill": "$color.semantic.text-primary",
+                      "content": "How can I help?",
+                      "lineHeight": "$font.semantic.line-height-body",
+                      "fontFamily": "$font.semantic.family-body",
+                      "fontSize": "$font.semantic.size-title",
+                      "fontWeight": "$font.semantic.weight-strong"
+                    },
+                    {
+                      "type": "text",
+                      "id": "tUI8j",
+                      "name": "Empty Body",
+                      "fill": "$color.semantic.text-subtle",
+                      "textGrowth": "fixed-width",
+                      "width": 280,
+                      "content": "Ask about the projects, writing, or experience on this site.",
+                      "lineHeight": "$font.semantic.line-height-body",
+                      "textAlign": "center",
+                      "fontFamily": "$font.semantic.family-body",
+                      "fontSize": "$font.semantic.size-body",
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "Sffmw",
+                      "name": "Suggestions",
+                      "layout": "vertical",
+                      "gap": "$space.semantic.gap-sm",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "wLNLR",
+                          "name": "Suggestion",
+                          "fill": "$color.semantic.surface-raised",
+                          "cornerRadius": "$radius.semantic.control",
+                          "stroke": "$color.semantic.border",
+                          "strokeWidth": 1,
+                          "padding": [
+                            "$space.semantic.inset-sm",
+                            "$space.semantic.inset-md"
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "g0qOx",
+                              "name": "Suggestion Label",
+                              "fill": "$color.semantic.text-primary",
+                              "content": "What is Keen?",
+                              "fontFamily": "$font.semantic.family-body",
+                              "fontSize": "$font.semantic.size-caption",
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "XQuGK",
+                          "name": "Suggestion",
+                          "fill": "$color.semantic.surface-raised",
+                          "cornerRadius": "$radius.semantic.control",
+                          "stroke": "$color.semantic.border",
+                          "strokeWidth": 1,
+                          "padding": [
+                            "$space.semantic.inset-sm",
+                            "$space.semantic.inset-md"
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "qkK4v",
+                              "name": "Suggestion Label",
+                              "fill": "$color.semantic.text-primary",
+                              "content": "How is the chat themed?",
+                              "fontFamily": "$font.semantic.family-body",
+                              "fontSize": "$font.semantic.size-caption",
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "e6bvZ",
+                          "name": "Suggestion",
+                          "fill": "$color.semantic.surface-raised",
+                          "cornerRadius": "$radius.semantic.control",
+                          "stroke": "$color.semantic.border",
+                          "strokeWidth": 1,
+                          "padding": [
+                            "$space.semantic.inset-sm",
+                            "$space.semantic.inset-md"
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "fFboH",
+                              "name": "Suggestion Label",
+                              "fill": "$color.semantic.text-primary",
+                              "content": "Show recent projects",
+                              "fontFamily": "$font.semantic.family-body",
+                              "fontSize": "$font.semantic.size-caption",
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "vfdFY",
+              "type": "ref",
+              "ref": "rNbH6",
+              "name": "Composer",
+              "width": "fill_container",
+              "descendants": {
+                "I99YZ": {
+                  "opacity": 0.4
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "v4POB",
+          "name": "Annotation / Intent",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 8,
+          "children": [
+            {
+              "type": "frame",
+              "id": "f8hNC8",
+              "name": "Intent / Focus",
+              "width": "fill_container",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "amkSw",
+                  "name": "Intent Key",
+                  "fill": "#A3ABB8",
+                  "textGrowth": "fixed-width",
+                  "width": 72,
+                  "content": "FOCUS",
+                  "fontFamily": "Inter",
+                  "fontSize": 10,
+                  "fontWeight": "700",
+                  "letterSpacing": 0.8
+                },
+                {
+                  "type": "text",
+                  "id": "wVvN2",
+                  "name": "Intent Text",
+                  "fill": "#D0D5DD",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Normal tab order: suggestions, input, Send. Send is disabled while the input is empty.",
+                  "lineHeight": 1.45,
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "F5SZ3",
+              "name": "Intent / Keyboard",
+              "width": "fill_container",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "YNd4L",
+                  "name": "Intent Key",
+                  "fill": "#A3ABB8",
+                  "textGrowth": "fixed-width",
+                  "width": 72,
+                  "content": "KEYBOARD",
+                  "fontFamily": "Inter",
+                  "fontSize": 10,
+                  "fontWeight": "700",
+                  "letterSpacing": 0.8
+                },
+                {
+                  "type": "text",
+                  "id": "YiAB9",
+                  "name": "Intent Text",
+                  "fill": "#D0D5DD",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Enter sends. Shift+Enter adds a newline. A suggestion button sends its text.",
+                  "lineHeight": 1.45,
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "IG8GG",
+              "name": "Intent / Announce",
+              "width": "fill_container",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "SS0eR",
+                  "name": "Intent Key",
+                  "fill": "#A3ABB8",
+                  "textGrowth": "fixed-width",
+                  "width": 72,
+                  "content": "ANNOUNCE",
+                  "fontFamily": "Inter",
+                  "fontSize": 10,
+                  "fontWeight": "700",
+                  "letterSpacing": 0.8
+                },
+                {
+                  "type": "text",
+                  "id": "CcbUY",
+                  "name": "Intent Text",
+                  "fill": "#D0D5DD",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "The region is named by the header title. Nothing is announced.",
+                  "lineHeight": 1.45,
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "I6zfjX",
+      "x": 512,
+      "y": 1260,
+      "name": "State 02 · loading · dark",
+      "theme": {
+        "mode": "dark"
+      },
+      "width": 464,
+      "fill": "#1A1D24",
+      "cornerRadius": 24,
+      "layout": "vertical",
+      "gap": 20,
+      "padding": 32,
+      "children": [
+        {
+          "type": "frame",
+          "id": "sWXqp",
+          "name": "Annotation / Heading",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 4,
+          "children": [
+            {
+              "type": "text",
+              "id": "x0gWZ",
+              "name": "Annotation / Index",
+              "fill": "#A3ABB8",
+              "content": "STATE 02 · LOADING",
+              "fontFamily": "Inter",
+              "fontSize": 11,
+              "fontWeight": "600",
+              "letterSpacing": 1
+            },
+            {
+              "type": "text",
+              "id": "oBYwf",
+              "name": "Annotation / Title",
+              "fill": "#F2F4F7",
+              "content": "Loading",
+              "fontFamily": "Inter",
+              "fontSize": 22,
+              "fontWeight": "600"
+            },
+            {
+              "type": "text",
+              "id": "yMuRu",
+              "name": "Annotation / Summary",
+              "fill": "#D0D5DD",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "The request is sent and no token has arrived yet.",
+              "lineHeight": 1.45,
+              "fontFamily": "Inter",
+              "fontSize": 13,
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "t0kYwd",
+          "name": "Chat",
+          "clip": true,
+          "width": 400,
+          "height": 620,
+          "fill": "$color.semantic.surface",
+          "cornerRadius": "$radius.semantic.container",
+          "stroke": "$color.semantic.border",
+          "strokeWidth": 1,
+          "layout": "vertical",
+          "children": [
+            {
+              "type": "frame",
+              "id": "nUkFB",
+              "name": "Header (slot: header)",
+              "width": "fill_container",
+              "stroke": "$color.semantic.border",
+              "strokeWidth": {
+                "bottom": 1
+              },
+              "padding": "$space.semantic.inset-md",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "F1CUt",
+                  "name": "Title",
+                  "fill": "$color.semantic.text-primary",
+                  "content": "Assistant",
+                  "lineHeight": "$font.semantic.line-height-body",
+                  "fontFamily": "$font.semantic.family-body",
+                  "fontSize": "$font.semantic.size-title",
+                  "fontWeight": "$font.semantic.weight-strong"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "gouoW",
+              "name": "Message log",
+              "clip": true,
+              "width": "fill_container",
+              "height": "fill_container",
+              "layout": "vertical",
+              "gap": "$chat.message-gap",
+              "padding": "$space.semantic.inset-md",
+              "children": [
+                {
+                  "id": "OtPVK",
+                  "type": "ref",
+                  "ref": "X0DYY",
+                  "name": "User message",
+                  "width": "fill_container",
+                  "descendants": {
+                    "sSqbJ": {
+                      "content": "What does Keen own versus the host?"
+                    }
+                  }
+                },
+                {
+                  "id": "d0KsF",
+                  "type": "ref",
+                  "ref": "clEGu",
+                  "name": "Pending message",
+                  "width": "fill_container"
+                }
+              ]
+            },
+            {
+              "id": "PXtbh",
+              "type": "ref",
+              "ref": "rNbH6",
+              "name": "Composer",
+              "width": "fill_container",
+              "descendants": {
+                "ObpBo": {
+                  "stroke": "$color.semantic.focus",
+                  "strokeWidth": 2
+                },
+                "I99YZ": {
+                  "enabled": false
+                },
+                "bNgfp": {
+                  "enabled": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "Z8W0N",
+          "name": "Annotation / Intent",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 8,
+          "children": [
+            {
+              "type": "frame",
+              "id": "saRMh",
+              "name": "Intent / Focus",
+              "width": "fill_container",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "QwnAT",
+                  "name": "Intent Key",
+                  "fill": "#A3ABB8",
+                  "textGrowth": "fixed-width",
+                  "width": 72,
+                  "content": "FOCUS",
+                  "fontFamily": "Inter",
+                  "fontSize": 10,
+                  "fontWeight": "700",
+                  "letterSpacing": 0.8
+                },
+                {
+                  "type": "text",
+                  "id": "N1gOPY",
+                  "name": "Intent Text",
+                  "fill": "#D0D5DD",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Stays in the input, which was cleared on send. Send is replaced by Stop.",
+                  "lineHeight": 1.45,
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "m5t3Rc",
+              "name": "Intent / Keyboard",
+              "width": "fill_container",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "fCki8",
+                  "name": "Intent Key",
+                  "fill": "#A3ABB8",
+                  "textGrowth": "fixed-width",
+                  "width": 72,
+                  "content": "KEYBOARD",
+                  "fontFamily": "Inter",
+                  "fontSize": 10,
+                  "fontWeight": "700",
+                  "letterSpacing": 0.8
+                },
+                {
+                  "type": "text",
+                  "id": "qCqYU",
+                  "name": "Intent Text",
+                  "fill": "#D0D5DD",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Esc in the input or the Stop button cancels and goes to stopped. Enter does not send while busy.",
+                  "lineHeight": 1.45,
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "CCJp3",
+              "name": "Intent / Announce",
+              "width": "fill_container",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "lUWAs",
+                  "name": "Intent Key",
+                  "fill": "#A3ABB8",
+                  "textGrowth": "fixed-width",
+                  "width": 72,
+                  "content": "ANNOUNCE",
+                  "fontFamily": "Inter",
+                  "fontSize": 10,
+                  "fontWeight": "700",
+                  "letterSpacing": 0.8
+                },
+                {
+                  "type": "text",
+                  "id": "f2YKy",
+                  "name": "Intent Text",
+                  "fill": "#D0D5DD",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "The polite live region says \"Thinking…\" once.",
+                  "lineHeight": 1.45,
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "At5fZ",
+      "x": 1024,
+      "y": 1260,
+      "name": "State 03 · streaming · dark",
+      "theme": {
+        "mode": "dark"
+      },
+      "width": 464,
+      "fill": "#1A1D24",
+      "cornerRadius": 24,
+      "layout": "vertical",
+      "gap": 20,
+      "padding": 32,
+      "children": [
+        {
+          "type": "frame",
+          "id": "gxKBh",
+          "name": "Annotation / Heading",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 4,
+          "children": [
+            {
+              "type": "text",
+              "id": "rLFx6",
+              "name": "Annotation / Index",
+              "fill": "#A3ABB8",
+              "content": "STATE 03 · STREAMING",
+              "fontFamily": "Inter",
+              "fontSize": 11,
+              "fontWeight": "600",
+              "letterSpacing": 1
+            },
+            {
+              "type": "text",
+              "id": "ujlTH",
+              "name": "Annotation / Title",
+              "fill": "#F2F4F7",
+              "content": "Streaming",
+              "fontFamily": "Inter",
+              "fontSize": 22,
+              "fontWeight": "600"
+            },
+            {
+              "type": "text",
+              "id": "mydd7",
+              "name": "Annotation / Summary",
+              "fill": "#D0D5DD",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "Tokens arrive and append to the assistant message.",
+              "lineHeight": 1.45,
+              "fontFamily": "Inter",
+              "fontSize": 13,
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "U3Oy8C",
+          "name": "Chat",
+          "clip": true,
+          "width": 400,
+          "height": 620,
+          "fill": "$color.semantic.surface",
+          "cornerRadius": "$radius.semantic.container",
+          "stroke": "$color.semantic.border",
+          "strokeWidth": 1,
+          "layout": "vertical",
+          "children": [
+            {
+              "type": "frame",
+              "id": "F2iRH",
+              "name": "Header (slot: header)",
+              "width": "fill_container",
+              "stroke": "$color.semantic.border",
+              "strokeWidth": {
+                "bottom": 1
+              },
+              "padding": "$space.semantic.inset-md",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "yVljm",
+                  "name": "Title",
+                  "fill": "$color.semantic.text-primary",
+                  "content": "Assistant",
+                  "lineHeight": "$font.semantic.line-height-body",
+                  "fontFamily": "$font.semantic.family-body",
+                  "fontSize": "$font.semantic.size-title",
+                  "fontWeight": "$font.semantic.weight-strong"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "j9hbq",
+              "name": "Message log",
+              "clip": true,
+              "width": "fill_container",
+              "height": "fill_container",
+              "layout": "vertical",
+              "gap": "$chat.message-gap",
+              "padding": "$space.semantic.inset-md",
+              "children": [
+                {
+                  "id": "vJxEm",
+                  "type": "ref",
+                  "ref": "X0DYY",
+                  "name": "User message",
+                  "width": "fill_container",
+                  "descendants": {
+                    "sSqbJ": {
+                      "content": "What does Keen own versus the host?"
+                    }
+                  }
+                },
+                {
+                  "id": "dUh7C",
+                  "type": "ref",
+                  "ref": "VIwGB",
+                  "name": "Assistant message",
+                  "width": "fill_container",
+                  "descendants": {
+                    "MvYA9": {
+                      "content": "Keen owns the chat UI, its behavior, accessibility, tokens, and docs. Your app owns the AI provider, ▍"
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "id": "kgAs8",
+              "type": "ref",
+              "ref": "rNbH6",
+              "name": "Composer",
+              "width": "fill_container",
+              "descendants": {
+                "ObpBo": {
+                  "stroke": "$color.semantic.focus",
+                  "strokeWidth": 2
+                },
+                "I99YZ": {
+                  "enabled": false
+                },
+                "bNgfp": {
+                  "enabled": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "bNJI4",
+          "name": "Annotation / Intent",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 8,
+          "children": [
+            {
+              "type": "frame",
+              "id": "t0rSn9",
+              "name": "Intent / Focus",
+              "width": "fill_container",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "PpoHU",
+                  "name": "Intent Key",
+                  "fill": "#A3ABB8",
+                  "textGrowth": "fixed-width",
+                  "width": 72,
+                  "content": "FOCUS",
+                  "fontFamily": "Inter",
+                  "fontSize": 10,
+                  "fontWeight": "700",
+                  "letterSpacing": 0.8
+                },
+                {
+                  "type": "text",
+                  "id": "K5rEB0",
+                  "name": "Intent Text",
+                  "fill": "#D0D5DD",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Stays in the input so the next message can be drafted.",
+                  "lineHeight": 1.45,
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "pL1xH",
+              "name": "Intent / Keyboard",
+              "width": "fill_container",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "p9JohQ",
+                  "name": "Intent Key",
+                  "fill": "#A3ABB8",
+                  "textGrowth": "fixed-width",
+                  "width": 72,
+                  "content": "KEYBOARD",
+                  "fontFamily": "Inter",
+                  "fontSize": 10,
+                  "fontWeight": "700",
+                  "letterSpacing": 0.8
+                },
+                {
+                  "type": "text",
+                  "id": "YaXiJ",
+                  "name": "Intent Text",
+                  "fill": "#D0D5DD",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Esc or Stop cancels and goes to stopped with the partial text kept.",
+                  "lineHeight": 1.45,
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "A2fhv4",
+              "name": "Intent / Announce",
+              "width": "fill_container",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "QSaPq",
+                  "name": "Intent Key",
+                  "fill": "#A3ABB8",
+                  "textGrowth": "fixed-width",
+                  "width": 72,
+                  "content": "ANNOUNCE",
+                  "fontFamily": "Inter",
+                  "fontSize": 10,
+                  "fontWeight": "700",
+                  "letterSpacing": 0.8
+                },
+                {
+                  "type": "text",
+                  "id": "HJOpX",
+                  "name": "Intent Text",
+                  "fill": "#D0D5DD",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Only newly appended text goes to the polite live region, flushed at sentence ends. The message is aria-busy.",
+                  "lineHeight": 1.45,
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "oOZj2",
+      "x": 1536,
+      "y": 1260,
+      "name": "State 04 · completed · dark",
+      "theme": {
+        "mode": "dark"
+      },
+      "width": 464,
+      "fill": "#1A1D24",
+      "cornerRadius": 24,
+      "layout": "vertical",
+      "gap": 20,
+      "padding": 32,
+      "children": [
+        {
+          "type": "frame",
+          "id": "f9W83s",
+          "name": "Annotation / Heading",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 4,
+          "children": [
+            {
+              "type": "text",
+              "id": "StYCL",
+              "name": "Annotation / Index",
+              "fill": "#A3ABB8",
+              "content": "STATE 04 · COMPLETED",
+              "fontFamily": "Inter",
+              "fontSize": 11,
+              "fontWeight": "600",
+              "letterSpacing": 1
+            },
+            {
+              "type": "text",
+              "id": "cjXnf",
+              "name": "Annotation / Title",
+              "fill": "#F2F4F7",
+              "content": "Completed",
+              "fontFamily": "Inter",
+              "fontSize": 22,
+              "fontWeight": "600"
+            },
+            {
+              "type": "text",
+              "id": "MXgca",
+              "name": "Annotation / Summary",
+              "fill": "#D0D5DD",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "The stream finished. The full response is in the log.",
+              "lineHeight": 1.45,
+              "fontFamily": "Inter",
+              "fontSize": 13,
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "PSziO",
+          "name": "Chat",
+          "clip": true,
+          "width": 400,
+          "height": 620,
+          "fill": "$color.semantic.surface",
+          "cornerRadius": "$radius.semantic.container",
+          "stroke": "$color.semantic.border",
+          "strokeWidth": 1,
+          "layout": "vertical",
+          "children": [
+            {
+              "type": "frame",
+              "id": "ATWmT",
+              "name": "Header (slot: header)",
+              "width": "fill_container",
+              "stroke": "$color.semantic.border",
+              "strokeWidth": {
+                "bottom": 1
+              },
+              "padding": "$space.semantic.inset-md",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "Z7dCg",
+                  "name": "Title",
+                  "fill": "$color.semantic.text-primary",
+                  "content": "Assistant",
+                  "lineHeight": "$font.semantic.line-height-body",
+                  "fontFamily": "$font.semantic.family-body",
+                  "fontSize": "$font.semantic.size-title",
+                  "fontWeight": "$font.semantic.weight-strong"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "naTC0",
+              "name": "Message log",
+              "clip": true,
+              "width": "fill_container",
+              "height": "fill_container",
+              "layout": "vertical",
+              "gap": "$chat.message-gap",
+              "padding": "$space.semantic.inset-md",
+              "children": [
+                {
+                  "id": "cTbYn",
+                  "type": "ref",
+                  "ref": "X0DYY",
+                  "name": "User message",
+                  "width": "fill_container",
+                  "descendants": {
+                    "sSqbJ": {
+                      "content": "What does Keen own versus the host?"
+                    }
+                  }
+                },
+                {
+                  "id": "wDBOV",
+                  "type": "ref",
+                  "ref": "VIwGB",
+                  "name": "Assistant message",
+                  "width": "fill_container",
+                  "descendants": {
+                    "MvYA9": {
+                      "content": "Keen owns the chat UI, its behavior, accessibility, tokens, and docs. Your app owns the AI provider, credentials, persistence, and the conversation lifecycle, and connects them through an adapter."
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "id": "uoRyE",
+              "type": "ref",
+              "ref": "rNbH6",
+              "name": "Composer",
+              "width": "fill_container",
+              "descendants": {
+                "ObpBo": {
+                  "stroke": "$color.semantic.focus",
+                  "strokeWidth": 2
+                },
+                "Peu3t": {
+                  "content": "Can a host change the bubble color?",
+                  "fill": "$color.semantic.text-primary"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "oJjGA",
+          "name": "Annotation / Intent",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 8,
+          "children": [
+            {
+              "type": "frame",
+              "id": "ftYDI",
+              "name": "Intent / Focus",
+              "width": "fill_container",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "vI3kW",
+                  "name": "Intent Key",
+                  "fill": "#A3ABB8",
+                  "textGrowth": "fixed-width",
+                  "width": 72,
+                  "content": "FOCUS",
+                  "fontFamily": "Inter",
+                  "fontSize": 10,
+                  "fontWeight": "700",
+                  "letterSpacing": 0.8
+                },
+                {
+                  "type": "text",
+                  "id": "b2BWr",
+                  "name": "Intent Text",
+                  "fill": "#D0D5DD",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Returned to the input after send and stays there (focus ring shown).",
+                  "lineHeight": 1.45,
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "GOgop",
+              "name": "Intent / Keyboard",
+              "width": "fill_container",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "O30c9",
+                  "name": "Intent Key",
+                  "fill": "#A3ABB8",
+                  "textGrowth": "fixed-width",
+                  "width": 72,
+                  "content": "KEYBOARD",
+                  "fontFamily": "Inter",
+                  "fontSize": 10,
+                  "fontWeight": "700",
+                  "letterSpacing": 0.8
+                },
+                {
+                  "type": "text",
+                  "id": "xmrjP",
+                  "name": "Intent Text",
+                  "fill": "#D0D5DD",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Enter sends the drafted message. Stop is gone, Send is back.",
+                  "lineHeight": 1.45,
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "egiR0",
+              "name": "Intent / Announce",
+              "width": "fill_container",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "ACbfk",
+                  "name": "Intent Key",
+                  "fill": "#A3ABB8",
+                  "textGrowth": "fixed-width",
+                  "width": 72,
+                  "content": "ANNOUNCE",
+                  "fontFamily": "Inter",
+                  "fontSize": 10,
+                  "fontWeight": "700",
+                  "letterSpacing": 0.8
+                },
+                {
+                  "type": "text",
+                  "id": "q2W7qs",
+                  "name": "Intent Text",
+                  "fill": "#D0D5DD",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "aria-busy clears. The full message is not re-read.",
+                  "lineHeight": 1.45,
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "y5cYo3",
+      "x": 2048,
+      "y": 1260,
+      "name": "State 05 · error · dark",
+      "theme": {
+        "mode": "dark"
+      },
+      "width": 464,
+      "fill": "#1A1D24",
+      "cornerRadius": 24,
+      "layout": "vertical",
+      "gap": 20,
+      "padding": 32,
+      "children": [
+        {
+          "type": "frame",
+          "id": "KUD0k",
+          "name": "Annotation / Heading",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 4,
+          "children": [
+            {
+              "type": "text",
+              "id": "Hc8vG",
+              "name": "Annotation / Index",
+              "fill": "#A3ABB8",
+              "content": "STATE 05 · ERROR",
+              "fontFamily": "Inter",
+              "fontSize": 11,
+              "fontWeight": "600",
+              "letterSpacing": 1
+            },
+            {
+              "type": "text",
+              "id": "P9Wc4I",
+              "name": "Annotation / Title",
+              "fill": "#F2F4F7",
+              "content": "Error",
+              "fontFamily": "Inter",
+              "fontSize": 22,
+              "fontWeight": "600"
+            },
+            {
+              "type": "text",
+              "id": "jqvTU",
+              "name": "Annotation / Summary",
+              "fill": "#D0D5DD",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "The request failed before any token arrived.",
+              "lineHeight": 1.45,
+              "fontFamily": "Inter",
+              "fontSize": 13,
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "FmYPo",
+          "name": "Chat",
+          "clip": true,
+          "width": 400,
+          "height": 620,
+          "fill": "$color.semantic.surface",
+          "cornerRadius": "$radius.semantic.container",
+          "stroke": "$color.semantic.border",
+          "strokeWidth": 1,
+          "layout": "vertical",
+          "children": [
+            {
+              "type": "frame",
+              "id": "p8sxWy",
+              "name": "Header (slot: header)",
+              "width": "fill_container",
+              "stroke": "$color.semantic.border",
+              "strokeWidth": {
+                "bottom": 1
+              },
+              "padding": "$space.semantic.inset-md",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "sVFtD",
+                  "name": "Title",
+                  "fill": "$color.semantic.text-primary",
+                  "content": "Assistant",
+                  "lineHeight": "$font.semantic.line-height-body",
+                  "fontFamily": "$font.semantic.family-body",
+                  "fontSize": "$font.semantic.size-title",
+                  "fontWeight": "$font.semantic.weight-strong"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "JG2Ho",
+              "name": "Message log",
+              "clip": true,
+              "width": "fill_container",
+              "height": "fill_container",
+              "layout": "vertical",
+              "gap": "$chat.message-gap",
+              "padding": "$space.semantic.inset-md",
+              "children": [
+                {
+                  "id": "HqrPh",
+                  "type": "ref",
+                  "ref": "X0DYY",
+                  "name": "User message",
+                  "width": "fill_container",
+                  "descendants": {
+                    "sSqbJ": {
+                      "content": "What does Keen own versus the host?"
+                    }
+                  }
+                },
+                {
+                  "id": "hkDZJ",
+                  "type": "ref",
+                  "ref": "u72i0s",
+                  "name": "Error notice",
+                  "width": "fill_container",
+                  "descendants": {
+                    "xtTc2": {
+                      "content": "Couldn't get a response."
+                    },
+                    "Y0dPz": {
+                      "content": "Check your connection, then retry."
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "id": "DMNwh",
+              "type": "ref",
+              "ref": "rNbH6",
+              "name": "Composer",
+              "width": "fill_container",
+              "descendants": {
+                "ObpBo": {
+                  "stroke": "$color.semantic.focus",
+                  "strokeWidth": 2
+                },
+                "I99YZ": {
+                  "opacity": 0.4
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "PRae0",
+          "name": "Annotation / Intent",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 8,
+          "children": [
+            {
+              "type": "frame",
+              "id": "T0mAy",
+              "name": "Intent / Focus",
+              "width": "fill_container",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "b85l25",
+                  "name": "Intent Key",
+                  "fill": "#A3ABB8",
+                  "textGrowth": "fixed-width",
+                  "width": 72,
+                  "content": "FOCUS",
+                  "fontFamily": "Inter",
+                  "fontSize": 10,
+                  "fontWeight": "700",
+                  "letterSpacing": 0.8
+                },
+                {
+                  "type": "text",
+                  "id": "tfz9h",
+                  "name": "Intent Text",
+                  "fill": "#D0D5DD",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Moves to the input when Stop disappears. Retry precedes the composer in tab order.",
+                  "lineHeight": 1.45,
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "cL6Hu",
+              "name": "Intent / Keyboard",
+              "width": "fill_container",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "RT31z",
+                  "name": "Intent Key",
+                  "fill": "#A3ABB8",
+                  "textGrowth": "fixed-width",
+                  "width": 72,
+                  "content": "KEYBOARD",
+                  "fontFamily": "Inter",
+                  "fontSize": 10,
+                  "fontWeight": "700",
+                  "letterSpacing": 0.8
+                },
+                {
+                  "type": "text",
+                  "id": "ZZHgA",
+                  "name": "Intent Text",
+                  "fill": "#D0D5DD",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Retry resends the last user message and goes to loading.",
+                  "lineHeight": 1.45,
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "b7SUG",
+              "name": "Intent / Announce",
+              "width": "fill_container",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "aHiXd",
+                  "name": "Intent Key",
+                  "fill": "#A3ABB8",
+                  "textGrowth": "fixed-width",
+                  "width": 72,
+                  "content": "ANNOUNCE",
+                  "fontFamily": "Inter",
+                  "fontSize": 10,
+                  "fontWeight": "700",
+                  "letterSpacing": 0.8
+                },
+                {
+                  "type": "text",
+                  "id": "ey3C4",
+                  "name": "Intent Text",
+                  "fill": "#D0D5DD",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "The notice is a role=alert region, announced once.",
+                  "lineHeight": 1.45,
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "cZqgP",
+      "x": 2560,
+      "y": 1260,
+      "name": "State 06 · stopped · dark",
+      "theme": {
+        "mode": "dark"
+      },
+      "width": 464,
+      "fill": "#1A1D24",
+      "cornerRadius": 24,
+      "layout": "vertical",
+      "gap": 20,
+      "padding": 32,
+      "children": [
+        {
+          "type": "frame",
+          "id": "ZtUBv",
+          "name": "Annotation / Heading",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 4,
+          "children": [
+            {
+              "type": "text",
+              "id": "ed0rz",
+              "name": "Annotation / Index",
+              "fill": "#A3ABB8",
+              "content": "STATE 06 · STOPPED",
+              "fontFamily": "Inter",
+              "fontSize": 11,
+              "fontWeight": "600",
+              "letterSpacing": 1
+            },
+            {
+              "type": "text",
+              "id": "BhLh6",
+              "name": "Annotation / Title",
+              "fill": "#F2F4F7",
+              "content": "Stopped",
+              "fontFamily": "Inter",
+              "fontSize": 22,
+              "fontWeight": "600"
+            },
+            {
+              "type": "text",
+              "id": "Z4gKR",
+              "name": "Annotation / Summary",
+              "fill": "#D0D5DD",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "The user stopped generation. The partial response is kept.",
+              "lineHeight": 1.45,
+              "fontFamily": "Inter",
+              "fontSize": 13,
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "jMTQI",
+          "name": "Chat",
+          "clip": true,
+          "width": 400,
+          "height": 620,
+          "fill": "$color.semantic.surface",
+          "cornerRadius": "$radius.semantic.container",
+          "stroke": "$color.semantic.border",
+          "strokeWidth": 1,
+          "layout": "vertical",
+          "children": [
+            {
+              "type": "frame",
+              "id": "h5bI6G",
+              "name": "Header (slot: header)",
+              "width": "fill_container",
+              "stroke": "$color.semantic.border",
+              "strokeWidth": {
+                "bottom": 1
+              },
+              "padding": "$space.semantic.inset-md",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "SwNIN",
+                  "name": "Title",
+                  "fill": "$color.semantic.text-primary",
+                  "content": "Assistant",
+                  "lineHeight": "$font.semantic.line-height-body",
+                  "fontFamily": "$font.semantic.family-body",
+                  "fontSize": "$font.semantic.size-title",
+                  "fontWeight": "$font.semantic.weight-strong"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "QYah0",
+              "name": "Message log",
+              "clip": true,
+              "width": "fill_container",
+              "height": "fill_container",
+              "layout": "vertical",
+              "gap": "$chat.message-gap",
+              "padding": "$space.semantic.inset-md",
+              "children": [
+                {
+                  "id": "Z4mbSg",
+                  "type": "ref",
+                  "ref": "X0DYY",
+                  "name": "User message",
+                  "width": "fill_container",
+                  "descendants": {
+                    "sSqbJ": {
+                      "content": "What does Keen own versus the host?"
+                    }
+                  }
+                },
+                {
+                  "id": "Dt9V1",
+                  "type": "ref",
+                  "ref": "VIwGB",
+                  "name": "Assistant message",
+                  "width": "fill_container",
+                  "descendants": {
+                    "MvYA9": {
+                      "content": "Keen owns the chat UI, its behavior, accessibility, tokens, and docs. Your app owns the AI provider,"
+                    },
+                    "ewnuP": {
+                      "enabled": true
+                    },
+                    "OKLsR": {
+                      "content": "Response stopped"
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "id": "ZbpZv",
+              "type": "ref",
+              "ref": "rNbH6",
+              "name": "Composer",
+              "width": "fill_container",
+              "descendants": {
+                "ObpBo": {
+                  "stroke": "$color.semantic.focus",
+                  "strokeWidth": 2
+                },
+                "I99YZ": {
+                  "opacity": 0.4
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "h3pRo",
+          "name": "Annotation / Intent",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 8,
+          "children": [
+            {
+              "type": "frame",
+              "id": "l6WplS",
+              "name": "Intent / Focus",
+              "width": "fill_container",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "BKEXV",
+                  "name": "Intent Key",
+                  "fill": "#A3ABB8",
+                  "textGrowth": "fixed-width",
+                  "width": 72,
+                  "content": "FOCUS",
+                  "fontFamily": "Inter",
+                  "fontSize": 10,
+                  "fontWeight": "700",
+                  "letterSpacing": 0.8
+                },
+                {
+                  "type": "text",
+                  "id": "E1o8m0",
+                  "name": "Intent Text",
+                  "fill": "#D0D5DD",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Moves from the removed Stop button to the input.",
+                  "lineHeight": 1.45,
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "keG6e",
+              "name": "Intent / Keyboard",
+              "width": "fill_container",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "g6e0Zm",
+                  "name": "Intent Key",
+                  "fill": "#A3ABB8",
+                  "textGrowth": "fixed-width",
+                  "width": 72,
+                  "content": "KEYBOARD",
+                  "fontFamily": "Inter",
+                  "fontSize": 10,
+                  "fontWeight": "700",
+                  "letterSpacing": 0.8
+                },
+                {
+                  "type": "text",
+                  "id": "C8msw",
+                  "name": "Intent Text",
+                  "fill": "#D0D5DD",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Enter sends a new message. The partial response stays in history.",
+                  "lineHeight": 1.45,
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "w8UJFS",
+              "name": "Intent / Announce",
+              "width": "fill_container",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "fnW6P",
+                  "name": "Intent Key",
+                  "fill": "#A3ABB8",
+                  "textGrowth": "fixed-width",
+                  "width": 72,
+                  "content": "ANNOUNCE",
+                  "fontFamily": "Inter",
+                  "fontSize": 10,
+                  "fontWeight": "700",
+                  "letterSpacing": 0.8
+                },
+                {
+                  "type": "text",
+                  "id": "rhbtT",
+                  "name": "Intent Text",
+                  "fill": "#D0D5DD",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "The polite live region says \"Response stopped\".",
+                  "lineHeight": 1.45,
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "x0JF8",
+      "x": 3072,
+      "y": 1260,
+      "name": "State 07 · error-mid-stream · dark",
+      "theme": {
+        "mode": "dark"
+      },
+      "width": 464,
+      "fill": "#1A1D24",
+      "cornerRadius": 24,
+      "layout": "vertical",
+      "gap": 20,
+      "padding": 32,
+      "children": [
+        {
+          "type": "frame",
+          "id": "J1Msm",
+          "name": "Annotation / Heading",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 4,
+          "children": [
+            {
+              "type": "text",
+              "id": "aVQRh",
+              "name": "Annotation / Index",
+              "fill": "#A3ABB8",
+              "content": "STATE 07 · ERROR-MID-STREAM",
+              "fontFamily": "Inter",
+              "fontSize": 11,
+              "fontWeight": "600",
+              "letterSpacing": 1
+            },
+            {
+              "type": "text",
+              "id": "h8ozC",
+              "name": "Annotation / Title",
+              "fill": "#F2F4F7",
+              "content": "Error mid-stream",
+              "fontFamily": "Inter",
+              "fontSize": 22,
+              "fontWeight": "600"
+            },
+            {
+              "type": "text",
+              "id": "M7Lq36",
+              "name": "Annotation / Summary",
+              "fill": "#D0D5DD",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "The stream failed after tokens arrived. The partial response is kept.",
+              "lineHeight": 1.45,
+              "fontFamily": "Inter",
+              "fontSize": 13,
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "YGoWT",
+          "name": "Chat",
+          "clip": true,
+          "width": 400,
+          "height": 620,
+          "fill": "$color.semantic.surface",
+          "cornerRadius": "$radius.semantic.container",
+          "stroke": "$color.semantic.border",
+          "strokeWidth": 1,
+          "layout": "vertical",
+          "children": [
+            {
+              "type": "frame",
+              "id": "I2QBcI",
+              "name": "Header (slot: header)",
+              "width": "fill_container",
+              "stroke": "$color.semantic.border",
+              "strokeWidth": {
+                "bottom": 1
+              },
+              "padding": "$space.semantic.inset-md",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "tssWo",
+                  "name": "Title",
+                  "fill": "$color.semantic.text-primary",
+                  "content": "Assistant",
+                  "lineHeight": "$font.semantic.line-height-body",
+                  "fontFamily": "$font.semantic.family-body",
+                  "fontSize": "$font.semantic.size-title",
+                  "fontWeight": "$font.semantic.weight-strong"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "b5VWFH",
+              "name": "Message log",
+              "clip": true,
+              "width": "fill_container",
+              "height": "fill_container",
+              "layout": "vertical",
+              "gap": "$chat.message-gap",
+              "padding": "$space.semantic.inset-md",
+              "children": [
+                {
+                  "id": "EHxaM",
+                  "type": "ref",
+                  "ref": "X0DYY",
+                  "name": "User message",
+                  "width": "fill_container",
+                  "descendants": {
+                    "sSqbJ": {
+                      "content": "What does Keen own versus the host?"
+                    }
+                  }
+                },
+                {
+                  "id": "FlP0k",
+                  "type": "ref",
+                  "ref": "VIwGB",
+                  "name": "Assistant message",
+                  "width": "fill_container",
+                  "descendants": {
+                    "MvYA9": {
+                      "content": "Keen owns the chat UI, its behavior, accessibility, tokens, and docs. Your app owns the AI provider,"
+                    }
+                  }
+                },
+                {
+                  "id": "pEdWM",
+                  "type": "ref",
+                  "ref": "u72i0s",
+                  "name": "Error notice",
+                  "width": "fill_container",
+                  "descendants": {
+                    "xtTc2": {
+                      "content": "Response interrupted."
+                    },
+                    "Y0dPz": {
+                      "content": "The partial reply above is kept. Retry replaces it."
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "id": "sHPux",
+              "type": "ref",
+              "ref": "rNbH6",
+              "name": "Composer",
+              "width": "fill_container",
+              "descendants": {
+                "ObpBo": {
+                  "stroke": "$color.semantic.focus",
+                  "strokeWidth": 2
+                },
+                "I99YZ": {
+                  "opacity": 0.4
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "bsnkk",
+          "name": "Annotation / Intent",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 8,
+          "children": [
+            {
+              "type": "frame",
+              "id": "iTEtj",
+              "name": "Intent / Focus",
+              "width": "fill_container",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "raCxW",
+                  "name": "Intent Key",
+                  "fill": "#A3ABB8",
+                  "textGrowth": "fixed-width",
+                  "width": 72,
+                  "content": "FOCUS",
+                  "fontFamily": "Inter",
+                  "fontSize": 10,
+                  "fontWeight": "700",
+                  "letterSpacing": 0.8
+                },
+                {
+                  "type": "text",
+                  "id": "L7lf4O",
+                  "name": "Intent Text",
+                  "fill": "#D0D5DD",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Moves from the removed Stop button to the input.",
+                  "lineHeight": 1.45,
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "IaioK",
+              "name": "Intent / Keyboard",
+              "width": "fill_container",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "t4Im1",
+                  "name": "Intent Key",
+                  "fill": "#A3ABB8",
+                  "textGrowth": "fixed-width",
+                  "width": 72,
+                  "content": "KEYBOARD",
+                  "fontFamily": "Inter",
+                  "fontSize": 10,
+                  "fontWeight": "700",
+                  "letterSpacing": 0.8
+                },
+                {
+                  "type": "text",
+                  "id": "fTXQN",
+                  "name": "Intent Text",
+                  "fill": "#D0D5DD",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Retry replaces the partial reply with a new stream and goes to loading.",
+                  "lineHeight": 1.45,
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "kZPf5",
+              "name": "Intent / Announce",
+              "width": "fill_container",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "FDijJ",
+                  "name": "Intent Key",
+                  "fill": "#A3ABB8",
+                  "textGrowth": "fixed-width",
+                  "width": 72,
+                  "content": "ANNOUNCE",
+                  "fontFamily": "Inter",
+                  "fontSize": 10,
+                  "fontWeight": "700",
+                  "letterSpacing": 0.8
+                },
+                {
+                  "type": "text",
+                  "id": "RU0Ik",
+                  "name": "Intent Text",
+                  "fill": "#D0D5DD",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "The notice is a role=alert region, announced once.",
+                  "lineHeight": 1.45,
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "themes": {
+    "mode": [
+      "light",
+      "dark"
+    ]
+  },
+  "variables": {
+    "color.semantic.surface": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#FFFFFF",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#0F1115",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "color.semantic.surface-raised": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#F2F4F7",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#1C2029",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "color.semantic.text-primary": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#101828",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#F2F4F7",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "color.semantic.text-subtle": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#475467",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#A3ABB8",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "color.semantic.border": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#E4E7EC",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#262B35",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "color.semantic.border-strong": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#7A8394",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#6E7787",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "color.semantic.action": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#2557D6",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#86A8FF",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "color.semantic.text-on-action": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#FFFFFF",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#0B1020",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "color.semantic.focus": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#1D4ED8",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#A4BEFF",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "color.semantic.danger": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#B42318",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#FF9C94",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "color.semantic.danger-surface": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#FEF3F2",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#2B1717",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "space.semantic.inset-sm": {
+      "type": "number",
+      "value": 8
+    },
+    "space.semantic.inset-md": {
+      "type": "number",
+      "value": 16
+    },
+    "space.semantic.gap-sm": {
+      "type": "number",
+      "value": 8
+    },
+    "radius.semantic.control": {
+      "type": "number",
+      "value": 8
+    },
+    "radius.semantic.container": {
+      "type": "number",
+      "value": 12
+    },
+    "font.semantic.family-body": {
+      "type": "string",
+      "value": "Inter"
+    },
+    "font.semantic.weight-strong": {
+      "type": "string",
+      "value": "600"
+    },
+    "font.semantic.size-body": {
+      "type": "number",
+      "value": 15
+    },
+    "font.semantic.size-caption": {
+      "type": "number",
+      "value": 13
+    },
+    "font.semantic.size-title": {
+      "type": "number",
+      "value": 16
+    },
+    "font.semantic.line-height-body": {
+      "type": "number",
+      "value": 1.5
+    },
+    "chat.composer-height": {
+      "type": "number",
+      "value": 48
+    },
+    "chat.message-gap": {
+      "type": "number",
+      "value": 16
+    },
+    "chat.message-max-width": {
+      "type": "number",
+      "value": 320
+    },
+    "chat.message-radius": {
+      "type": "number",
+      "value": 16
+    },
+    "chat.message-user-background": {
+      "type": "color",
+      "value": "$color.semantic.action"
+    },
+    "chat.message-user-text": {
+      "type": "color",
+      "value": "$color.semantic.text-on-action"
+    },
+    "chat.message-assistant-background": {
+      "type": "color",
+      "value": "$color.semantic.surface-raised"
+    }
+  },
+  "fileToken": "4b774b3d-8040-4481-8b4c-813e9f2eabaa"
+}
