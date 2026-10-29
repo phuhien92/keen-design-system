@@ -8,7 +8,7 @@ Keen is a shared, themeable design system. It gives every project the same compo
 
 The name suggests curiosity and attentiveness.
 
-**Status:** pre-alpha. Milestone 1 (AI chat in portfolio-blog) is in progress. Decisions are recorded in [docs/decisions.md](docs/decisions.md) as they land, and the research behind them is in [docs/research.md](docs/research.md).
+**Status:** pre-alpha. Milestone 1 (AI chat in portfolio-blog) is in progress, and its stack, token, and distribution decisions are settled. Decisions are recorded in [docs/decisions.md](docs/decisions.md) as they land, and the research behind them is in [docs/research.md](docs/research.md).
 
 ## Project vision
 
@@ -39,13 +39,23 @@ Keen owns the chat UI and its interaction behavior. The host owns the AI model, 
 - Stop generation works from the keyboard.
 - portfolio-blog renders the chat with its own tokens and no changes to Keen's component code.
 
-### Open decisions
+### Decisions
 
-The approach is settled: Keen owns its components, tokens, and docs, builds on accessible primitives, and generates three token tiers from one canonical source. These remain open, and the first two wait on inspecting portfolio-blog's framework and styling setup:
+Settled, with the reasoning in [docs/decisions.md](docs/decisions.md):
 
-- Component technology: React, Web Components, or headless hooks.
-- Token format: CSS custom properties, DTCG JSON, or Tailwind theme variables.
-- Distribution: npm package, workspace package, or copy-in source.
+- Components are written in React, which fits portfolio-blog's Astro 5 and React 19 islands.
+- Hosts install Keen as a pinned package build and never copy or edit component source.
+- Hosts customize through themes only: semantic and component tokens, plus the variants and slots each component names.
+- DTCG JSON is the one hand-edited token source; CSS custom properties and TypeScript exports are generated from it.
+- Every token name carries its tier (`color.semantic.action`), and components never read primitive tokens.
+- The repository is a pnpm workspace with tokens, the `keen` package, a token generator, docs, Storybook, and an Astro fixture app.
+- Storybook reviews the implementation; Pen reviews the visual design and is never a token source.
+
+Still open:
+
+- Which accessible primitives library Keen builds on.
+- Whether Brain CLI stays a consumer, and what Keen offers it.
+- The component metadata format behind "AI-ready".
 
 Each is recorded in [docs/decisions.md](docs/decisions.md) when it lands.
 
