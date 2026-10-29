@@ -6,7 +6,7 @@
 
 A provider-agnostic AI chat panel. Keen renders the conversation, streams the assistant reply, and owns keyboard, focus, and screen-reader behavior. The host connects its AI provider through an adapter and keeps the conversation.
 
-**Design:** [`design/keen.pen`](../../design/keen.pen), with provisional variables captured in [`design/keen.variables.json`](../../design/keen.variables.json). The .pen file is a visual review artifact, not a token source. Its variables are provisional and named after tier token paths; Plan 01 replaces them with variables generated from DTCG. Pen 0.3 cannot bind width or height to a variable, so chat.message-max-width and chat.composer-height are applied as numbers and named in those layers' metadata.
+**Design:** [`design/keen.pen`](../../design/keen.pen), with provisional variables captured in [`design/keen.variables.json`](../../design/keen.variables.json). The .pen file is a visual review artifact, not a token source. Its variables are provisional and named after tier token paths; Plan 01 replaces them with variables generated from DTCG. Pen 0.3 cannot bind width or height to a variable, so chat.message-max-width and chat.composer-height are applied as numbers and named in those layers' metadata. The user bubble's chat.message-max-width binding is an implementation decision; the design's user bubble carries no width metadata.
 
 ## Host boundary
 
@@ -73,7 +73,7 @@ interface ChatAdapter { send(request: ChatRequest, signal: AbortSignal): AsyncIt
 | --- | --- | --- | --- |
 | `adapter` | `ChatAdapter` | required | Host connection to the AI provider. send yields text chunks, throws on failure, and should stop when signal aborts. |
 | `initialMessages` | `readonly ChatMessage[]` | `[]` | Conversation to restore on mount. An empty list starts in the empty state. |
-| `onMessagesChange` | `(messages: readonly ChatMessage[]) => void` |  | Called when a message is added or reaches a terminal status, not per chunk. The host persists from here. |
+| `onMessagesChange` | `(messages: readonly ChatMessage[]) => void` |  | Called with the full list whenever a message is added, removed, or reaches a terminal status, including when Retry drops a partial response. Not called per chunk. The host persists from here. |
 | `onError` | `(error: unknown) => void` |  | Called with the adapter error on entering error or error-mid-stream. |
 | `labels` | `Partial<ChatLabels>` | `api.labels` | All visible and announced copy. ChatLabels has one string per key in api.labels; omitted keys use those English defaults. |
 | `suggestions` | `readonly string[]` | `[]` | Prompts shown in the empty state. Activating one sends its text. |
@@ -165,11 +165,13 @@ Provisional values. Plan 01 transcribes them into DTCG and regenerates the Pen v
 | `header` | title color | `color.semantic.text-primary` |
 | `header` | title size | `font.semantic.size-title` |
 | `header` | title weight | `font.semantic.weight-strong` |
+| `header` | title line height | `font.semantic.line-height-body` |
 | `log` | padding | `space.semantic.inset-md` |
 | `log` | gap | `chat.message-gap` |
 | `message-user` | background | `chat.message-user-background` |
 | `message-user` | text color | `chat.message-user-text` |
 | `message-user` | radius | `chat.message-radius` |
+| `message-user` | max width | `chat.message-max-width` |
 | `message-user` | padding block | `space.semantic.inset-sm` |
 | `message-user` | padding inline | `space.semantic.inset-md` |
 | `message-user` | text size | `font.semantic.size-body` |
@@ -178,34 +180,73 @@ Provisional values. Plan 01 transcribes them into DTCG and regenerates the Pen v
 | `message-assistant` | text color | `color.semantic.text-primary` |
 | `message-assistant` | radius | `chat.message-radius` |
 | `message-assistant` | max width | `chat.message-max-width` |
+| `message-assistant` | padding block | `space.semantic.inset-sm` |
+| `message-assistant` | padding inline | `space.semantic.inset-md` |
+| `message-assistant` | text size | `font.semantic.size-body` |
+| `message-assistant` | line height | `font.semantic.line-height-body` |
 | `message-assistant` | status color | `color.semantic.text-subtle` |
 | `message-assistant` | status size | `font.semantic.size-caption` |
 | `message-pending` | background | `chat.message-assistant-background` |
-| `message-pending` | dots and label color | `color.semantic.text-subtle` |
+| `message-pending` | radius | `chat.message-radius` |
+| `message-pending` | padding block | `space.semantic.inset-sm` |
+| `message-pending` | padding inline | `space.semantic.inset-md` |
 | `message-pending` | gap | `space.semantic.gap-sm` |
+| `message-pending` | dots and label color | `color.semantic.text-subtle` |
+| `message-pending` | label size | `font.semantic.size-caption` |
 | `error-notice` | background | `color.semantic.danger-surface` |
 | `error-notice` | border and title color | `color.semantic.danger` |
-| `error-notice` | detail color | `color.semantic.text-primary` |
 | `error-notice` | radius | `radius.semantic.control` |
+| `error-notice` | padding block | `space.semantic.inset-sm` |
+| `error-notice` | padding inline | `space.semantic.inset-md` |
+| `error-notice` | gap | `space.semantic.gap-sm` |
+| `error-notice` | title and detail size | `font.semantic.size-caption` |
+| `error-notice` | title weight | `font.semantic.weight-strong` |
+| `error-notice` | detail color | `color.semantic.text-primary` |
+| `error-notice` | retry background | `color.semantic.surface` |
 | `error-notice` | retry border | `color.semantic.border-strong` |
+| `error-notice` | retry radius | `radius.semantic.control` |
+| `error-notice` | retry icon and label color | `color.semantic.text-primary` |
+| `error-notice` | retry label size | `font.semantic.size-caption` |
+| `error-notice` | retry label weight | `font.semantic.weight-strong` |
 | `empty` | icon background | `color.semantic.surface-raised` |
 | `empty` | icon color | `color.semantic.action` |
+| `empty` | title color | `color.semantic.text-primary` |
+| `empty` | title size | `font.semantic.size-title` |
+| `empty` | title weight | `font.semantic.weight-strong` |
 | `empty` | body color | `color.semantic.text-subtle` |
+| `empty` | body size | `font.semantic.size-body` |
+| `empty` | line height | `font.semantic.line-height-body` |
+| `empty` | suggestions gap | `space.semantic.gap-sm` |
 | `suggestion` | background | `color.semantic.surface-raised` |
 | `suggestion` | border | `color.semantic.border` |
+| `suggestion` | radius | `radius.semantic.control` |
+| `suggestion` | padding block | `space.semantic.inset-sm` |
+| `suggestion` | padding inline | `space.semantic.inset-md` |
+| `suggestion` | text color | `color.semantic.text-primary` |
 | `suggestion` | text size | `font.semantic.size-caption` |
 | `composer` | padding | `space.semantic.inset-md` |
 | `composer` | divider | `color.semantic.border` |
+| `input` | field background | `color.semantic.surface` |
 | `input` | field min height | `chat.composer-height` |
 | `input` | field border | `color.semantic.border-strong` |
 | `input` | focus ring | `color.semantic.focus` |
 | `input` | field radius | `radius.semantic.control` |
+| `input` | field padding block | `space.semantic.inset-sm` |
+| `input` | field padding inline | `space.semantic.inset-md` |
+| `input` | field gap | `space.semantic.gap-sm` |
 | `input` | placeholder color | `color.semantic.text-subtle` |
 | `input` | text color | `color.semantic.text-primary` |
+| `input` | text size | `font.semantic.size-body` |
+| `input` | line height | `font.semantic.line-height-body` |
 | `send` | background | `color.semantic.action` |
 | `send` | icon color | `color.semantic.text-on-action` |
+| `send` | radius | `radius.semantic.control` |
 | `stop` | background | `color.semantic.surface` |
 | `stop` | border | `color.semantic.border-strong` |
+| `stop` | radius | `radius.semantic.control` |
+| `stop` | icon and label color | `color.semantic.text-primary` |
+| `stop` | label size | `font.semantic.size-caption` |
+| `stop` | label weight | `font.semantic.weight-strong` |
 
 ## Contrast
 
