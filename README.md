@@ -23,7 +23,7 @@ The first milestone is a reusable AI chat experience integrated into the portfol
 The chat work establishes:
 
 - A product-independent component API and interaction model.
-- Conversation states: empty, loading, streaming, completed, error, stopped by user, and error mid-stream. The last two keep the partial response.
+- Conversation states, defined in the [chat contract](docs/components/chat.md). Stopped by user and error mid-stream keep the partial response.
 - Theme customization through tokens provided by the host project.
 - Responsive layouts and accessible keyboard and focus behavior.
 - Integration guidance showing how portfolio-blog consumes and themes the component.
@@ -32,7 +32,7 @@ Keen owns the chat UI and its interaction behavior. The host owns the AI model, 
 
 ### Done when
 
-- Every conversation state above renders and is reachable in an example.
+- Every conversation state renders and is reachable in an example: empty, loading, streaming, completed, error, stopped by user, error mid-stream, rate limited, and offline.
 - The chat meets WCAG 2.1 AA.
 - Streamed text is announced through a polite `aria-live` region, without re-reading the whole message.
 - Focus returns to the input after a message is sent.

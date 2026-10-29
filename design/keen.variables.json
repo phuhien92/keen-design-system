@@ -222,6 +222,40 @@
         }
       ]
     },
+    "color.semantic.warning": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#B54708",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#FDB022",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "color.semantic.warning-surface": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#FFFAEB",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#2B2114",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
     "font.semantic.family-body": {
       "type": "string",
       "value": "Inter"
