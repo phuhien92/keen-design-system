@@ -87,7 +87,7 @@ Keen is a pnpm workspace (Node 22.18 or later). `tokens/*.json` is the only hand
 
 - `pnpm install`
 - `pnpm tokens:build` regenerates the CSS custom properties, typed token map, and `.keen/baselines/tokens.json` from the token files.
-- `pnpm verify` runs the fast verification tier listed in `.keen/gates.json`; skipped checks are reported as skipped.
+- `pnpm verify`, `pnpm verify:build`, and `pnpm verify:live` run the fast, build, and live verification tiers listed in `.keen/gates.json`; skipped checks, and tiers with no gates yet, are reported as skipped.
 - `pnpm lint`, `pnpm typecheck`, `pnpm test`, and `pnpm contract:check` (Component Contracts and their guides).
 
 ## Brand assets
