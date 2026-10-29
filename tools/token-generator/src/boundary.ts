@@ -1,0 +1,92 @@
+// Source checks for the customization boundary: what component code may read and what it may forward.
+import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
+import { basename, join, relative } from "node:path";
+
+export interface SourceFile {
+  path: string;
+  text: string;
+}
+
+const isSource = (path: string) => /\.(tsx?|css)$/.test(path) && !/\.(test|stories)\.tsx?$/.test(path);
+
+// Component code: every component folder and the icon module. Generated tokens are not component code.
+export function componentSources(root: string): SourceFile[] {
+  const files: SourceFile[] = [];
+  const walk = (dir: string) => {
+    if (!existsSync(dir)) return;
+    for (const entry of readdirSync(dir).sort()) {
+      const path = join(dir, entry);
+      if (statSync(path).isDirectory()) walk(path);
+      else if (isSource(path)) files.push({ path: relative(root, path), text: readFileSync(path, "utf8") });
+    }
+  };
+  for (const dir of ["packages/keen/src/components", "packages/keen/src/icons"]) walk(join(root, dir));
+  return files;
+}
+
+const withoutComments = (text: string) => text.replace(/\/\*[\s\S]*?\*\//g, "").replace(/(^|[^:])\/\/.*$/gm, "$1");
+
+// Components forward no className or style onto internals: their props declare neither, and JSX never spreads props.
+export function checkForwarding(files: SourceFile[]): string[] {
+  const failures: string[] = [];
+  for (const file of files.filter((f) => f.path.endsWith(".tsx"))) {
+    const text = withoutComments(file.text);
+    for (const m of text.matchAll(/^\s*(className|style)\??\s*:/gm))
+      failures.push(`${file.path}: props declare ${m[1]}, a styling escape hatch`);
+    for (const m of text.matchAll(/\b(className|style)=\{[^}]*\b(props|rest)\b/g))
+      failures.push(`${file.path}: forwards ${m[1]} from props`);
+    if (/<[A-Za-z][\w.]*[^>]*\{\s*\.\.\./.test(text)) failures.push(`${file.path}: spreads props onto an element`);
+  }
+  return failures;
+}
+
+export interface TokenIndex {
+  // CSS variable name to token name, for every token a consumer can read.
+  vars: Map<string, string>;
+}
+
+// Every --keen-* read resolves to a generated token or a hook the same file declares, and never to a primitive.
+export function checkReads(files: SourceFile[], index: TokenIndex): { failures: string[]; read: Set<string> } {
+  const failures: string[] = [];
+  const read = new Set<string>();
+  for (const file of files) {
+    const text = withoutComments(file.text);
+    const declared = new Set([...text.matchAll(/(--keen-[a-z0-9-]+)\s*:/g)].map((m) => m[1]));
+    for (const [, name] of text.matchAll(/var\(\s*(--keen-[a-z0-9-]+)/g)) {
+      read.add(name);
+      if (/-primitive-/.test(name)) failures.push(`${file.path}: reads primitive ${name}; components read semantic or component tokens`);
+      else if (!index.vars.has(name) && !declared.has(name))
+        failures.push(`${file.path}: reads ${name}, which no token generates (phantom)`);
+    }
+    for (const name of declared) {
+      if (/-(primitive|semantic)-/.test(name) || index.vars.has(name))
+        failures.push(`${file.path}: declares token ${name}; only hosts override tokens`);
+    }
+  }
+  return { failures, read };
+}
+
+// Semantic roles and component tokens a component reads must be listed in its Component Contract.
+export function checkContracts(files: SourceFile[], index: TokenIndex, root: string): string[] {
+  const failures: string[] = [];
+  const byComponent = new Map<string, SourceFile[]>();
+  for (const file of files) {
+    const m = file.path.match(/src\/components\/([^/]+)\//);
+    if (m) byComponent.set(m[1], [...(byComponent.get(m[1]) ?? []), file]);
+  }
+  for (const [name, own] of byComponent) {
+    const contractPath = join(root, "docs/components", `${name.toLowerCase()}.json`);
+    if (!existsSync(contractPath)) {
+      failures.push(`${name}: has no Component Contract at docs/components/${basename(contractPath)}`);
+      continue;
+    }
+    const listed = new Set<string>(JSON.parse(readFileSync(contractPath, "utf8")).tokens.map((t: { name: string }) => t.name));
+    for (const file of own) {
+      for (const [, cssName] of withoutComments(file.text).matchAll(/var\(\s*(--keen-[a-z0-9-]+)/g)) {
+        const token = index.vars.get(cssName);
+        if (token && !listed.has(token)) failures.push(`${file.path}: reads ${token}, which ${basename(contractPath)} does not list`);
+      }
+    }
+  }
+  return failures;
+}

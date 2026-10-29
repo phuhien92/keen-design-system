@@ -2,13 +2,23 @@
 import { cpSync, mkdtempSync, readFileSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { describe, expect, it } from "vitest";
+import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { gates, runGates } from "../src/gates.ts";
+import { variablesFile } from "../src/pen.ts";
 import { outputFiles, repoRoot } from "../src/pipeline.ts";
+
+// Reading design/keen.pen through the pen CLI is slow and needs a signed-in CLI; pen.test.ts covers that gate.
+const penLive = gates["pen-live"];
+beforeAll(() => {
+  gates["pen-live"] = () => ({ status: "skip", reason: "stubbed in gates.test.ts" });
+});
+afterAll(() => {
+  gates["pen-live"] = penLive;
+});
 
 function copyRepo() {
   const root = mkdtempSync(join(tmpdir(), "keen-gates-"));
-  for (const path of ["tokens", ".keen", "docs/components", ...Object.values(outputFiles)]) {
+  for (const path of ["tokens", ".keen", "docs/components", variablesFile, ...Object.values(outputFiles)]) {
     cpSync(join(repoRoot, path), join(root, path), { recursive: true });
   }
   return root;
@@ -77,7 +87,7 @@ describe("fast tier", () => {
       const { ok, output } = run(root);
       expect(ok).toBe(true);
       expect(output).toMatch(/SKIP tokens-contrast[\s\S]*skipped: no contracts/);
-      expect(output).toMatch(/3 passed, 0 failed, 1 skipped/);
+      expect(output).toMatch(/7 passed, 0 failed, 2 skipped/);
     } finally {
       gates["tokens-contrast"] = original;
     }
@@ -85,7 +95,7 @@ describe("fast tier", () => {
 });
 
 describe("tiers without gates", () => {
-  for (const tier of ["build", "live"] as const) {
+  for (const tier of ["live"] as const) {
     it(`reports the ${tier} tier as skipped, not passed`, () => {
       const lines: string[] = [];
       const ok = runGates(repoRoot, tier, (line) => lines.push(line));

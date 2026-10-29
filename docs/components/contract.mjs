@@ -16,7 +16,7 @@ const requiredStates = { Chat: ["empty", "loading", "streaming", "completed", "e
 // A transition to "previous" returns to the state that was active when its from state was entered.
 const previous = "previous";
 const composerLabels = { send: "Send", stop: "Stop", "send-disabled": "Send, disabled", notice: "Rate-limit notice" };
-const penTypes = { color: "color", dimension: "number", number: "number", fontFamily: "string", fontWeight: "string" };
+const baselinePath = ".keen/baselines/tokens.json";
 const keywords = new Set(["$schema", "$id", "$ref", "$defs", "title", "description", "type", "required", "properties", "additionalProperties", "items", "enum", "pattern", "minLength", "minItems"]);
 
 function checkKeywords(node, path) {
@@ -57,10 +57,17 @@ function validate(node, value, path, errors) {
   }
 }
 
-function penValue(token) {
-  if (token.alias) return `$${token.alias}`;
-  if (token.light) return [{ value: token.light, theme: { mode: "light" } }, { value: token.dark, theme: { mode: "dark" } }];
-  return token.type === "fontWeight" ? String(token.value) : token.value;
+// The light and dark values a contract token states, in the resolved form .keen/baselines/tokens.json records.
+function contractValues(token) {
+  if (token.alias) return { light: { reference: token.alias }, dark: { reference: token.alias } };
+  if (token.light) return { light: { value: token.light }, dark: { value: token.dark } };
+  const value = token.type === "dimension" ? `${token.value}px` : String(token.value);
+  return { light: { value }, dark: { value } };
+}
+
+function baselineValues(entry, token) {
+  const pick = (mode) => (token.alias ? { reference: entry[mode].reference } : { value: entry[mode].value });
+  return { light: pick("light"), dark: pick("dark") };
 }
 
 function resolveColor(tokens, name, mode) {
@@ -93,20 +100,20 @@ function crossCheck(c, errors) {
     if (!existsSync(join(root, path))) fail(`missing file ${path}`);
   }
 
-  const pen = existsSync(join(root, c.design.variables)) ? readJson(join(root, c.design.variables)).variables : {};
+  const baseline = new Map(readJson(join(root, baselinePath)).tokens.map((entry) => [entry.name, entry]));
   for (const t of c.tokens) {
     if (!t.name.includes(".semantic.") && !t.name.startsWith(prefix)) fail(`tokens: ${t.name} is neither semantic nor ${prefix}*`);
     const forms = [t.light !== undefined || t.dark !== undefined, t.value !== undefined, t.alias !== undefined].filter(Boolean).length;
     if (forms !== 1 || (t.light === undefined) !== (t.dark === undefined)) fail(`tokens: ${t.name} needs exactly one of light+dark, value, or alias`);
     if (t.alias && !tokens.has(t.alias)) fail(`tokens: ${t.name} aliases unknown token ${t.alias}`);
-    const variable = pen[t.name];
-    if (!variable) fail(`tokens: ${t.name} has no provisional Pen variable in ${c.design.variables}`);
-    else if (variable.type !== penTypes[t.type] || JSON.stringify(variable.value) !== JSON.stringify(penValue(t))) {
-      fail(`tokens: ${t.name} differs from its Pen variable ${JSON.stringify(variable)}`);
+    const entry = baseline.get(t.name);
+    if (!entry) fail(`tokens: ${t.name} is not a DTCG token in ${baselinePath}`);
+    else if (entry.type !== t.type || JSON.stringify(baselineValues(entry, t)) !== JSON.stringify(contractValues(t))) {
+      fail(`tokens: ${t.name} differs from the DTCG tokens: ${JSON.stringify({ type: entry.type, ...baselineValues(entry, t) })}`);
     }
     if (!c.bindings.some((b) => b.token === t.name)) fail(`tokens: ${t.name} is not bound to any part`);
   }
-  for (const name of Object.keys(pen)) if (!tokens.has(name)) fail(`Pen variable ${name} has no contract token`);
+  for (const name of baseline.keys()) if (name.startsWith(prefix) && !tokens.has(name)) fail(`DTCG token ${name} has no contract token`);
 
   for (const b of c.bindings) {
     if (!parts.has(b.part)) fail(`bindings: unknown part "${b.part}"`);
@@ -154,7 +161,7 @@ function render(c, file) {
 
 ${c.summary}
 
-**Design:** [${code(c.design.source)}](${rel(c.design.source)}), with provisional variables captured in [${code(c.design.variables)}](${rel(c.design.variables)}). ${c.design.note}
+**Design:** [${code(c.design.source)}](${rel(c.design.source)}), with its Pen variables, generated from the DTCG tokens, read back into [${code(c.design.variables)}](${rel(c.design.variables)}). ${c.design.note}
 
 ## Host boundary
 
@@ -197,7 +204,7 @@ ${c.overrides.note}
 
 ## Tokens
 
-Provisional values. Plan 01 transcribes them into DTCG and regenerates the Pen variables from it.
+Values resolved from the DTCG token files (\`tokens/*.json\`), the only token source. \`contract.mjs check\` fails if this table and the tokens differ.
 
 ${table(["Token", "Type", "Light", "Dark", "Intended use"], c.tokens.map((t) => [code(t.name), t.type, tokenCell(t, "light"), tokenCell(t, "dark"), t.description]))}
 

@@ -7,7 +7,7 @@
   "design": {
     "source": "design/keen.pen",
     "variables": "design/keen.variables.json",
-    "note": "The .pen file is a visual review artifact, not a token source. Its variables are provisional and named after tier token paths; Plan 01 replaces them with variables generated from DTCG. Pen 0.3 cannot bind width or height to a variable, so chat.message-max-width and chat.composer-height are applied as numbers and named in those layers' metadata. The rate-limit notice names chat.composer-height as its minimum height in metadata and otherwise fits its content. The user bubble's chat.message-max-width binding is an implementation decision; the design's user bubble carries no width metadata."
+    "note": "The .pen file is a visual review artifact, not a token source. Its variables are generated from the DTCG tokens by pnpm design:push and named after tier token paths. Pen 0.3 cannot bind width or height to a variable, so chat.message-max-width and chat.composer-height are applied as numbers and named in those layers' metadata. The rate-limit notice names chat.composer-height as its minimum height in metadata and otherwise fits its content. The user bubble's chat.message-max-width binding is an implementation decision; the design's user bubble carries no width metadata."
   },
   "boundary": {
     "keen": ["Chat UI and layout", "State machine and streaming behavior", "Keyboard, focus, and screen-reader behavior", "Tokens and override points", "Component docs"],
@@ -142,7 +142,7 @@
     { "name": "space.semantic.gap-sm", "type": "dimension", "value": 8, "description": "Gap between items in a row or a short stack." },
     { "name": "radius.semantic.control", "type": "dimension", "value": 8, "description": "Corner radius of inputs, buttons, chips, and notices." },
     { "name": "radius.semantic.container", "type": "dimension", "value": 12, "description": "Corner radius of panels." },
-    { "name": "font.semantic.family-body", "type": "fontFamily", "value": "Inter", "description": "Typeface for all chat text." },
+    { "name": "font.semantic.family-body", "type": "fontFamily", "value": "\"Inter\", system-ui, sans-serif", "description": "Typeface for all chat text." },
     { "name": "font.semantic.weight-strong", "type": "fontWeight", "value": 600, "description": "Weight for titles and button labels." },
     { "name": "font.semantic.size-body", "type": "dimension", "value": 15, "description": "Message and input text size." },
     { "name": "font.semantic.size-caption", "type": "dimension", "value": 13, "description": "Status lines, notices, chips, and button labels." },

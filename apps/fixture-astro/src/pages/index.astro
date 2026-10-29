@@ -1,0 +1,17 @@
+---
+import "@keen/design-system/styles.css";
+import "../styles/global.css";
+import { ThemedSample } from "../components/ThemedSample.tsx";
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Keen Astro fixture</title>
+  </head>
+  <body>
+    <main class="fixture-theme" data-keen-mode="light"><ThemedSample mode="light" client:load /></main>
+    <main class="fixture-theme" data-keen-mode="dark"><ThemedSample mode="dark" client:load /></main>
+  </body>
+</html>

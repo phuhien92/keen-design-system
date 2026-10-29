@@ -88,6 +88,9 @@ Keen is a pnpm workspace (Node 22.18 or later). `tokens/*.json` is the only hand
 - `pnpm install`
 - `pnpm tokens:build` regenerates the CSS custom properties, typed token map, and `.keen/baselines/tokens.json` from the token files.
 - `pnpm verify`, `pnpm verify:build`, and `pnpm verify:live` run the fast, build, and live verification tiers listed in `.keen/gates.json`; skipped checks, and tiers with no gates yet, are reported as skipped.
+- `pnpm build` builds `packages/keen` (`@keen/design-system`), which exports `./react` (components), `./styles.css` (the generated token stylesheet plus component styles), and `./tokens` (the typed token map), and nothing else.
+- `pnpm fixture:install` packs the package and installs the tarball into `apps/fixture-astro`, an Astro + React + Tailwind v4 host outside the workspace; `pnpm verify:build` then checks the package's exports and builds the fixture.
+- `pnpm design:push` regenerates the variables in `design/keen.pen` from the tokens through a signed-in `pen` CLI and reads them back into `design/keen.variables.json`. The `pen-live` gate is skipped when the CLI is unavailable.
 - `pnpm lint`, `pnpm typecheck`, `pnpm test`, and `pnpm contract:check` (Component Contracts and their guides).
 
 ## Brand assets

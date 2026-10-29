@@ -1,0 +1,20 @@
+@import "tailwindcss";
+
+/* Keen's roles in the host's own utilities. */
+@theme inline {
+  --color-keen-action: var(--keen-color-semantic-action);
+  --color-keen-on-action: var(--keen-color-semantic-text-on-action);
+  --radius-keen-control: var(--keen-radius-semantic-control);
+}
+
+/* The host's brand, applied through semantic tokens only. */
+.fixture-theme {
+  --keen-color-semantic-action: #6d28d9;
+  --keen-color-semantic-text-on-action: #ffffff;
+  --keen-space-semantic-inset-md: 24px;
+}
+
+.fixture-theme[data-keen-mode="dark"] {
+  --keen-color-semantic-action: #c4b5fd;
+  --keen-color-semantic-text-on-action: #1e1033;
+}

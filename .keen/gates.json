@@ -11,7 +11,50 @@
       "tier": "fast",
       "description": "generated CSS and typed map are deterministic and match the token sources"
     },
-    { "id": "tokens-baseline", "tier": "fast", "description": "the committed resolved-token baseline matches the token sources" },
-    { "id": "tokens-contrast", "tier": "fast", "description": "every Component Contract contrast pair passes in light and dark" }
+    {
+      "id": "tokens-baseline",
+      "tier": "fast",
+      "description": "the committed resolved-token baseline matches the token sources"
+    },
+    {
+      "id": "tokens-contrast",
+      "tier": "fast",
+      "description": "every Component Contract contrast pair passes in light and dark"
+    },
+    {
+      "id": "pen-variables",
+      "tier": "fast",
+      "description": "design/keen.variables.json holds exactly the Pen variables the tokens generate"
+    },
+    {
+      "id": "pen-live",
+      "tier": "fast",
+      "description": "design/keen.pen's variables, read through the pen CLI, match the tokens"
+    },
+    {
+      "id": "component-forwarding",
+      "tier": "fast",
+      "description": "no component forwards className or style onto its internals"
+    },
+    {
+      "id": "token-reads",
+      "tier": "fast",
+      "description": "component code reads only generated semantic and component tokens: no primitives, no phantoms"
+    },
+    {
+      "id": "contract-roles",
+      "tier": "fast",
+      "description": "every token a component reads is listed in its Component Contract"
+    },
+    {
+      "id": "package-exports",
+      "tier": "build",
+      "description": "the packed package exports only ./react, ./styles.css, and ./tokens, and internals are not importable"
+    },
+    {
+      "id": "fixture-astro",
+      "tier": "build",
+      "description": "apps/fixture-astro installs the packed package, themes it through semantic tokens, and builds"
+    }
   ]
 }

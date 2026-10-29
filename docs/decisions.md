@@ -91,3 +91,9 @@ The README's last "Done when" item stays unchanged: "portfolio-blog renders the 
 DTCG 2025.10 has no modes, so a semantic token's `$value` is its light value and `$extensions.keen.modes.dark` holds its dark value, both as references to primitives. The generator declares the light values on `:root` and the dark values under `[data-keen-mode="dark"]`, so a host switches a page or a subtree by setting that attribute. Every token whose value depends on the mode is declared again in the dark block, because a custom property resolves its `var()` where it is declared.
 
 Rejected: one token file per mode, which would duplicate every non-color token and let the files drift, and the separate DTCG resolver format, which no tool Keen uses reads yet. Moving to the resolver format later changes the token files and the generator, not the generated variable names.
+
+### 2026-10-29: The package is @keen/design-system with three entry points
+
+`packages/keen` publishes as `@keen/design-system` with exactly three exports: `./react` for components, `./styles.css` for the generated token stylesheet followed by each component's styles, and `./tokens` for the typed token map of semantic and component tokens. There is no root export, so no internal module is importable; the build tier packs the package, installs the tarball into a scratch consumer, and fails if anything else resolves. The name and the `./react` and `./styles.css` paths follow the consumer sketch in the portfolio-blog integration plan.
+
+`apps/fixture-astro` installs that tarball with npm rather than through the pnpm workspace, so it consumes the package the way a host does and never through a workspace link. Renaming the package later changes every host's imports, so the name should settle before a second consumer.

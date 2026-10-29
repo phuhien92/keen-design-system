@@ -21,3 +21,5 @@ jobs:
       - run: pnpm test
       - run: pnpm verify
       - run: pnpm contract:check
+      - run: pnpm fixture:install
+      - run: pnpm verify:build

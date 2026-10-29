@@ -8,9 +8,12 @@
   },
   "scripts": {
     "tokens:build": "node tools/token-generator/src/cli.ts build",
+    "design:push": "node tools/token-generator/src/cli.ts design-push",
+    "build": "pnpm --filter @keen/design-system build",
     "verify": "node tools/token-generator/src/cli.ts verify fast",
-    "verify:build": "node tools/token-generator/src/cli.ts verify build",
+    "verify:build": "pnpm build && node tools/token-generator/src/cli.ts verify build",
     "verify:live": "node tools/token-generator/src/cli.ts verify live",
+    "fixture:install": "pnpm build && node apps/fixture-astro/scripts/install-packed.ts",
     "typecheck": "tsc -p tsconfig.json",
     "lint": "biome check .",
     "format": "biome check --write .",

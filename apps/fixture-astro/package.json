@@ -1,0 +1,18 @@
+{
+  "name": "fixture-astro",
+  "private": true,
+  "type": "module",
+  "description": "An Astro + React + Tailwind v4 host that installs the packed @keen/design-system, like portfolio-blog will. Not a workspace member: pnpm fixture:install installs it with npm.",
+  "scripts": {
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "@astrojs/react": "^7.1.0",
+    "@tailwindcss/vite": "^4.3.0",
+    "astro": "^7.4.0",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "tailwindcss": "^4.3.0"
+  }
+}

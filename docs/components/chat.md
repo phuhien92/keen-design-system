@@ -6,7 +6,7 @@
 
 A provider-agnostic AI chat panel. Keen renders the conversation, streams the assistant reply, and owns keyboard, focus, and screen-reader behavior. The host connects its AI provider through an adapter and keeps the conversation.
 
-**Design:** [`design/keen.pen`](../../design/keen.pen), with provisional variables captured in [`design/keen.variables.json`](../../design/keen.variables.json). The .pen file is a visual review artifact, not a token source. Its variables are provisional and named after tier token paths; Plan 01 replaces them with variables generated from DTCG. Pen 0.3 cannot bind width or height to a variable, so chat.message-max-width and chat.composer-height are applied as numbers and named in those layers' metadata. The rate-limit notice names chat.composer-height as its minimum height in metadata and otherwise fits its content. The user bubble's chat.message-max-width binding is an implementation decision; the design's user bubble carries no width metadata.
+**Design:** [`design/keen.pen`](../../design/keen.pen), with its Pen variables, generated from the DTCG tokens, read back into [`design/keen.variables.json`](../../design/keen.variables.json). The .pen file is a visual review artifact, not a token source. Its variables are generated from the DTCG tokens by pnpm design:push and named after tier token paths. Pen 0.3 cannot bind width or height to a variable, so chat.message-max-width and chat.composer-height are applied as numbers and named in those layers' metadata. The rate-limit notice names chat.composer-height as its minimum height in metadata and otherwise fits its content. The user bubble's chat.message-max-width binding is an implementation decision; the design's user bubble carries no width metadata.
 
 ## Host boundary
 
@@ -144,7 +144,7 @@ With semantic tokens, these are the only supported customization surface. Chat h
 
 ## Tokens
 
-Provisional values. Plan 01 transcribes them into DTCG and regenerates the Pen variables from it.
+Values resolved from the DTCG token files (`tokens/*.json`), the only token source. `contract.mjs check` fails if this table and the tokens differ.
 
 | Token | Type | Light | Dark | Intended use |
 | --- | --- | --- | --- | --- |
@@ -166,7 +166,7 @@ Provisional values. Plan 01 transcribes them into DTCG and regenerates the Pen v
 | `space.semantic.gap-sm` | dimension | 8 | same | Gap between items in a row or a short stack. |
 | `radius.semantic.control` | dimension | 8 | same | Corner radius of inputs, buttons, chips, and notices. |
 | `radius.semantic.container` | dimension | 12 | same | Corner radius of panels. |
-| `font.semantic.family-body` | fontFamily | Inter | same | Typeface for all chat text. |
+| `font.semantic.family-body` | fontFamily | "Inter", system-ui, sans-serif | same | Typeface for all chat text. |
 | `font.semantic.weight-strong` | fontWeight | 600 | same | Weight for titles and button labels. |
 | `font.semantic.size-body` | dimension | 15 | same | Message and input text size. |
 | `font.semantic.size-caption` | dimension | 13 | same | Status lines, notices, chips, and button labels. |
