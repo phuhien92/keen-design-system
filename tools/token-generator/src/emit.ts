@@ -129,7 +129,6 @@ export function emitBaseline(resolved: Map<string, Resolved>): string {
     .map(({ token, modes: values }) => ({
       name: token.name,
       cssVar: emitsVariable(token) ? cssVar(token.name) : null,
-      read: emitsVariable(token) ? `var(${cssVar(token.name)})` : null,
       tier: token.tier,
       type: token.type,
       ...Object.fromEntries(
