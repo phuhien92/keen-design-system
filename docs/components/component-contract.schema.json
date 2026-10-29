@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/phuhien92/keen-design-system/docs/components/component-contract.schema.json",
+  "title": "Keen Component Contract",
+  "description": "Minimal schema for a Keen Component Contract. contract.mjs validates it with a built-in subset validator (only the keywords used here) and adds the cross-checks a schema cannot express.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["component", "contractVersion", "status", "summary", "design", "boundary", "states", "transitions", "anatomy", "api", "overrides", "tokens", "bindings", "contrast", "structure", "keyboard", "focus", "screenReader"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "component": { "type": "string", "pattern": "^[A-Z][A-Za-z]+$" },
+    "contractVersion": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+    "status": { "enum": ["proposed", "approved", "deprecated"] },
+    "summary": { "$ref": "#/$defs/text" },
+    "design": {
+      "type": "object", "additionalProperties": false, "required": ["source", "variables", "note"],
+      "properties": { "source": { "$ref": "#/$defs/path" }, "variables": { "$ref": "#/$defs/path" }, "note": { "$ref": "#/$defs/text" } }
+    },
+    "boundary": {
+      "type": "object", "additionalProperties": false, "required": ["keen", "host"],
+      "properties": { "keen": { "$ref": "#/$defs/texts" }, "host": { "$ref": "#/$defs/texts" } }
+    },
+    "states": { "type": "array", "minItems": 1, "items": {
+      "type": "object", "additionalProperties": false, "required": ["name", "description", "composer", "partialResponse", "announcement", "evidence"],
+      "properties": {
+        "name": { "$ref": "#/$defs/name" },
+        "description": { "$ref": "#/$defs/text" },
+        "composer": { "enum": ["send", "stop"] },
+        "partialResponse": { "enum": ["none", "growing", "kept"] },
+        "announcement": { "$ref": "#/$defs/text" },
+        "evidence": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/path" } }
+      }
+    } },
+    "transitions": { "type": "array", "items": {
+      "type": "object", "additionalProperties": false, "required": ["from", "event", "to"],
+      "properties": { "from": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/name" } }, "event": { "$ref": "#/$defs/text" }, "to": { "$ref": "#/$defs/name" } }
+    } },
+    "anatomy": { "type": "array", "minItems": 1, "items": {
+      "type": "object", "additionalProperties": false, "required": ["part", "element", "layer", "description"],
+      "properties": { "part": { "$ref": "#/$defs/name" }, "element": { "type": "string" }, "layer": { "type": ["string", "null"] }, "slot": { "type": "boolean" }, "description": { "$ref": "#/$defs/text" } }
+    } },
+    "api": {
+      "type": "object", "additionalProperties": false, "required": ["types", "props", "labels", "behavior"],
+      "properties": {
+        "types": { "$ref": "#/$defs/texts" },
+        "props": { "type": "array", "items": {
+          "type": "object", "additionalProperties": false, "required": ["name", "type", "description"],
+          "properties": { "name": { "type": "string", "pattern": "^[a-z][A-Za-z]*$" }, "type": { "type": "string" }, "required": { "type": "boolean" }, "default": { "type": "string" }, "description": { "$ref": "#/$defs/text" } }
+        } },
+        "labels": { "type": "object", "additionalProperties": { "type": "string" } },
+        "behavior": { "$ref": "#/$defs/texts" }
+      }
+    },
+    "overrides": {
+      "type": "object", "additionalProperties": false, "required": ["componentTokens", "variants", "slots", "note"],
+      "properties": {
+        "componentTokens": { "type": "array", "items": { "$ref": "#/$defs/token" } },
+        "variants": { "type": "array", "items": { "type": "object" } },
+        "slots": { "type": "array", "items": { "$ref": "#/$defs/name" } },
+        "note": { "$ref": "#/$defs/text" }
+      }
+    },
+    "tokens": { "type": "array", "minItems": 1, "items": {
+      "type": "object", "additionalProperties": false, "required": ["name", "type", "description"],
+      "properties": {
+        "name": { "$ref": "#/$defs/token" },
+        "type": { "enum": ["color", "dimension", "number", "fontFamily", "fontWeight"] },
+        "light": { "$ref": "#/$defs/hex" },
+        "dark": { "$ref": "#/$defs/hex" },
+        "value": { "type": ["number", "string"] },
+        "alias": { "$ref": "#/$defs/token" },
+        "description": { "$ref": "#/$defs/text" }
+      }
+    } },
+    "bindings": { "type": "array", "minItems": 1, "items": {
+      "type": "object", "additionalProperties": false, "required": ["part", "property", "token"],
+      "properties": { "part": { "$ref": "#/$defs/name" }, "property": { "type": "string" }, "token": { "$ref": "#/$defs/token" } }
+    } },
+    "contrast": { "type": "array", "items": {
+      "type": "object", "additionalProperties": false, "required": ["foreground", "background", "minimum"],
+      "properties": { "foreground": { "$ref": "#/$defs/token" }, "background": { "$ref": "#/$defs/token" }, "minimum": { "type": "number" } }
+    } },
+    "structure": { "$ref": "#/$defs/texts" },
+    "keyboard": { "type": "array", "minItems": 1, "items": {
+      "type": "object", "additionalProperties": false, "required": ["keys", "where", "action"],
+      "properties": { "keys": { "type": "string" }, "where": { "type": "string" }, "action": { "$ref": "#/$defs/text" } }
+    } },
+    "focus": { "$ref": "#/$defs/texts" },
+    "screenReader": { "$ref": "#/$defs/texts" }
+  },
+  "$defs": {
+    "text": { "type": "string", "minLength": 1 },
+    "texts": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/text" } },
+    "name": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" },
+    "path": { "type": "string", "pattern": "^[A-Za-z0-9._/-]+$" },
+    "hex": { "type": "string", "pattern": "^#[0-9A-F]{6}$" },
+    "token": {
+      "description": "Tier-in-name token path: category.semantic.role or component.property. Primitives are not allowed in a contract.",
+      "type": "string",
+      "pattern": "^([a-z]+\\.semantic\\.[a-z0-9-]+|[a-z]+\\.[a-z0-9-]+)$"
+    }
+  }
+}
