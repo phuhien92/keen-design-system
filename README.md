@@ -32,7 +32,7 @@ Keen owns the chat UI and its interaction behavior. The host owns the AI model, 
 
 ### Done when
 
-- Every conversation state above renders and is reachable in an example.
+- Every conversation state renders and is reachable in an example: empty, loading, streaming, completed, error, stopped by user, error mid-stream, rate limited, and offline.
 - The chat meets WCAG 2.1 AA.
 - Streamed text is announced through a polite `aria-live` region, without re-reading the whole message.
 - Focus returns to the input after a message is sent.

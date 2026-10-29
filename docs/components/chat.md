@@ -2,11 +2,11 @@
 
 > Generated from [`chat.json`](chat.json) by `node docs/components/contract.mjs render`. The Component Contract `chat.json` is authoritative: if this guide and the contract ever disagree, the contract wins. Edit the contract and regenerate; `node docs/components/contract.mjs check` fails while they differ.
 
-**Status:** proposed · contract 0.1.0
+**Status:** proposed · contract 0.2.0
 
 A provider-agnostic AI chat panel. Keen renders the conversation, streams the assistant reply, and owns keyboard, focus, and screen-reader behavior. The host connects its AI provider through an adapter and keeps the conversation.
 
-**Design:** [`design/keen.pen`](../../design/keen.pen), with provisional variables captured in [`design/keen.variables.json`](../../design/keen.variables.json). The .pen file is a visual review artifact, not a token source. Its variables are provisional and named after tier token paths; Plan 01 replaces them with variables generated from DTCG. Pen 0.3 cannot bind width or height to a variable, so chat.message-max-width and chat.composer-height are applied as numbers and named in those layers' metadata. The user bubble's chat.message-max-width binding is an implementation decision; the design's user bubble carries no width metadata.
+**Design:** [`design/keen.pen`](../../design/keen.pen), with provisional variables captured in [`design/keen.variables.json`](../../design/keen.variables.json). The .pen file is a visual review artifact, not a token source. Its variables are provisional and named after tier token paths; Plan 01 replaces them with variables generated from DTCG. Pen 0.3 cannot bind width or height to a variable, so chat.message-max-width and chat.composer-height are applied as numbers and named in those layers' metadata. The rate-limit notice names chat.composer-height as its minimum height in metadata and otherwise fits its content. The user bubble's chat.message-max-width binding is an implementation decision; the design's user bubble carries no width metadata.
 
 ## Host boundary
 
@@ -16,7 +16,8 @@ A provider-agnostic AI chat panel. Keen renders the conversation, streams the as
 | State machine and streaming behavior | Credentials and network calls |
 | Keyboard, focus, and screen-reader behavior | Conversation persistence |
 | Tokens and override points | Conversation lifecycle: when a chat starts, resets, or is discarded |
-| Component docs | Product copy passed through labels and slots |
+| Component docs | Rate limits and connectivity: whether a limit applies, its retry time, and whether the user is online |
+|  | Product copy passed through labels and slots |
 
 ## States
 
@@ -29,6 +30,8 @@ A provider-agnostic AI chat panel. Keen renders the conversation, streams the as
 | `error` | The adapter failed before any text arrived. An error notice with Retry follows the user message. | Send | none | The error notice is a role=alert region, announced once. | [light](../../design/exports/chat-05-error-light.png) · [dark](../../design/exports/chat-05-error-dark.png) |
 | `stopped` | The user stopped generation. The partial response stays and shows the stopped status. | Send | kept | The live region says the stopped label. | [light](../../design/exports/chat-06-stopped-light.png) · [dark](../../design/exports/chat-06-stopped-dark.png) |
 | `error-mid-stream` | The adapter failed after text arrived. The partial response stays and an error notice with Retry follows it. | Send | kept | The error notice is a role=alert region, announced once. | [light](../../design/exports/chat-07-error-mid-stream-light.png) · [dark](../../design/exports/chat-07-error-mid-stream-dark.png) |
+| `rate-limited` | The host reported a rate limit. A notice with a countdown to the retry time, or a fallback detail without one, replaces the input. The log is unchanged. | Rate-limit notice | unchanged | The notice is a polite role=status region, announced once with the retry time. Countdown ticks are not announced. | [light](../../design/exports/chat-08-rate-limited-light.png) · [dark](../../design/exports/chat-08-rate-limited-dark.png) |
+| `offline` | The host reports no connection. A banner shows below the header and Send is disabled; the input still takes a draft. The log is unchanged. | Send, disabled | unchanged | The banner is a polite role=status region, announced once. The live region says the back-online label on reconnect. | [light](../../design/exports/chat-09-offline-light.png) · [dark](../../design/exports/chat-09-offline-dark.png) |
 
 | From | Event | To |
 | --- | --- | --- |
@@ -40,6 +43,10 @@ A provider-agnostic AI chat panel. Keen renders the conversation, streams the as
 | `loading`, `streaming` | stop | `stopped` |
 | `error` | retry: resend the same request | `loading` |
 | `error-mid-stream` | retry: drop the partial, resend the same request | `loading` |
+| `empty`, `completed`, `error`, `stopped`, `error-mid-stream`, `offline` | host sets rateLimit | `rate-limited` |
+| `rate-limited` | retryAt passes or host sets rateLimit to null | the state it interrupted |
+| `empty`, `completed`, `error`, `stopped`, `error-mid-stream`, `rate-limited` | host sets online to false | `offline` |
+| `offline` | host sets online to true | the state it interrupted |
 
 ## Anatomy
 
@@ -47,6 +54,7 @@ A provider-agnostic AI chat panel. Keen renders the conversation, streams the as
 | --- | --- | --- | --- |
 | `root` | `section` | Chat | The panel. Fills the box the host gives it. |
 | `header` (slot) | `header` | Header (slot: header) | Shows labels.title, or the header slot. |
+| `offline-banner` | `div[role=status]` | Chat / Notice / Offline | Icon, title, and detail. Shown below the header while online is false. |
 | `log` | `div > ol` | Message log | Scrollable conversation. One li per message, notice, or pending reply. |
 | `message-user` | `li` | Chat / Message / User | User text in an end-aligned bubble. |
 | `message-assistant` | `li` | Chat / Message / Assistant | Assistant text in a start-aligned bubble, plus a status line when stopped. |
@@ -56,9 +64,10 @@ A provider-agnostic AI chat panel. Keen renders the conversation, streams the as
 | `suggestion` | `button` | Suggestion | One per suggestions entry, below the empty content. Sends its text. |
 | `composer` | `form` | Chat / Composer | Message input and the Send or Stop action. |
 | `input` | `textarea` | Input | Message input with a visually hidden label. |
-| `send` | `button[type=submit]` | Send | Icon button. Disabled while the input is empty. |
+| `send` | `button[type=submit]` | Send | Icon button. Disabled while the input is empty; aria-disabled while offline. |
 | `stop` | `button[type=button]` | Stop | Replaces Send while loading or streaming. |
-| `live-region` | `div[aria-live=polite]` | not drawn | Visually hidden. Carries loading, streaming, and stopped announcements. |
+| `rate-limit-notice` | `div[role=status]` | Chat / Notice / Rate limit | Icon, title, and the countdown or fallback detail. Replaces the input and Send while rate limited; the composer keeps its padding and divider. |
+| `live-region` | `div[aria-live=polite]` | not drawn | Visually hidden. Carries loading, streaming, stopped, back-online, and limit-lifted announcements. |
 
 ## API
 
@@ -67,6 +76,7 @@ type ChatRole = "user" | "assistant";
 interface ChatMessage { id: string; role: ChatRole; content: string; status?: "complete" | "stopped" | "error"; }
 interface ChatRequest { messages: readonly ChatMessage[]; }
 interface ChatAdapter { send(request: ChatRequest, signal: AbortSignal): AsyncIterable<string>; }
+interface ChatRateLimit { retryAt?: Date; }
 ```
 
 | Prop | Type | Default | Description |
@@ -77,6 +87,8 @@ interface ChatAdapter { send(request: ChatRequest, signal: AbortSignal): AsyncIt
 | `onError` | `(error: unknown) => void` |  | Called with the adapter error on entering error or error-mid-stream. |
 | `labels` | `Partial<ChatLabels>` | `api.labels` | All visible and announced copy. ChatLabels has one string per key in api.labels; omitted keys use those English defaults. |
 | `suggestions` | `readonly string[]` | `[]` | Prompts shown in the empty state. Activating one sends its text. |
+| `online` | `boolean` | `true` | Host connectivity signal, for example from navigator.onLine and the online and offline events. While false, the chat is offline. |
+| `rateLimit` | `ChatRateLimit \| null` | `null` | Set by the host when its server reports a limit. While set, the chat is rate limited. retryAt is when sending is allowed again and enables the countdown. |
 | `header` | `ReactNode` |  | Slot. Replaces the default header content. The region keeps labels.title as its name. |
 | `empty` | `ReactNode` |  | Slot. Replaces the default empty-state icon, title, and body. Suggestions still render below it. |
 
@@ -101,12 +113,26 @@ Default labels (`api.labels`):
 | `assistantName` | Assistant |
 | `emptyTitle` | How can I help? |
 | `emptyBody` | Ask a question to get started. |
+| `rateLimitTitle` | Message limit reached. |
+| `rateLimitCountdown` | You can send again in {time}. |
+| `rateLimitUntil` | You can send again at {time}. |
+| `rateLimitDetail` | Try again in a little while. |
+| `rateLimitLifted` | You can send messages again. |
+| `offlineTitle` | You're offline. |
+| `offlineDetail` | Your draft is kept. Send works again when you reconnect. |
+| `backOnline` | Back online. |
 
 - Submitting trims the input, appends a user message, clears the input, and calls adapter.send with the conversation.
 - Stop aborts the signal and ignores any later chunks; an abort rejection after Stop is not an error.
 - Stopping before any text keeps no assistant bubble; the stopped status line still shows.
 - Retry after error-mid-stream removes the partial assistant message before resending.
 - To reset a conversation, the host remounts Chat with a new key and initialMessages.
+- online and rateLimit are host signals. Keen never detects connectivity or limits and never reconnects or retries on its own; a request that fails goes to error or error-mid-stream as usual.
+- While online is false, the input still takes a draft, but Enter, Send, Retry, and suggestions do not send. When online turns true, the banner goes and the live region says labels.backOnline.
+- While rateLimit is set, the rate-limit notice replaces the input and the draft is kept for when the input returns. With retryAt, the notice shows labels.rateLimitCountdown with {time} as the remaining m:ss; without it, labels.rateLimitDetail.
+- The input returns when retryAt passes or the host sets rateLimit to null, whichever is first, and the live region says labels.rateLimitLifted.
+- Neither signal changes the log, so leaving rate-limited or offline returns to the state it interrupted. Both can apply at once: the banner shows and the notice replaces the input.
+- Set during loading or streaming, neither signal interrupts the reply: the banner shows at once with Stop still available, and the notice waits for the reply to end. A host that learns of a limit from a failed send can set rateLimit from onError; the error notice stays, with Retry disabled until the limit lifts.
 
 ## Customization
 
@@ -114,7 +140,7 @@ Default labels (`api.labels`):
 - **Variants:** none
 - **Slots:** `header`, `empty`
 
-With semantic tokens, these are the only supported customization surface. Chat has no variants in 0.1.0. It forwards no className or style to its internals, and internal selectors are not stable. A need these cannot meet becomes a reviewed Keen change.
+With semantic tokens, these are the only supported customization surface. Chat has no variants in 0.2.0. It forwards no className or style to its internals, and internal selectors are not stable. A need these cannot meet becomes a reviewed Keen change.
 
 ## Tokens
 
@@ -123,8 +149,8 @@ Provisional values. Plan 01 transcribes them into DTCG and regenerates the Pen v
 | Token | Type | Light | Dark | Intended use |
 | --- | --- | --- | --- | --- |
 | `color.semantic.surface` | color | `#FFFFFF` | `#0F1115` | Main background of panels and controls. Pairs with text-primary and text-subtle. |
-| `color.semantic.surface-raised` | color | `#F2F4F7` | `#1C2029` | Background a step above surface: assistant messages and suggestions. |
-| `color.semantic.text-primary` | color | `#101828` | `#F2F4F7` | Body text on surface, surface-raised, and danger-surface. |
+| `color.semantic.surface-raised` | color | `#F2F4F7` | `#1C2029` | Background a step above surface: assistant messages, suggestions, and the rate-limit notice. |
+| `color.semantic.text-primary` | color | `#101828` | `#F2F4F7` | Body text on surface, surface-raised, danger-surface, and warning-surface. |
 | `color.semantic.text-subtle` | color | `#475467` | `#A3ABB8` | Secondary text: placeholders, status, empty body. Still meets 4.5:1 on surface and surface-raised. |
 | `color.semantic.border` | color | `#E4E7EC` | `#262B35` | Decorative dividers and outlines that are not needed to identify a control. |
 | `color.semantic.border-strong` | color | `#7A8394` | `#6E7787` | Control boundaries that identify an input or button. Meets 3:1 on surface. |
@@ -133,6 +159,8 @@ Provisional values. Plan 01 transcribes them into DTCG and regenerates the Pen v
 | `color.semantic.focus` | color | `#1D4ED8` | `#A4BEFF` | Focus ring. Meets 3:1 on surface. |
 | `color.semantic.danger` | color | `#B42318` | `#FF9C94` | Error text, icons, and outlines. Meets 4.5:1 on danger-surface. |
 | `color.semantic.danger-surface` | color | `#FEF3F2` | `#2B1717` | Background of error notices. |
+| `color.semantic.warning` | color | `#B54708` | `#FDB022` | Warning text, icons, and dividers, such as the offline banner's. Meets 4.5:1 on warning-surface. |
+| `color.semantic.warning-surface` | color | `#FFFAEB` | `#2B2114` | Background of warning banners. |
 | `space.semantic.inset-sm` | dimension | 8 | same | Compact padding: vertical bubble padding, chips, field trailing edge. |
 | `space.semantic.inset-md` | dimension | 16 | same | Default padding inside surfaces: panel sections and horizontal bubble padding. |
 | `space.semantic.gap-sm` | dimension | 8 | same | Gap between items in a row or a short stack. |
@@ -144,7 +172,7 @@ Provisional values. Plan 01 transcribes them into DTCG and regenerates the Pen v
 | `font.semantic.size-caption` | dimension | 13 | same | Status lines, notices, chips, and button labels. |
 | `font.semantic.size-title` | dimension | 16 | same | Header title and empty-state title. |
 | `font.semantic.line-height-body` | number | 1.5 | same | Line height multiplier for message text. |
-| `chat.composer-height` | dimension | 48 | same | Minimum height of the composer field. Fits a 32px button with inset-sm above and below. |
+| `chat.composer-height` | dimension | 48 | same | Minimum height of the composer field and the rate-limit notice. Fits a 32px button with inset-sm above and below. |
 | `chat.message-gap` | dimension | 16 | same | Vertical gap between items in the message log. |
 | `chat.message-max-width` | dimension | 320 | same | Maximum bubble width. Bubbles never exceed the log width. |
 | `chat.message-radius` | dimension | 16 | same | Corner radius of message bubbles. |
@@ -166,6 +194,14 @@ Provisional values. Plan 01 transcribes them into DTCG and regenerates the Pen v
 | `header` | title size | `font.semantic.size-title` |
 | `header` | title weight | `font.semantic.weight-strong` |
 | `header` | title line height | `font.semantic.line-height-body` |
+| `offline-banner` | background | `color.semantic.warning-surface` |
+| `offline-banner` | divider, icon, and title color | `color.semantic.warning` |
+| `offline-banner` | padding block | `space.semantic.inset-sm` |
+| `offline-banner` | padding inline | `space.semantic.inset-md` |
+| `offline-banner` | gap | `space.semantic.gap-sm` |
+| `offline-banner` | title and detail size | `font.semantic.size-caption` |
+| `offline-banner` | title weight | `font.semantic.weight-strong` |
+| `offline-banner` | detail color | `color.semantic.text-primary` |
 | `log` | padding | `space.semantic.inset-md` |
 | `log` | gap | `chat.message-gap` |
 | `message-user` | background | `chat.message-user-background` |
@@ -248,6 +284,17 @@ Provisional values. Plan 01 transcribes them into DTCG and regenerates the Pen v
 | `stop` | icon and label color | `color.semantic.text-primary` |
 | `stop` | label size | `font.semantic.size-caption` |
 | `stop` | label weight | `font.semantic.weight-strong` |
+| `rate-limit-notice` | background | `color.semantic.surface-raised` |
+| `rate-limit-notice` | border | `color.semantic.border` |
+| `rate-limit-notice` | radius | `radius.semantic.control` |
+| `rate-limit-notice` | min height | `chat.composer-height` |
+| `rate-limit-notice` | padding block | `space.semantic.inset-sm` |
+| `rate-limit-notice` | padding inline | `space.semantic.inset-md` |
+| `rate-limit-notice` | gap | `space.semantic.gap-sm` |
+| `rate-limit-notice` | icon and detail color | `color.semantic.text-subtle` |
+| `rate-limit-notice` | title color | `color.semantic.text-primary` |
+| `rate-limit-notice` | title and detail size | `font.semantic.size-caption` |
+| `rate-limit-notice` | title weight | `font.semantic.weight-strong` |
 
 ## Contrast
 
@@ -261,6 +308,9 @@ Provisional values. Plan 01 transcribes them into DTCG and regenerates the Pen v
 | `color.semantic.text-on-action` | `color.semantic.action` | 4.5:1 | 6.15:1 | 8.17:1 |
 | `color.semantic.danger` | `color.semantic.danger-surface` | 4.5:1 | 6.05:1 | 8.43:1 |
 | `color.semantic.text-primary` | `color.semantic.danger-surface` | 4.5:1 | 16.32:1 | 15.40:1 |
+| `color.semantic.warning` | `color.semantic.warning-surface` | 4.5:1 | 5.20:1 | 8.58:1 |
+| `color.semantic.text-primary` | `color.semantic.warning-surface` | 4.5:1 | 17.01:1 | 14.33:1 |
+| `color.semantic.text-subtle` | `color.semantic.surface-raised` | 4.5:1 | 6.98:1 | 7.05:1 |
 | `color.semantic.border-strong` | `color.semantic.surface` | 3:1 | 3.82:1 | 4.19:1 |
 | `color.semantic.border-strong` | `color.semantic.danger-surface` | 3:1 | 3.51:1 | 3.76:1 |
 | `color.semantic.focus` | `color.semantic.surface` | 3:1 | 6.70:1 | 10.25:1 |
@@ -273,6 +323,8 @@ Provisional values. Plan 01 transcribes them into DTCG and regenerates the Pen v
 - User bubbles align to the end, assistant bubbles to the start. Bubbles are at most chat.message-max-width wide and never wider than the log.
 - The empty state centers in the log. Suggestions stack below it.
 - An error notice spans the log width and follows the last message.
+- The offline banner sits between the header and the log at full panel width. It does not scroll with the log.
+- The rate-limit notice takes the place of the input and Send inside the composer's padding. It is at least chat.composer-height tall, so the log keeps its height.
 - The composer field is at least chat.composer-height tall. The input grows with its content to six lines, then scrolls.
 - Send and Stop occupy the same slot at the end of the field; only one renders at a time.
 
@@ -280,18 +332,21 @@ Provisional values. Plan 01 transcribes them into DTCG and regenerates the Pen v
 
 | Keys | Where | Action |
 | --- | --- | --- |
-| Enter | input with text, not loading or streaming | Sends the message. |
+| Enter | input with text, not loading, streaming, or offline | Sends the message. |
 | Shift+Enter | input | Inserts a newline. |
 | Enter | input, IME composition active | Commits the composition; does not send. |
 | Enter | input, loading or streaming | Does nothing; the draft stays. |
+| Enter | input, offline | Does nothing; the draft stays. |
 | Escape | input or Stop, loading or streaming | Stops generation. |
-| Enter or Space | Stop, Retry, Send, suggestion | Activates the button. |
+| Enter or Space | Stop, Retry, Send, suggestion | Activates the button. Does nothing while it is aria-disabled by offline or a rate limit. |
 | Tab | anywhere | Follows DOM order: header content, log, Retry, suggestions, input, Send or Stop. |
 
 ## Focus
 
 - After a send from the input, Send, or a suggestion, focus is in the input.
 - When Stop or Retry disappears while focused, focus moves to the input.
+- When the rate-limit notice replaces the input while focus is in the composer, focus moves to the notice (tabindex -1). When the input returns and focus is still on the notice, focus moves to the input.
+- Controls disabled by offline or a rate limit use aria-disabled, not disabled, so they keep focus and stay in the tab order. Going offline or back online never moves focus.
 - Focus is never moved otherwise: streaming, completion, and errors do not steal focus.
 - The log is focusable (tabindex 0) so keyboard users can scroll it.
 - The input field shows a 2px color.semantic.focus ring while the input has focus; buttons show the same ring on focus-visible.
@@ -305,5 +360,7 @@ Provisional values. Plan 01 transcribes them into DTCG and regenerates the Pen v
 - The streaming message has aria-busy=true until it reaches a terminal state.
 - One polite live region announces the thinking label, then only newly appended text at sentence ends, then the stopped label when stopped.
 - Error notices use role=alert and are announced once.
+- The offline banner is a role=status region, announced once when it appears. On reconnect the live region says labels.backOnline.
+- The rate-limit notice is a role=status region, announced once when it appears. Its visible countdown is aria-hidden, so ticks are never announced; a visually hidden labels.rateLimitUntil gives retryAt as a clock time in the user's locale instead. When the limit lifts, the live region says labels.rateLimitLifted.
 - The input has a visually hidden label from labels.input. Send's accessible name is labels.send; Stop and Retry use their visible text.
 - Icons, dots, and the streaming caret are aria-hidden. Animations stop under prefers-reduced-motion: reduce.

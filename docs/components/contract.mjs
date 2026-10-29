@@ -11,8 +11,11 @@ const root = join(here, "../..");
 const readJson = (path) => JSON.parse(readFileSync(path, "utf8"));
 const schema = readJson(join(here, "component-contract.schema.json"));
 
-// States every contract for a component must name, from the approved plans.
-const requiredStates = { Chat: ["empty", "loading", "streaming", "completed", "error", "stopped", "error-mid-stream"] };
+// States every contract for a component must name: the approved plans' seven plus the rate-limited and offline follow-up.
+const requiredStates = { Chat: ["empty", "loading", "streaming", "completed", "error", "stopped", "error-mid-stream", "rate-limited", "offline"] };
+// A transition to "previous" returns to the state that was active when its from state was entered.
+const previous = "previous";
+const composerLabels = { send: "Send", stop: "Stop", "send-disabled": "Send, disabled", notice: "Rate-limit notice" };
 const penTypes = { color: "color", dimension: "number", number: "number", fontFamily: "string", fontWeight: "string" };
 const keywords = new Set(["$schema", "$id", "$ref", "$defs", "title", "description", "type", "required", "properties", "additionalProperties", "items", "enum", "pattern", "minLength", "minItems"]);
 
@@ -83,7 +86,8 @@ function crossCheck(c, errors) {
 
   for (const name of requiredStates[c.component] ?? []) if (!states.includes(name)) fail(`states: missing required state "${name}"`);
   if (new Set(states).size !== states.length) fail("states: duplicate state name");
-  for (const t of c.transitions) for (const s of [...t.from, t.to]) if (!states.includes(s)) fail(`transitions: unknown state "${s}"`);
+  if (states.includes(previous)) fail(`states: "${previous}" is reserved for transitions`);
+  for (const t of c.transitions) for (const s of [...t.from, t.to]) if (!states.includes(s) && s !== previous) fail(`transitions: unknown state "${s}"`);
   for (const s of states.slice(1)) if (!c.transitions.some((t) => t.to === s)) fail(`transitions: no transition reaches "${s}"`);
   for (const path of [c.design.source, c.design.variables, ...c.states.flatMap((s) => s.evidence)]) {
     if (!existsSync(join(root, path))) fail(`missing file ${path}`);
@@ -159,11 +163,11 @@ ${table(["Keen owns", "The host owns"], boundary)}
 ## States
 
 ${table(["State", "What the user sees", "Composer", "Partial response", "Announcement", "Design"], c.states.map((s) => [
-    code(s.name), s.description, s.composer === "stop" ? "Stop" : "Send", s.partialResponse, s.announcement,
+    code(s.name), s.description, composerLabels[s.composer], s.partialResponse, s.announcement,
     s.evidence.map((p) => `[${p.match(/(light|dark)\.png$/)?.[1] ?? p}](${rel(p)})`).join(" · "),
   ]))}
 
-${table(["From", "Event", "To"], c.transitions.map((t) => [t.from.map(code).join(", "), t.event, code(t.to)]))}
+${table(["From", "Event", "To"], c.transitions.map((t) => [t.from.map(code).join(", "), t.event, t.to === previous ? "the state it interrupted" : code(t.to)]))}
 
 ## Anatomy
 

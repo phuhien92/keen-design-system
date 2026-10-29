@@ -4453,6 +4453,1247 @@
           ]
         }
       ]
+    },
+    {
+      "type": "frame",
+      "id": "V1aM4",
+      "x": 2112,
+      "y": 0,
+      "name": "Chat / Notice / Rate limit",
+      "reusable": true,
+      "metadata": {
+        "type": "keen-token",
+        "minHeight": "chat.composer-height"
+      },
+      "width": 368,
+      "fill": "$color.semantic.surface-raised",
+      "cornerRadius": "$radius.semantic.control",
+      "stroke": "$color.semantic.border",
+      "strokeWidth": 1,
+      "gap": "$space.semantic.gap-sm",
+      "padding": [
+        "$space.semantic.inset-sm",
+        "$space.semantic.inset-md"
+      ],
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "icon",
+          "id": "SgWos",
+          "name": "Rate Limit Icon",
+          "width": 18,
+          "height": 18,
+          "icon": "clock-4",
+          "library": "lucide",
+          "fill": "$color.semantic.text-subtle"
+        },
+        {
+          "type": "frame",
+          "id": "ddOPf",
+          "name": "Copy",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 2,
+          "children": [
+            {
+              "type": "text",
+              "id": "r5hAg4",
+              "name": "Title",
+              "fill": "$color.semantic.text-primary",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "Message limit reached.",
+              "fontFamily": "$font.semantic.family-body",
+              "fontSize": "$font.semantic.size-caption",
+              "fontWeight": "$font.semantic.weight-strong"
+            },
+            {
+              "type": "text",
+              "id": "p1uunQ",
+              "name": "Detail",
+              "fill": "$color.semantic.text-subtle",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "You can send again in 4:59.",
+              "fontFamily": "$font.semantic.family-body",
+              "fontSize": "$font.semantic.size-caption",
+              "fontWeight": "normal"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "x8b7WS",
+      "x": 2528,
+      "y": 0,
+      "name": "Chat / Notice / Offline",
+      "reusable": true,
+      "width": 400,
+      "fill": "$color.semantic.warning-surface",
+      "stroke": "$color.semantic.warning",
+      "strokeWidth": {
+        "bottom": 1
+      },
+      "gap": "$space.semantic.gap-sm",
+      "padding": [
+        "$space.semantic.inset-sm",
+        "$space.semantic.inset-md"
+      ],
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "icon",
+          "id": "CzntJ",
+          "name": "Offline Icon",
+          "width": 18,
+          "height": 18,
+          "icon": "wifi-off",
+          "library": "lucide",
+          "fill": "$color.semantic.warning"
+        },
+        {
+          "type": "frame",
+          "id": "aRojn",
+          "name": "Copy",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 2,
+          "children": [
+            {
+              "type": "text",
+              "id": "v6mI8",
+              "name": "Title",
+              "fill": "$color.semantic.warning",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "You're offline.",
+              "fontFamily": "$font.semantic.family-body",
+              "fontSize": "$font.semantic.size-caption",
+              "fontWeight": "$font.semantic.weight-strong"
+            },
+            {
+              "type": "text",
+              "id": "PhcXH",
+              "name": "Detail",
+              "fill": "$color.semantic.text-primary",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "Your draft is kept. Send works again when you reconnect.",
+              "fontFamily": "$font.semantic.family-body",
+              "fontSize": "$font.semantic.size-caption",
+              "fontWeight": "normal"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "H6zfYC",
+      "x": 3584,
+      "y": 200,
+      "name": "State 08 · rate-limited · light",
+      "width": 464,
+      "fill": "#E8EBF0",
+      "cornerRadius": 24,
+      "layout": "vertical",
+      "gap": 20,
+      "padding": 32,
+      "children": [
+        {
+          "type": "frame",
+          "id": "Yg5Qt",
+          "name": "Annotation / Heading",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 4,
+          "children": [
+            {
+              "type": "text",
+              "id": "hrUM4",
+              "name": "Annotation / Index",
+              "fill": "#4A5361",
+              "content": "STATE 08 · RATE-LIMITED",
+              "fontFamily": "Inter",
+              "fontSize": 11,
+              "fontWeight": "600",
+              "letterSpacing": 1
+            },
+            {
+              "type": "text",
+              "id": "WKrZt",
+              "name": "Annotation / Title",
+              "fill": "#101828",
+              "content": "Rate limited",
+              "fontFamily": "Inter",
+              "fontSize": 22,
+              "fontWeight": "600"
+            },
+            {
+              "type": "text",
+              "id": "Rtt5l",
+              "name": "Annotation / Summary",
+              "fill": "#344054",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "The host reported a rate limit. A notice with a countdown replaces the input until the retry time.",
+              "lineHeight": 1.45,
+              "fontFamily": "Inter",
+              "fontSize": 13,
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "j0BVQ",
+          "name": "Chat",
+          "clip": true,
+          "width": 400,
+          "height": 620,
+          "fill": "$color.semantic.surface",
+          "cornerRadius": "$radius.semantic.container",
+          "stroke": "$color.semantic.border",
+          "strokeWidth": 1,
+          "layout": "vertical",
+          "children": [
+            {
+              "type": "frame",
+              "id": "O0uHfu",
+              "name": "Header (slot: header)",
+              "width": "fill_container",
+              "stroke": "$color.semantic.border",
+              "strokeWidth": {
+                "bottom": 1
+              },
+              "padding": "$space.semantic.inset-md",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "ujOow",
+                  "name": "Title",
+                  "fill": "$color.semantic.text-primary",
+                  "content": "Assistant",
+                  "lineHeight": "$font.semantic.line-height-body",
+                  "fontFamily": "$font.semantic.family-body",
+                  "fontSize": "$font.semantic.size-title",
+                  "fontWeight": "$font.semantic.weight-strong"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "Gqv63",
+              "name": "Message log",
+              "clip": true,
+              "width": "fill_container",
+              "height": "fill_container",
+              "layout": "vertical",
+              "gap": "$chat.message-gap",
+              "padding": "$space.semantic.inset-md",
+              "children": [
+                {
+                  "id": "V9TF7J",
+                  "type": "ref",
+                  "ref": "X0DYY",
+                  "name": "User message",
+                  "width": "fill_container",
+                  "descendants": {
+                    "sSqbJ": {
+                      "content": "What does Keen own versus the host?"
+                    }
+                  }
+                },
+                {
+                  "id": "y04pwy",
+                  "type": "ref",
+                  "ref": "VIwGB",
+                  "name": "Assistant message",
+                  "width": "fill_container",
+                  "descendants": {
+                    "MvYA9": {
+                      "content": "Keen owns the chat UI, its behavior, accessibility, tokens, and docs. Your app owns the AI provider, credentials, persistence, and the conversation lifecycle, and connects them through an adapter."
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "eiw6L",
+              "name": "Composer (rate limited)",
+              "width": "fill_container",
+              "stroke": "$color.semantic.border",
+              "strokeWidth": {
+                "top": 1
+              },
+              "layout": "vertical",
+              "padding": "$space.semantic.inset-md",
+              "children": [
+                {
+                  "id": "rqqVr",
+                  "type": "ref",
+                  "ref": "V1aM4",
+                  "name": "Rate limit notice",
+                  "width": "fill_container"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "C0RAI",
+          "name": "Annotation / Intent",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 8,
+          "children": [
+            {
+              "type": "frame",
+              "id": "M7TAw",
+              "name": "Intent / Focus",
+              "width": "fill_container",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "pBYQY",
+                  "name": "Intent Key",
+                  "fill": "#4A5361",
+                  "textGrowth": "fixed-width",
+                  "width": 72,
+                  "content": "FOCUS",
+                  "fontFamily": "Inter",
+                  "fontSize": 10,
+                  "fontWeight": "700",
+                  "letterSpacing": 0.8
+                },
+                {
+                  "type": "text",
+                  "id": "sf5sX",
+                  "name": "Intent Text",
+                  "fill": "#1D2939",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "If the input had focus, it moves to the notice, then back to the input when the composer returns.",
+                  "lineHeight": 1.45,
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "KmB7a",
+              "name": "Intent / Keyboard",
+              "width": "fill_container",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "FJAPX",
+                  "name": "Intent Key",
+                  "fill": "#4A5361",
+                  "textGrowth": "fixed-width",
+                  "width": 72,
+                  "content": "KEYBOARD",
+                  "fontFamily": "Inter",
+                  "fontSize": 10,
+                  "fontWeight": "700",
+                  "letterSpacing": 0.8
+                },
+                {
+                  "type": "text",
+                  "id": "rrwiL",
+                  "name": "Intent Text",
+                  "fill": "#1D2939",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Nothing to type or send while limited. Retry and suggestions are aria-disabled. The draft comes back with the input.",
+                  "lineHeight": 1.45,
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "jJV44",
+              "name": "Intent / Announce",
+              "width": "fill_container",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "Ez2wW",
+                  "name": "Intent Key",
+                  "fill": "#4A5361",
+                  "textGrowth": "fixed-width",
+                  "width": 72,
+                  "content": "ANNOUNCE",
+                  "fontFamily": "Inter",
+                  "fontSize": 10,
+                  "fontWeight": "700",
+                  "letterSpacing": 0.8
+                },
+                {
+                  "type": "text",
+                  "id": "TBkn8",
+                  "name": "Intent Text",
+                  "fill": "#1D2939",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "The notice is a polite role=status region, read once with the retry time. Countdown ticks are not announced.",
+                  "lineHeight": 1.45,
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "X7THU7",
+      "x": 4096,
+      "y": 200,
+      "name": "State 09 · offline · light",
+      "width": 464,
+      "fill": "#E8EBF0",
+      "cornerRadius": 24,
+      "layout": "vertical",
+      "gap": 20,
+      "padding": 32,
+      "children": [
+        {
+          "type": "frame",
+          "id": "Ep9hp",
+          "name": "Annotation / Heading",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 4,
+          "children": [
+            {
+              "type": "text",
+              "id": "fyxtp",
+              "name": "Annotation / Index",
+              "fill": "#4A5361",
+              "content": "STATE 09 · OFFLINE",
+              "fontFamily": "Inter",
+              "fontSize": 11,
+              "fontWeight": "600",
+              "letterSpacing": 1
+            },
+            {
+              "type": "text",
+              "id": "tc9UU",
+              "name": "Annotation / Title",
+              "fill": "#101828",
+              "content": "Offline",
+              "fontFamily": "Inter",
+              "fontSize": 22,
+              "fontWeight": "600"
+            },
+            {
+              "type": "text",
+              "id": "R0vcvO",
+              "name": "Annotation / Summary",
+              "fill": "#344054",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "The host reports no connection. A banner shows and Send is disabled; the draft is kept.",
+              "lineHeight": 1.45,
+              "fontFamily": "Inter",
+              "fontSize": 13,
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "V72F6",
+          "name": "Chat",
+          "clip": true,
+          "width": 400,
+          "height": 620,
+          "fill": "$color.semantic.surface",
+          "cornerRadius": "$radius.semantic.container",
+          "stroke": "$color.semantic.border",
+          "strokeWidth": 1,
+          "layout": "vertical",
+          "children": [
+            {
+              "type": "frame",
+              "id": "GiA6i",
+              "name": "Header (slot: header)",
+              "width": "fill_container",
+              "stroke": "$color.semantic.border",
+              "strokeWidth": {
+                "bottom": 1
+              },
+              "padding": "$space.semantic.inset-md",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "V14Gnj",
+                  "name": "Title",
+                  "fill": "$color.semantic.text-primary",
+                  "content": "Assistant",
+                  "lineHeight": "$font.semantic.line-height-body",
+                  "fontFamily": "$font.semantic.family-body",
+                  "fontSize": "$font.semantic.size-title",
+                  "fontWeight": "$font.semantic.weight-strong"
+                }
+              ]
+            },
+            {
+              "id": "di0av",
+              "type": "ref",
+              "ref": "x8b7WS",
+              "name": "Offline banner",
+              "width": "fill_container"
+            },
+            {
+              "type": "frame",
+              "id": "HMwEO",
+              "name": "Message log",
+              "clip": true,
+              "width": "fill_container",
+              "height": "fill_container",
+              "layout": "vertical",
+              "gap": "$chat.message-gap",
+              "padding": "$space.semantic.inset-md",
+              "children": [
+                {
+                  "id": "h3Z5Z",
+                  "type": "ref",
+                  "ref": "X0DYY",
+                  "name": "User message",
+                  "width": "fill_container",
+                  "descendants": {
+                    "sSqbJ": {
+                      "content": "What does Keen own versus the host?"
+                    }
+                  }
+                },
+                {
+                  "id": "N90KHy",
+                  "type": "ref",
+                  "ref": "VIwGB",
+                  "name": "Assistant message",
+                  "width": "fill_container",
+                  "descendants": {
+                    "MvYA9": {
+                      "content": "Keen owns the chat UI, its behavior, accessibility, tokens, and docs. Your app owns the AI provider, credentials, persistence, and the conversation lifecycle, and connects them through an adapter."
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "id": "ftscB",
+              "type": "ref",
+              "ref": "rNbH6",
+              "name": "Composer",
+              "width": "fill_container",
+              "descendants": {
+                "ObpBo": {
+                  "stroke": "$color.semantic.focus",
+                  "strokeWidth": 2
+                },
+                "Peu3t": {
+                  "content": "Can a host change the bubble color?",
+                  "fill": "$color.semantic.text-primary"
+                },
+                "I99YZ": {
+                  "opacity": 0.4
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "P8iKJM",
+          "name": "Annotation / Intent",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 8,
+          "children": [
+            {
+              "type": "frame",
+              "id": "BAvBW",
+              "name": "Intent / Focus",
+              "width": "fill_container",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "QSwlw",
+                  "name": "Intent Key",
+                  "fill": "#4A5361",
+                  "textGrowth": "fixed-width",
+                  "width": 72,
+                  "content": "FOCUS",
+                  "fontFamily": "Inter",
+                  "fontSize": 10,
+                  "fontWeight": "700",
+                  "letterSpacing": 0.8
+                },
+                {
+                  "type": "text",
+                  "id": "uXwq8",
+                  "name": "Intent Text",
+                  "fill": "#1D2939",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Stays where it is. The banner never takes focus.",
+                  "lineHeight": 1.45,
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "I94spf",
+              "name": "Intent / Keyboard",
+              "width": "fill_container",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "T1FXK",
+                  "name": "Intent Key",
+                  "fill": "#4A5361",
+                  "textGrowth": "fixed-width",
+                  "width": 72,
+                  "content": "KEYBOARD",
+                  "fontFamily": "Inter",
+                  "fontSize": 10,
+                  "fontWeight": "700",
+                  "letterSpacing": 0.8
+                },
+                {
+                  "type": "text",
+                  "id": "FvRcK",
+                  "name": "Intent Text",
+                  "fill": "#1D2939",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Typing works. Enter and Send do nothing; Retry and suggestions are aria-disabled.",
+                  "lineHeight": 1.45,
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "GIMwh",
+              "name": "Intent / Announce",
+              "width": "fill_container",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "Juh8d",
+                  "name": "Intent Key",
+                  "fill": "#4A5361",
+                  "textGrowth": "fixed-width",
+                  "width": 72,
+                  "content": "ANNOUNCE",
+                  "fontFamily": "Inter",
+                  "fontSize": 10,
+                  "fontWeight": "700",
+                  "letterSpacing": 0.8
+                },
+                {
+                  "type": "text",
+                  "id": "Ho3HO",
+                  "name": "Intent Text",
+                  "fill": "#1D2939",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "The banner is a polite role=status region, read once. \"Back online.\" is announced on reconnect.",
+                  "lineHeight": 1.45,
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "hbxc6",
+      "x": 3584,
+      "y": 1260,
+      "name": "State 08 · rate-limited · dark",
+      "theme": {
+        "mode": "dark"
+      },
+      "width": 464,
+      "fill": "#1A1D24",
+      "cornerRadius": 24,
+      "layout": "vertical",
+      "gap": 20,
+      "padding": 32,
+      "children": [
+        {
+          "type": "frame",
+          "id": "r5SVqS",
+          "name": "Annotation / Heading",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 4,
+          "children": [
+            {
+              "type": "text",
+              "id": "FZKl2",
+              "name": "Annotation / Index",
+              "fill": "#A3ABB8",
+              "content": "STATE 08 · RATE-LIMITED",
+              "fontFamily": "Inter",
+              "fontSize": 11,
+              "fontWeight": "600",
+              "letterSpacing": 1
+            },
+            {
+              "type": "text",
+              "id": "HxX8G",
+              "name": "Annotation / Title",
+              "fill": "#F2F4F7",
+              "content": "Rate limited",
+              "fontFamily": "Inter",
+              "fontSize": 22,
+              "fontWeight": "600"
+            },
+            {
+              "type": "text",
+              "id": "c168Jh",
+              "name": "Annotation / Summary",
+              "fill": "#D0D5DD",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "The host reported a rate limit. A notice with a countdown replaces the input until the retry time.",
+              "lineHeight": 1.45,
+              "fontFamily": "Inter",
+              "fontSize": 13,
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "eLCZc",
+          "name": "Chat",
+          "clip": true,
+          "width": 400,
+          "height": 620,
+          "fill": "$color.semantic.surface",
+          "cornerRadius": "$radius.semantic.container",
+          "stroke": "$color.semantic.border",
+          "strokeWidth": 1,
+          "layout": "vertical",
+          "children": [
+            {
+              "type": "frame",
+              "id": "AAxhL",
+              "name": "Header (slot: header)",
+              "width": "fill_container",
+              "stroke": "$color.semantic.border",
+              "strokeWidth": {
+                "bottom": 1
+              },
+              "padding": "$space.semantic.inset-md",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "h94Qxt",
+                  "name": "Title",
+                  "fill": "$color.semantic.text-primary",
+                  "content": "Assistant",
+                  "lineHeight": "$font.semantic.line-height-body",
+                  "fontFamily": "$font.semantic.family-body",
+                  "fontSize": "$font.semantic.size-title",
+                  "fontWeight": "$font.semantic.weight-strong"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "JE34F",
+              "name": "Message log",
+              "clip": true,
+              "width": "fill_container",
+              "height": "fill_container",
+              "layout": "vertical",
+              "gap": "$chat.message-gap",
+              "padding": "$space.semantic.inset-md",
+              "children": [
+                {
+                  "id": "I0G2cB",
+                  "type": "ref",
+                  "ref": "X0DYY",
+                  "name": "User message",
+                  "width": "fill_container",
+                  "descendants": {
+                    "sSqbJ": {
+                      "content": "What does Keen own versus the host?"
+                    }
+                  }
+                },
+                {
+                  "id": "ibdlO",
+                  "type": "ref",
+                  "ref": "VIwGB",
+                  "name": "Assistant message",
+                  "width": "fill_container",
+                  "descendants": {
+                    "MvYA9": {
+                      "content": "Keen owns the chat UI, its behavior, accessibility, tokens, and docs. Your app owns the AI provider, credentials, persistence, and the conversation lifecycle, and connects them through an adapter."
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "TISha",
+              "name": "Composer (rate limited)",
+              "width": "fill_container",
+              "stroke": "$color.semantic.border",
+              "strokeWidth": {
+                "top": 1
+              },
+              "layout": "vertical",
+              "padding": "$space.semantic.inset-md",
+              "children": [
+                {
+                  "id": "E88wn",
+                  "type": "ref",
+                  "ref": "V1aM4",
+                  "name": "Rate limit notice",
+                  "width": "fill_container"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "khIwI",
+          "name": "Annotation / Intent",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 8,
+          "children": [
+            {
+              "type": "frame",
+              "id": "CvMkX",
+              "name": "Intent / Focus",
+              "width": "fill_container",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "tqgvn",
+                  "name": "Intent Key",
+                  "fill": "#A3ABB8",
+                  "textGrowth": "fixed-width",
+                  "width": 72,
+                  "content": "FOCUS",
+                  "fontFamily": "Inter",
+                  "fontSize": 10,
+                  "fontWeight": "700",
+                  "letterSpacing": 0.8
+                },
+                {
+                  "type": "text",
+                  "id": "e1Y0UI",
+                  "name": "Intent Text",
+                  "fill": "#D0D5DD",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "If the input had focus, it moves to the notice, then back to the input when the composer returns.",
+                  "lineHeight": 1.45,
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "E9kbn",
+              "name": "Intent / Keyboard",
+              "width": "fill_container",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "RjwDs",
+                  "name": "Intent Key",
+                  "fill": "#A3ABB8",
+                  "textGrowth": "fixed-width",
+                  "width": 72,
+                  "content": "KEYBOARD",
+                  "fontFamily": "Inter",
+                  "fontSize": 10,
+                  "fontWeight": "700",
+                  "letterSpacing": 0.8
+                },
+                {
+                  "type": "text",
+                  "id": "I0xI7X",
+                  "name": "Intent Text",
+                  "fill": "#D0D5DD",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Nothing to type or send while limited. Retry and suggestions are aria-disabled. The draft comes back with the input.",
+                  "lineHeight": 1.45,
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "rOljB",
+              "name": "Intent / Announce",
+              "width": "fill_container",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "SzAur",
+                  "name": "Intent Key",
+                  "fill": "#A3ABB8",
+                  "textGrowth": "fixed-width",
+                  "width": 72,
+                  "content": "ANNOUNCE",
+                  "fontFamily": "Inter",
+                  "fontSize": 10,
+                  "fontWeight": "700",
+                  "letterSpacing": 0.8
+                },
+                {
+                  "type": "text",
+                  "id": "L27yh",
+                  "name": "Intent Text",
+                  "fill": "#D0D5DD",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "The notice is a polite role=status region, read once with the retry time. Countdown ticks are not announced.",
+                  "lineHeight": 1.45,
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "UnCqW",
+      "x": 4096,
+      "y": 1260,
+      "name": "State 09 · offline · dark",
+      "theme": {
+        "mode": "dark"
+      },
+      "width": 464,
+      "fill": "#1A1D24",
+      "cornerRadius": 24,
+      "layout": "vertical",
+      "gap": 20,
+      "padding": 32,
+      "children": [
+        {
+          "type": "frame",
+          "id": "HzRDQ",
+          "name": "Annotation / Heading",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 4,
+          "children": [
+            {
+              "type": "text",
+              "id": "O8BJAY",
+              "name": "Annotation / Index",
+              "fill": "#A3ABB8",
+              "content": "STATE 09 · OFFLINE",
+              "fontFamily": "Inter",
+              "fontSize": 11,
+              "fontWeight": "600",
+              "letterSpacing": 1
+            },
+            {
+              "type": "text",
+              "id": "R3O4S",
+              "name": "Annotation / Title",
+              "fill": "#F2F4F7",
+              "content": "Offline",
+              "fontFamily": "Inter",
+              "fontSize": 22,
+              "fontWeight": "600"
+            },
+            {
+              "type": "text",
+              "id": "xfsMX",
+              "name": "Annotation / Summary",
+              "fill": "#D0D5DD",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "The host reports no connection. A banner shows and Send is disabled; the draft is kept.",
+              "lineHeight": 1.45,
+              "fontFamily": "Inter",
+              "fontSize": 13,
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "yLOyR",
+          "name": "Chat",
+          "clip": true,
+          "width": 400,
+          "height": 620,
+          "fill": "$color.semantic.surface",
+          "cornerRadius": "$radius.semantic.container",
+          "stroke": "$color.semantic.border",
+          "strokeWidth": 1,
+          "layout": "vertical",
+          "children": [
+            {
+              "type": "frame",
+              "id": "J6aKl",
+              "name": "Header (slot: header)",
+              "width": "fill_container",
+              "stroke": "$color.semantic.border",
+              "strokeWidth": {
+                "bottom": 1
+              },
+              "padding": "$space.semantic.inset-md",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "XhiYd",
+                  "name": "Title",
+                  "fill": "$color.semantic.text-primary",
+                  "content": "Assistant",
+                  "lineHeight": "$font.semantic.line-height-body",
+                  "fontFamily": "$font.semantic.family-body",
+                  "fontSize": "$font.semantic.size-title",
+                  "fontWeight": "$font.semantic.weight-strong"
+                }
+              ]
+            },
+            {
+              "id": "jjkbs",
+              "type": "ref",
+              "ref": "x8b7WS",
+              "name": "Offline banner",
+              "width": "fill_container"
+            },
+            {
+              "type": "frame",
+              "id": "X07z9W",
+              "name": "Message log",
+              "clip": true,
+              "width": "fill_container",
+              "height": "fill_container",
+              "layout": "vertical",
+              "gap": "$chat.message-gap",
+              "padding": "$space.semantic.inset-md",
+              "children": [
+                {
+                  "id": "wXjCU",
+                  "type": "ref",
+                  "ref": "X0DYY",
+                  "name": "User message",
+                  "width": "fill_container",
+                  "descendants": {
+                    "sSqbJ": {
+                      "content": "What does Keen own versus the host?"
+                    }
+                  }
+                },
+                {
+                  "id": "qIsZk",
+                  "type": "ref",
+                  "ref": "VIwGB",
+                  "name": "Assistant message",
+                  "width": "fill_container",
+                  "descendants": {
+                    "MvYA9": {
+                      "content": "Keen owns the chat UI, its behavior, accessibility, tokens, and docs. Your app owns the AI provider, credentials, persistence, and the conversation lifecycle, and connects them through an adapter."
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "id": "PxJRe",
+              "type": "ref",
+              "ref": "rNbH6",
+              "name": "Composer",
+              "width": "fill_container",
+              "descendants": {
+                "ObpBo": {
+                  "stroke": "$color.semantic.focus",
+                  "strokeWidth": 2
+                },
+                "Peu3t": {
+                  "content": "Can a host change the bubble color?",
+                  "fill": "$color.semantic.text-primary"
+                },
+                "I99YZ": {
+                  "opacity": 0.4
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "otFi1",
+          "name": "Annotation / Intent",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 8,
+          "children": [
+            {
+              "type": "frame",
+              "id": "dc9Gv",
+              "name": "Intent / Focus",
+              "width": "fill_container",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "p6RX7B",
+                  "name": "Intent Key",
+                  "fill": "#A3ABB8",
+                  "textGrowth": "fixed-width",
+                  "width": 72,
+                  "content": "FOCUS",
+                  "fontFamily": "Inter",
+                  "fontSize": 10,
+                  "fontWeight": "700",
+                  "letterSpacing": 0.8
+                },
+                {
+                  "type": "text",
+                  "id": "mDoLt",
+                  "name": "Intent Text",
+                  "fill": "#D0D5DD",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Stays where it is. The banner never takes focus.",
+                  "lineHeight": 1.45,
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "qXhzU",
+              "name": "Intent / Keyboard",
+              "width": "fill_container",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "Smxes",
+                  "name": "Intent Key",
+                  "fill": "#A3ABB8",
+                  "textGrowth": "fixed-width",
+                  "width": 72,
+                  "content": "KEYBOARD",
+                  "fontFamily": "Inter",
+                  "fontSize": 10,
+                  "fontWeight": "700",
+                  "letterSpacing": 0.8
+                },
+                {
+                  "type": "text",
+                  "id": "W1FbPf",
+                  "name": "Intent Text",
+                  "fill": "#D0D5DD",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Typing works. Enter and Send do nothing; Retry and suggestions are aria-disabled.",
+                  "lineHeight": 1.45,
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "HXjem",
+              "name": "Intent / Announce",
+              "width": "fill_container",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "sXIpF",
+                  "name": "Intent Key",
+                  "fill": "#A3ABB8",
+                  "textGrowth": "fixed-width",
+                  "width": 72,
+                  "content": "ANNOUNCE",
+                  "fontFamily": "Inter",
+                  "fontSize": 10,
+                  "fontWeight": "700",
+                  "letterSpacing": 0.8
+                },
+                {
+                  "type": "text",
+                  "id": "AbGg3",
+                  "name": "Intent Text",
+                  "fill": "#D0D5DD",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "The banner is a polite role=status region, read once. \"Back online.\" is announced on reconnect.",
+                  "lineHeight": 1.45,
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ],
   "themes": {
@@ -4720,6 +5961,40 @@
     "chat.message-assistant-background": {
       "type": "color",
       "value": "$color.semantic.surface-raised"
+    },
+    "color.semantic.warning": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#B54708",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#FDB022",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "color.semantic.warning-surface": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#FFFAEB",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#2B2114",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
     }
   },
   "fileToken": "4b774b3d-8040-4481-8b4c-813e9f2eabaa"
