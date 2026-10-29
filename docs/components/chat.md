@@ -232,7 +232,8 @@ Provisional values. Plan 01 transcribes them into DTCG and regenerates the Pen v
 | `input` | focus ring | `color.semantic.focus` |
 | `input` | field radius | `radius.semantic.control` |
 | `input` | field padding block | `space.semantic.inset-sm` |
-| `input` | field padding inline | `space.semantic.inset-md` |
+| `input` | field padding inline-start | `space.semantic.inset-md` |
+| `input` | field padding inline-end | `space.semantic.inset-sm` |
 | `input` | field gap | `space.semantic.gap-sm` |
 | `input` | placeholder color | `color.semantic.text-subtle` |
 | `input` | text color | `color.semantic.text-primary` |
