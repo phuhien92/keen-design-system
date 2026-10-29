@@ -117,7 +117,7 @@ The first milestone should prove that a chat component can be shared with and th
 The initial chat surface should establish:
 
 - A product-independent component API and interaction model
-- Empty, loading, streaming, error, and completed states (the README adds stopped by user and error mid-stream)
+- Empty, loading, streaming, error, and completed states (the full set is in the [chat contract](components/chat.md))
 - Theme customization through tokens provided by the host
 - Responsive behavior
 - Keyboard and focus support

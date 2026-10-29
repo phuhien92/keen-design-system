@@ -23,7 +23,7 @@ The first milestone is a reusable AI chat experience integrated into the portfol
 The chat work establishes:
 
 - A product-independent component API and interaction model.
-- Conversation states: empty, loading, streaming, completed, error, stopped by user, and error mid-stream. The last two keep the partial response.
+- Conversation states, defined in the [chat contract](docs/components/chat.md). Stopped by user and error mid-stream keep the partial response.
 - Theme customization through tokens provided by the host project.
 - Responsive layouts and accessible keyboard and focus behavior.
 - Integration guidance showing how portfolio-blog consumes and themes the component.
