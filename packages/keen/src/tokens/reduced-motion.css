@@ -12,6 +12,6 @@
 
   [data-keen-root],
   [data-keen-root] * {
-    scroll-behavior: auto;
+    scroll-behavior: auto !important;
   }
 }

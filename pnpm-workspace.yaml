@@ -3,3 +3,5 @@ packages:
   - tools/*
   - apps/*
   - "!apps/fixture-astro"
+allowBuilds:
+  esbuild: false
