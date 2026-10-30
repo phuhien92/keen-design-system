@@ -78,6 +78,7 @@ function crossCheck(c, errors) {
   const prefix = `${c.component.toLowerCase()}.`;
 
   if (new Set(states).size !== states.length) fail("states: duplicate state name");
+  if (c.status !== "proposed" && JSON.stringify(c).includes("TODO:")) fail(`status: ${c.status} with TODO placeholders left; write them, or keep it proposed`);
   for (const s of c.states) {
     for (const mode of ["light", "dark"]) if (!s.evidence.some((p) => p.endsWith(`-${mode}.png`))) fail(`states: ${s.name} has no ${mode} design export`);
   }
@@ -132,6 +133,8 @@ function render(c, file) {
     if (reference && !reference.includes(".primitive.")) return `→ ${code(reference)}`;
     return mode === "dark" && t.type !== "color" && value === t.light.value ? "same" : code(value);
   };
+  // Composer and partial response describe a conversation; only a contract whose states state them shows the columns.
+  const chatStates = c.states.some((s) => s.composer !== undefined || s.partialResponse !== undefined);
   const partCell = (a) => code(a.part) + (a.slot ? " (slot)" : "") + (a.drawn === false ? " (not drawn)" : "");
   return `# ${c.component} — Component Guide
 
@@ -149,8 +152,8 @@ ${table(["Keen owns", "The host owns"], boundary)}
 
 ## States
 
-${table(["State", "What the user sees", "Composer", "Partial response", "Announcement", "Design"], c.states.map((s) => [
-    code(s.name), s.description, composerLabels[s.composer], s.partialResponse, s.announcement,
+${table(["State", "What the user sees", ...(chatStates ? ["Composer", "Partial response"] : []), "Announcement", "Design"], c.states.map((s) => [
+    code(s.name), s.description, ...(chatStates ? [composerLabels[s.composer], s.partialResponse] : []), s.announcement,
     s.evidence.map((p) => `[${p.match(/(light|dark)\.png$/)?.[1] ?? p}](${rel(p)})`).join(" · "),
   ]))}
 

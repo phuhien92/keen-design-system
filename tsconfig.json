@@ -13,5 +13,6 @@
     "types": ["node", "react"],
     "jsx": "react-jsx"
   },
-  "include": ["tools/*/src", "tools/*/test", "packages/*/src", "packages/*/tests", "vitest.config.ts"]
+  "include": ["tools/*/src", "tools/*/test", "packages/*/src", "packages/*/tests", "vitest.config.ts"],
+  "exclude": ["packages/*/src/**/*.stories.tsx"]
 }
