@@ -1,0 +1,48 @@
+{
+  "design": "design/keen.pen",
+  "designSha256": "dc35e405f316fc8a132e40a5f0d5e2dd0177bf472a337f6b01bf83b5eb32d5d4",
+  "glyphs": [
+    {
+      "glyph": "arrow-up",
+      "library": "lucide",
+      "layers": ["Send Icon"],
+      "sizes": [18]
+    },
+    {
+      "glyph": "circle-alert",
+      "library": "lucide",
+      "layers": ["Error Icon"],
+      "sizes": [18]
+    },
+    {
+      "glyph": "clock-4",
+      "library": "lucide",
+      "layers": ["Rate Limit Icon"],
+      "sizes": [18]
+    },
+    {
+      "glyph": "rotate-ccw",
+      "library": "lucide",
+      "layers": ["Retry Icon"],
+      "sizes": [12]
+    },
+    {
+      "glyph": "sparkles",
+      "library": "lucide",
+      "layers": ["Sparkles"],
+      "sizes": [22]
+    },
+    {
+      "glyph": "square",
+      "library": "lucide",
+      "layers": ["Status Icon", "Stop Icon"],
+      "sizes": [12]
+    },
+    {
+      "glyph": "wifi-off",
+      "library": "lucide",
+      "layers": ["Offline Icon"],
+      "sizes": [18]
+    }
+  ]
+}

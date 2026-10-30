@@ -13,8 +13,9 @@
       "!.claude",
       "!pnpm-lock.yaml",
       "!.keen/baselines",
-      "!packages/keen/src/tokens/tokens.*",
-      "!**/*.astro"
+      "!**/*.astro",
+      "!packages/keen/src/tokens",
+      "!packages/keen/src/icons/registry.ts"
     ]
   },
   "formatter": {

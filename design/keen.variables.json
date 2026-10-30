@@ -127,6 +127,14 @@
       "type": "string",
       "value": "600"
     },
+    "icon.primitive.size-12": {
+      "type": "number",
+      "value": 12
+    },
+    "icon.primitive.size-18": {
+      "type": "number",
+      "value": 18
+    },
     "radius.primitive.lg": {
       "type": "number",
       "value": 12
@@ -391,6 +399,14 @@
     "font.semantic.weight-strong": {
       "type": "string",
       "value": "$font.primitive.weight-semibold"
+    },
+    "icon.semantic.size-md": {
+      "type": "number",
+      "value": "$icon.primitive.size-18"
+    },
+    "icon.semantic.size-sm": {
+      "type": "number",
+      "value": "$icon.primitive.size-12"
     },
     "radius.semantic.container": {
       "type": "number",

@@ -47,6 +47,41 @@
       "description": "every token a component reads is listed in its Component Contract"
     },
     {
+      "id": "motion-usage",
+      "tier": "fast",
+      "description": "component motion applies named uses with no literal durations or easings, animates only opacity, transform, and colors, and registers every loop and entrance"
+    },
+    {
+      "id": "reduced-motion",
+      "tier": "fast",
+      "description": "the generated reduced-motion rules collapse semantic durations to 0.01ms, park registered loops, and stay scoped to Keen's root"
+    },
+    {
+      "id": "motion-timings",
+      "tier": "fast",
+      "description": "generated JavaScript timings match their tokens, and motion and icon tokens are in the baseline"
+    },
+    {
+      "id": "ds-allow",
+      "tier": "fast",
+      "description": "every ds-allow(<category>): <reason> directive names a known category"
+    },
+    {
+      "id": "icons-design",
+      "tier": "fast",
+      "description": ".keen/design/icons.json was read from the current design/keen.pen"
+    },
+    {
+      "id": "icons-live",
+      "tier": "fast",
+      "description": "design/keen.pen's icon nodes, read through the pen CLI, match .keen/design/icons.json"
+    },
+    {
+      "id": "icon-usage",
+      "tier": "fast",
+      "description": "only the generated registry imports Lucide, and component code names only registered glyphs"
+    },
+    {
       "id": "package-exports",
       "tier": "build",
       "description": "the packed package exports only ./react, ./styles.css, and ./tokens, and internals are not importable"
@@ -55,6 +90,26 @@
       "id": "fixture-astro",
       "tier": "build",
       "description": "apps/fixture-astro installs the packed package, themes it page-wide through semantic tokens that reach the component tokens aliasing them, and builds"
+    },
+    {
+      "id": "storybook-build",
+      "tier": "build",
+      "description": "Storybook builds and indexes the token-sample and motion replay stories"
+    },
+    {
+      "id": "live-token-sample",
+      "tier": "live",
+      "description": "the token-sample story renders every semantic color role with its resolved light and dark value"
+    },
+    {
+      "id": "live-reduced-motion",
+      "tier": "live",
+      "description": "durations equal their tokens and become 0.01ms with reduced motion from the OS or the toolbar, scrolling jumps, and no loop or entrance runs"
+    },
+    {
+      "id": "live-fixture-host",
+      "tier": "live",
+      "description": "in apps/fixture-astro, the host's own transition is unchanged under reduced motion"
     }
   ]
 }

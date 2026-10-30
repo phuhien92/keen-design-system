@@ -1,0 +1,17 @@
+/* Generated from tokens/*.json and packages/keen/src/motion/registry.json by tools/token-generator. Do not edit. */
+/* Declared last in styles.css and scoped to Keen's root, so reduced motion never reaches the host page. */
+
+@media (prefers-reduced-motion: reduce) {
+  [data-keen-root] {
+    --keen-motion-semantic-duration-base: 0.01ms;
+    --keen-motion-semantic-duration-fast: 0.01ms;
+    --keen-motion-semantic-duration-instant: 0.01ms;
+    --keen-motion-semantic-duration-loop: 0.01ms;
+    --keen-motion-semantic-duration-slow: 0.01ms;
+  }
+
+  [data-keen-root],
+  [data-keen-root] * {
+    scroll-behavior: auto !important;
+  }
+}

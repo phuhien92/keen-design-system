@@ -23,3 +23,5 @@ jobs:
       - run: pnpm contract:check
       - run: pnpm fixture:install
       - run: pnpm verify:build
+      - run: pnpm exec playwright install --with-deps chromium
+      - run: pnpm verify:live
