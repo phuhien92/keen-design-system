@@ -4,12 +4,12 @@
 import { mkdirSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { runGates, type Tier } from "./gates.ts";
-import { formatIssue, generate, readSources, repoRoot } from "./pipeline.ts";
+import { formatIssue, generate, readDesign, readSources, repoRoot } from "./pipeline.ts";
 
 const [command, arg] = process.argv.slice(2);
 
 if (command === "build") {
-  const { files, issues } = generate(readSources(repoRoot));
+  const { files, issues } = generate(readSources(repoRoot), readDesign(repoRoot));
   if (issues.length > 0) {
     for (const issue of issues) console.error(formatIssue(issue));
     process.exit(1);

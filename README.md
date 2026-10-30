@@ -50,6 +50,8 @@ Settled, with the reasoning in [docs/decisions.md](docs/decisions.md):
 - Every token name carries its tier (`color.semantic.action`), and components never read primitive tokens.
 - The repository is a pnpm workspace with tokens, the `keen` package, a token generator, docs, Storybook, and an Astro fixture app.
 - Storybook reviews the implementation; Pen reviews the visual design and is never a token source.
+- Pen's variables are generated from the token files, its layers use only variables, and each layer that draws a component part is linked to that part's Component Contract by metadata.
+- A Component Contract binds tokens to its parts and never copies their values.
 
 Still open:
 
@@ -85,8 +87,10 @@ Work is tracked in Linear under the Keen Design System project. Branches use Lin
 
 Keen is a pnpm workspace (Node 22.18 or later). `tokens/*.json` is the only hand-edited token source.
 
+Agents, and people, follow [AGENTS.md](AGENTS.md): where each change is made, and every rule the checks enforce, each with a right and a wrong example.
+
 - `pnpm install`
-- `pnpm tokens:build` regenerates the CSS custom properties, typed token map, and `.keen/baselines/tokens.json` from the token files.
+- `pnpm tokens:build` regenerates the CSS custom properties, typed token map, `.keen/baselines/tokens.json`, and the variables block in `design/keen.pen` from the token files. Colors used only on the design canvas live in `design/canvas.json` and reach Pen alone.
 - `pnpm verify`, `pnpm verify:build`, and `pnpm verify:live` run the fast, build, and live verification tiers listed in `.keen/gates.json`; skipped checks, and tiers with no gates yet, are reported as skipped.
 - `pnpm lint`, `pnpm typecheck`, `pnpm test`, and `pnpm contract:check` (Component Contracts and their guides).
 

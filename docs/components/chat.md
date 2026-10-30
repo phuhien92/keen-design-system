@@ -6,7 +6,7 @@
 
 A provider-agnostic AI chat panel. Keen renders the conversation, streams the assistant reply, and owns keyboard, focus, and screen-reader behavior. The host connects its AI provider through an adapter and keeps the conversation.
 
-**Design:** [`design/keen.pen`](../../design/keen.pen), with provisional variables captured in [`design/keen.variables.json`](../../design/keen.variables.json). The .pen file is a visual review artifact, not a token source. Its variables are provisional and named after tier token paths; Plan 01 replaces them with variables generated from DTCG. Pen 0.3 cannot bind width or height to a variable, so chat.message-max-width and chat.composer-height are applied as numbers and named in those layers' metadata. The rate-limit notice names chat.composer-height as its minimum height in metadata and otherwise fits its content. The user bubble's chat.message-max-width binding is an implementation decision; the design's user bubble carries no width metadata.
+**Design:** [`design/keen.pen`](../../design/keen.pen). The .pen file is the visual review artifact, drawn by the design agent. Its variables block is generated from tokens/*.json and design/canvas.json by pnpm tokens:build, so it is never edited by hand. Each layer that draws a part carries keen-part metadata naming its component, part, and element; that metadata, not the layer name, links the design to this contract. Pen 0.3 cannot bind width or height to a variable, so chat.message-max-width and chat.composer-height are applied as numbers and named in the metadata's sizes.
 
 ## Host boundary
 
@@ -50,24 +50,26 @@ A provider-agnostic AI chat panel. Keen renders the conversation, streams the as
 
 ## Anatomy
 
-| Part | Element | Pen layer | Description |
+| Part | Element | Elements | Description |
 | --- | --- | --- | --- |
-| `root` | `section` | Chat | The panel. Fills the box the host gives it. |
-| `header` (slot) | `header` | Header (slot: header) | Shows labels.title, or the header slot. |
-| `offline-banner` | `div[role=status]` | Chat / Notice / Offline | Icon, title, and detail. Shown below the header while online is false. |
-| `log` | `div > ol` | Message log | Scrollable conversation. One li per message, notice, or pending reply. |
-| `message-user` | `li` | Chat / Message / User | User text in an end-aligned bubble. |
-| `message-assistant` | `li` | Chat / Message / Assistant | Assistant text in a start-aligned bubble, plus a status line when stopped. |
-| `message-pending` | `li` | Chat / Message / Pending | Thinking indicator shown while loading. |
-| `error-notice` | `li > div[role=alert]` | Chat / Notice / Error | Error title, detail, and the Retry button. |
-| `empty` (slot) | `div` | Empty state (slot: empty) | Default icon, title, and body, or the empty slot. |
-| `suggestion` | `button` | Suggestion | One per suggestions entry, below the empty content. Sends its text. |
-| `composer` | `form` | Chat / Composer | Message input and the Send or Stop action. |
-| `input` | `textarea` | Input | Message input with a visually hidden label. |
-| `send` | `button[type=submit]` | Send | Icon button. Disabled while the input is empty; aria-disabled while offline. |
-| `stop` | `button[type=button]` | Stop | Replaces Send while loading or streaming. |
-| `rate-limit-notice` | `div[role=status]` | Chat / Notice / Rate limit | Icon, title, and the countdown or fallback detail. Replaces the input and Send while rate limited; the composer keeps its padding and divider. |
-| `live-region` | `div[aria-live=polite]` | not drawn | Visually hidden. Carries loading, streaming, stopped, back-online, and limit-lifted announcements. |
+| `root` | `section` |  | The panel. Fills the box the host gives it. |
+| `header` (slot) | `header` | `title` | Shows labels.title, or the header slot. |
+| `offline-banner` | `div[role=status]` | `title`, `detail` | Icon, title, and detail. Shown below the header while online is false. |
+| `log` | `div > ol` |  | Scrollable conversation. One li per message, notice, or pending reply. |
+| `message-user` | `li` | `bubble` | User text in an end-aligned bubble. |
+| `message-assistant` | `li` | `bubble`, `status` | Assistant text in a start-aligned bubble, plus a status line when stopped. |
+| `message-pending` | `li` | `bubble` | Thinking indicator shown while loading. |
+| `error-notice` | `li > div[role=alert]` | `title`, `detail`, `retry` | Error title, detail, and the Retry button. |
+| `empty` (slot) | `div` | `icon`, `title`, `body`, `suggestions` | Default icon, title, and body, or the empty slot. |
+| `suggestion` | `button` |  | One per suggestions entry, below the empty content. Sends its text. |
+| `composer` | `form` |  | Message input and the Send or Stop action. |
+| `input` | `textarea` | `field` | Message input with a visually hidden label. |
+| `send` | `button[type=submit]` |  | Icon button. Disabled while the input is empty; aria-disabled while offline. |
+| `stop` | `button[type=button]` |  | Replaces Send while loading or streaming. |
+| `rate-limit-notice` | `div[role=status]` | `title` | Icon, title, and the countdown or fallback detail. Replaces the input and Send while rate limited; the composer keeps its padding and divider. |
+| `live-region` (not drawn) | `div[aria-live=polite]` |  | Visually hidden. Carries loading, streaming, stopped, back-online, and limit-lifted announcements. |
+
+Each layer that draws a part carries `{ "type": "keen-part", "component", "part", "element" }` metadata in the design, so the link survives a renamed layer.
 
 ## API
 
@@ -144,157 +146,161 @@ With semantic tokens, these are the only supported customization surface. Chat h
 
 ## Tokens
 
-Provisional values. Plan 01 transcribes them into DTCG and regenerates the Pen variables from it.
+Every token the bindings use. Values and descriptions come from `.keen/baselines/tokens.json`, which `pnpm tokens:build` generates from `tokens/*.json`.
 
 | Token | Type | Light | Dark | Intended use |
 | --- | --- | --- | --- | --- |
 | `color.semantic.surface` | color | `#FFFFFF` | `#0F1115` | Main background of panels and controls. Pairs with text-primary and text-subtle. |
-| `color.semantic.surface-raised` | color | `#F2F4F7` | `#1C2029` | Background a step above surface: assistant messages, suggestions, and the rate-limit notice. |
-| `color.semantic.text-primary` | color | `#101828` | `#F2F4F7` | Body text on surface, surface-raised, danger-surface, and warning-surface. |
-| `color.semantic.text-subtle` | color | `#475467` | `#A3ABB8` | Secondary text: placeholders, status, empty body. Still meets 4.5:1 on surface and surface-raised. |
 | `color.semantic.border` | color | `#E4E7EC` | `#262B35` | Decorative dividers and outlines that are not needed to identify a control. |
-| `color.semantic.border-strong` | color | `#7A8394` | `#6E7787` | Control boundaries that identify an input or button. Meets 3:1 on surface. |
-| `color.semantic.action` | color | `#2557D6` | `#86A8FF` | Primary action fill, such as Send. Pairs with text-on-action. |
-| `color.semantic.text-on-action` | color | `#FFFFFF` | `#0B1020` | Text and icons on action fills. |
-| `color.semantic.focus` | color | `#1D4ED8` | `#A4BEFF` | Focus ring. Meets 3:1 on surface. |
-| `color.semantic.danger` | color | `#B42318` | `#FF9C94` | Error text, icons, and outlines. Meets 4.5:1 on danger-surface. |
-| `color.semantic.danger-surface` | color | `#FEF3F2` | `#2B1717` | Background of error notices. |
-| `color.semantic.warning` | color | `#B54708` | `#FDB022` | Warning text, icons, and dividers, such as the offline banner's. Meets 4.5:1 on warning-surface. |
+| `radius.semantic.container` | dimension | `12px` | same | Corner radius of panels. |
+| `font.semantic.family-body` | fontFamily | `"Inter", system-ui, sans-serif` | same | Typeface for all chat text. |
+| `space.semantic.inset-md` | dimension | `16px` | same | Default padding inside surfaces: panel sections and horizontal bubble padding. |
+| `color.semantic.text-primary` | color | `#101828` | `#F2F4F7` | Body text on surface, surface-raised, danger-surface, and warning-surface. |
+| `font.semantic.size-title` | dimension | `16px` | same | Header title and empty-state title. |
+| `font.semantic.weight-strong` | fontWeight | `600` | same | Weight for titles and button labels. |
+| `font.semantic.line-height-body` | number | `1.5` | same | Line height multiplier for message text. |
 | `color.semantic.warning-surface` | color | `#FFFAEB` | `#2B2114` | Background of warning banners. |
-| `space.semantic.inset-sm` | dimension | 8 | same | Compact padding: vertical bubble padding, chips, field trailing edge. |
-| `space.semantic.inset-md` | dimension | 16 | same | Default padding inside surfaces: panel sections and horizontal bubble padding. |
-| `space.semantic.gap-sm` | dimension | 8 | same | Gap between items in a row or a short stack. |
-| `radius.semantic.control` | dimension | 8 | same | Corner radius of inputs, buttons, chips, and notices. |
-| `radius.semantic.container` | dimension | 12 | same | Corner radius of panels. |
-| `font.semantic.family-body` | fontFamily | Inter | same | Typeface for all chat text. |
-| `font.semantic.weight-strong` | fontWeight | 600 | same | Weight for titles and button labels. |
-| `font.semantic.size-body` | dimension | 15 | same | Message and input text size. |
-| `font.semantic.size-caption` | dimension | 13 | same | Status lines, notices, chips, and button labels. |
-| `font.semantic.size-title` | dimension | 16 | same | Header title and empty-state title. |
-| `font.semantic.line-height-body` | number | 1.5 | same | Line height multiplier for message text. |
-| `chat.composer-height` | dimension | 48 | same | Minimum height of the composer field and the rate-limit notice. Fits a 32px button with inset-sm above and below. |
-| `chat.message-gap` | dimension | 16 | same | Vertical gap between items in the message log. |
-| `chat.message-max-width` | dimension | 320 | same | Maximum bubble width. Bubbles never exceed the log width. |
-| `chat.message-radius` | dimension | 16 | same | Corner radius of message bubbles. |
+| `color.semantic.warning` | color | `#B54708` | `#FDB022` | Warning text, icons, and dividers, such as the offline banner's. Meets 4.5:1 on warning-surface. |
+| `space.semantic.inset-sm` | dimension | `8px` | same | Compact padding: vertical bubble padding, chips, field trailing edge. |
+| `space.semantic.gap-sm` | dimension | `8px` | same | Gap between items in a row or a short stack. |
+| `font.semantic.size-caption` | dimension | `13px` | same | Status lines, notices, chips, and button labels. |
+| `chat.message-gap` | dimension | `16px` | same | Vertical gap between items in the message log. |
 | `chat.message-user-background` | color | → `color.semantic.action` | → `color.semantic.action` | User bubble fill. Override with chat.message-user-text to keep 4.5:1. |
 | `chat.message-user-text` | color | → `color.semantic.text-on-action` | → `color.semantic.text-on-action` | User bubble text. |
+| `chat.message-radius` | dimension | `16px` | same | Corner radius of message bubbles. |
+| `chat.message-max-width` | dimension | `320px` | same | Maximum bubble width. Bubbles never exceed the log width. |
+| `font.semantic.size-body` | dimension | `15px` | same | Message and input text size. |
 | `chat.message-assistant-background` | color | → `color.semantic.surface-raised` | → `color.semantic.surface-raised` | Assistant and pending bubble fill. Pairs with text-primary. |
+| `color.semantic.text-subtle` | color | `#475467` | `#A3ABB8` | Secondary text: placeholders, status, empty body. Still meets 4.5:1 on surface and surface-raised. |
+| `color.semantic.danger-surface` | color | `#FEF3F2` | `#2B1717` | Background of error notices. |
+| `color.semantic.danger` | color | `#B42318` | `#FF9C94` | Error text, icons, and outlines. Meets 4.5:1 on danger-surface. |
+| `radius.semantic.control` | dimension | `8px` | same | Corner radius of inputs, buttons, chips, and notices. |
+| `color.semantic.border-strong` | color | `#7A8394` | `#6E7787` | Control boundaries that identify an input or button. Meets 3:1 on surface. |
+| `color.semantic.surface-raised` | color | `#F2F4F7` | `#1C2029` | Background a step above surface: assistant messages, suggestions, and the rate-limit notice. |
+| `color.semantic.action` | color | `#2557D6` | `#86A8FF` | Primary action fill, such as Send. Pairs with text-on-action. |
+| `color.semantic.focus` | color | `#1D4ED8` | `#A4BEFF` | Focus ring. Meets 3:1 on surface. |
+| `chat.composer-height` | dimension | `48px` | same | Minimum height of the composer field and the rate-limit notice. Fits a 32px button with inset-sm above and below. |
+| `color.semantic.text-on-action` | color | `#FFFFFF` | `#0B1020` | Text and icons on action fills. |
 
 ## Token bindings
 
-| Part | Property | Token |
-| --- | --- | --- |
-| `root` | background | `color.semantic.surface` |
-| `root` | border | `color.semantic.border` |
-| `root` | radius | `radius.semantic.container` |
-| `root` | font-family | `font.semantic.family-body` |
-| `header` | padding | `space.semantic.inset-md` |
-| `header` | divider | `color.semantic.border` |
-| `header` | title color | `color.semantic.text-primary` |
-| `header` | title size | `font.semantic.size-title` |
-| `header` | title weight | `font.semantic.weight-strong` |
-| `header` | title line height | `font.semantic.line-height-body` |
-| `offline-banner` | background | `color.semantic.warning-surface` |
-| `offline-banner` | divider, icon, and title color | `color.semantic.warning` |
-| `offline-banner` | padding block | `space.semantic.inset-sm` |
-| `offline-banner` | padding inline | `space.semantic.inset-md` |
-| `offline-banner` | gap | `space.semantic.gap-sm` |
-| `offline-banner` | title and detail size | `font.semantic.size-caption` |
-| `offline-banner` | title weight | `font.semantic.weight-strong` |
-| `offline-banner` | detail color | `color.semantic.text-primary` |
-| `log` | padding | `space.semantic.inset-md` |
-| `log` | gap | `chat.message-gap` |
-| `message-user` | background | `chat.message-user-background` |
-| `message-user` | text color | `chat.message-user-text` |
-| `message-user` | radius | `chat.message-radius` |
-| `message-user` | max width | `chat.message-max-width` |
-| `message-user` | padding block | `space.semantic.inset-sm` |
-| `message-user` | padding inline | `space.semantic.inset-md` |
-| `message-user` | text size | `font.semantic.size-body` |
-| `message-user` | line height | `font.semantic.line-height-body` |
-| `message-assistant` | background | `chat.message-assistant-background` |
-| `message-assistant` | text color | `color.semantic.text-primary` |
-| `message-assistant` | radius | `chat.message-radius` |
-| `message-assistant` | max width | `chat.message-max-width` |
-| `message-assistant` | padding block | `space.semantic.inset-sm` |
-| `message-assistant` | padding inline | `space.semantic.inset-md` |
-| `message-assistant` | text size | `font.semantic.size-body` |
-| `message-assistant` | line height | `font.semantic.line-height-body` |
-| `message-assistant` | status color | `color.semantic.text-subtle` |
-| `message-assistant` | status size | `font.semantic.size-caption` |
-| `message-pending` | background | `chat.message-assistant-background` |
-| `message-pending` | radius | `chat.message-radius` |
-| `message-pending` | padding block | `space.semantic.inset-sm` |
-| `message-pending` | padding inline | `space.semantic.inset-md` |
-| `message-pending` | gap | `space.semantic.gap-sm` |
-| `message-pending` | dots and label color | `color.semantic.text-subtle` |
-| `message-pending` | label size | `font.semantic.size-caption` |
-| `error-notice` | background | `color.semantic.danger-surface` |
-| `error-notice` | border and title color | `color.semantic.danger` |
-| `error-notice` | radius | `radius.semantic.control` |
-| `error-notice` | padding block | `space.semantic.inset-sm` |
-| `error-notice` | padding inline | `space.semantic.inset-md` |
-| `error-notice` | gap | `space.semantic.gap-sm` |
-| `error-notice` | title and detail size | `font.semantic.size-caption` |
-| `error-notice` | title weight | `font.semantic.weight-strong` |
-| `error-notice` | detail color | `color.semantic.text-primary` |
-| `error-notice` | retry background | `color.semantic.surface` |
-| `error-notice` | retry border | `color.semantic.border-strong` |
-| `error-notice` | retry radius | `radius.semantic.control` |
-| `error-notice` | retry icon and label color | `color.semantic.text-primary` |
-| `error-notice` | retry label size | `font.semantic.size-caption` |
-| `error-notice` | retry label weight | `font.semantic.weight-strong` |
-| `empty` | icon background | `color.semantic.surface-raised` |
-| `empty` | icon color | `color.semantic.action` |
-| `empty` | title color | `color.semantic.text-primary` |
-| `empty` | title size | `font.semantic.size-title` |
-| `empty` | title weight | `font.semantic.weight-strong` |
-| `empty` | body color | `color.semantic.text-subtle` |
-| `empty` | body size | `font.semantic.size-body` |
-| `empty` | line height | `font.semantic.line-height-body` |
-| `empty` | suggestions gap | `space.semantic.gap-sm` |
-| `suggestion` | background | `color.semantic.surface-raised` |
-| `suggestion` | border | `color.semantic.border` |
-| `suggestion` | radius | `radius.semantic.control` |
-| `suggestion` | padding block | `space.semantic.inset-sm` |
-| `suggestion` | padding inline | `space.semantic.inset-md` |
-| `suggestion` | text color | `color.semantic.text-primary` |
-| `suggestion` | text size | `font.semantic.size-caption` |
-| `composer` | padding | `space.semantic.inset-md` |
-| `composer` | divider | `color.semantic.border` |
-| `input` | field background | `color.semantic.surface` |
-| `input` | field min height | `chat.composer-height` |
-| `input` | field border | `color.semantic.border-strong` |
-| `input` | focus ring | `color.semantic.focus` |
-| `input` | field radius | `radius.semantic.control` |
-| `input` | field padding block | `space.semantic.inset-sm` |
-| `input` | field padding inline-start | `space.semantic.inset-md` |
-| `input` | field padding inline-end | `space.semantic.inset-sm` |
-| `input` | field gap | `space.semantic.gap-sm` |
-| `input` | placeholder color | `color.semantic.text-subtle` |
-| `input` | text color | `color.semantic.text-primary` |
-| `input` | text size | `font.semantic.size-body` |
-| `input` | line height | `font.semantic.line-height-body` |
-| `send` | background | `color.semantic.action` |
-| `send` | icon color | `color.semantic.text-on-action` |
-| `send` | radius | `radius.semantic.control` |
-| `stop` | background | `color.semantic.surface` |
-| `stop` | border | `color.semantic.border-strong` |
-| `stop` | radius | `radius.semantic.control` |
-| `stop` | icon and label color | `color.semantic.text-primary` |
-| `stop` | label size | `font.semantic.size-caption` |
-| `stop` | label weight | `font.semantic.weight-strong` |
-| `rate-limit-notice` | background | `color.semantic.surface-raised` |
-| `rate-limit-notice` | border | `color.semantic.border` |
-| `rate-limit-notice` | radius | `radius.semantic.control` |
-| `rate-limit-notice` | min height | `chat.composer-height` |
-| `rate-limit-notice` | padding block | `space.semantic.inset-sm` |
-| `rate-limit-notice` | padding inline | `space.semantic.inset-md` |
-| `rate-limit-notice` | gap | `space.semantic.gap-sm` |
-| `rate-limit-notice` | icon and detail color | `color.semantic.text-subtle` |
-| `rate-limit-notice` | title color | `color.semantic.text-primary` |
-| `rate-limit-notice` | title and detail size | `font.semantic.size-caption` |
-| `rate-limit-notice` | title weight | `font.semantic.weight-strong` |
+Properties are CSS properties; `divider-color` is a one-sided border. A binding without an element styles the part itself, and color and type properties are inherited by the layers inside it.
+
+| Part | Element | Property | State | Token | Design |
+| --- | --- | --- | --- | --- | --- |
+| `root` |  | background |  | `color.semantic.surface` | drawn |
+| `root` |  | border-color |  | `color.semantic.border` | drawn |
+| `root` |  | radius |  | `radius.semantic.container` | drawn |
+| `root` |  | font-family |  | `font.semantic.family-body` | drawn |
+| `header` |  | divider-color |  | `color.semantic.border` | drawn |
+| `header` |  | padding |  | `space.semantic.inset-md` | drawn |
+| `header` | `title` | color |  | `color.semantic.text-primary` | drawn |
+| `header` | `title` | font-size |  | `font.semantic.size-title` | drawn |
+| `header` | `title` | font-weight |  | `font.semantic.weight-strong` | drawn |
+| `header` | `title` | line-height |  | `font.semantic.line-height-body` | drawn |
+| `offline-banner` |  | background |  | `color.semantic.warning-surface` | drawn |
+| `offline-banner` |  | divider-color |  | `color.semantic.warning` | drawn |
+| `offline-banner` |  | color |  | `color.semantic.warning` | drawn |
+| `offline-banner` |  | padding-block |  | `space.semantic.inset-sm` | drawn |
+| `offline-banner` |  | padding-inline |  | `space.semantic.inset-md` | drawn |
+| `offline-banner` |  | gap |  | `space.semantic.gap-sm` | drawn |
+| `offline-banner` |  | font-size |  | `font.semantic.size-caption` | drawn |
+| `offline-banner` | `title` | font-weight |  | `font.semantic.weight-strong` | drawn |
+| `offline-banner` | `detail` | color |  | `color.semantic.text-primary` | drawn |
+| `log` |  | padding |  | `space.semantic.inset-md` | drawn |
+| `log` |  | gap |  | `chat.message-gap` | drawn |
+| `message-user` | `bubble` | background |  | `chat.message-user-background` | drawn |
+| `message-user` | `bubble` | color |  | `chat.message-user-text` | drawn |
+| `message-user` | `bubble` | radius |  | `chat.message-radius` | drawn |
+| `message-user` | `bubble` | max-width |  | `chat.message-max-width` | drawn |
+| `message-user` | `bubble` | padding-block |  | `space.semantic.inset-sm` | drawn |
+| `message-user` | `bubble` | padding-inline |  | `space.semantic.inset-md` | drawn |
+| `message-user` | `bubble` | font-size |  | `font.semantic.size-body` | drawn |
+| `message-user` | `bubble` | line-height |  | `font.semantic.line-height-body` | drawn |
+| `message-assistant` | `bubble` | background |  | `chat.message-assistant-background` | drawn |
+| `message-assistant` | `bubble` | color |  | `color.semantic.text-primary` | drawn |
+| `message-assistant` | `bubble` | radius |  | `chat.message-radius` | drawn |
+| `message-assistant` | `bubble` | max-width |  | `chat.message-max-width` | drawn |
+| `message-assistant` | `bubble` | padding-block |  | `space.semantic.inset-sm` | drawn |
+| `message-assistant` | `bubble` | padding-inline |  | `space.semantic.inset-md` | drawn |
+| `message-assistant` | `bubble` | font-size |  | `font.semantic.size-body` | drawn |
+| `message-assistant` | `bubble` | line-height |  | `font.semantic.line-height-body` | drawn |
+| `message-assistant` | `status` | color |  | `color.semantic.text-subtle` | drawn |
+| `message-assistant` | `status` | font-size |  | `font.semantic.size-caption` | drawn |
+| `message-pending` | `bubble` | background |  | `chat.message-assistant-background` | drawn |
+| `message-pending` | `bubble` | radius |  | `chat.message-radius` | drawn |
+| `message-pending` | `bubble` | padding-block |  | `space.semantic.inset-sm` | drawn |
+| `message-pending` | `bubble` | padding-inline |  | `space.semantic.inset-md` | drawn |
+| `message-pending` | `bubble` | gap |  | `space.semantic.gap-sm` | drawn |
+| `message-pending` | `bubble` | color |  | `color.semantic.text-subtle` | drawn |
+| `message-pending` | `bubble` | font-size |  | `font.semantic.size-caption` | drawn |
+| `error-notice` |  | background |  | `color.semantic.danger-surface` | drawn |
+| `error-notice` |  | border-color |  | `color.semantic.danger` | drawn |
+| `error-notice` |  | color |  | `color.semantic.danger` | drawn |
+| `error-notice` |  | radius |  | `radius.semantic.control` | drawn |
+| `error-notice` |  | padding-block |  | `space.semantic.inset-sm` | drawn |
+| `error-notice` |  | padding-inline |  | `space.semantic.inset-md` | drawn |
+| `error-notice` |  | gap |  | `space.semantic.gap-sm` | drawn |
+| `error-notice` |  | font-size |  | `font.semantic.size-caption` | drawn |
+| `error-notice` | `title` | font-weight |  | `font.semantic.weight-strong` | drawn |
+| `error-notice` | `detail` | color |  | `color.semantic.text-primary` | drawn |
+| `error-notice` | `retry` | background |  | `color.semantic.surface` | drawn |
+| `error-notice` | `retry` | border-color |  | `color.semantic.border-strong` | drawn |
+| `error-notice` | `retry` | radius |  | `radius.semantic.control` | drawn |
+| `error-notice` | `retry` | color |  | `color.semantic.text-primary` | drawn |
+| `error-notice` | `retry` | font-size |  | `font.semantic.size-caption` | drawn |
+| `error-notice` | `retry` | font-weight |  | `font.semantic.weight-strong` | drawn |
+| `empty` |  | line-height |  | `font.semantic.line-height-body` | drawn |
+| `empty` | `icon` | background |  | `color.semantic.surface-raised` | drawn |
+| `empty` | `icon` | color |  | `color.semantic.action` | drawn |
+| `empty` | `title` | color |  | `color.semantic.text-primary` | drawn |
+| `empty` | `title` | font-size |  | `font.semantic.size-title` | drawn |
+| `empty` | `title` | font-weight |  | `font.semantic.weight-strong` | drawn |
+| `empty` | `body` | color |  | `color.semantic.text-subtle` | drawn |
+| `empty` | `body` | font-size |  | `font.semantic.size-body` | drawn |
+| `empty` | `suggestions` | gap |  | `space.semantic.gap-sm` | drawn |
+| `suggestion` |  | background |  | `color.semantic.surface-raised` | drawn |
+| `suggestion` |  | border-color |  | `color.semantic.border` | drawn |
+| `suggestion` |  | radius |  | `radius.semantic.control` | drawn |
+| `suggestion` |  | padding-block |  | `space.semantic.inset-sm` | drawn |
+| `suggestion` |  | padding-inline |  | `space.semantic.inset-md` | drawn |
+| `suggestion` |  | color |  | `color.semantic.text-primary` | drawn |
+| `suggestion` |  | font-size |  | `font.semantic.size-caption` | drawn |
+| `composer` |  | divider-color |  | `color.semantic.border` | drawn |
+| `composer` |  | padding |  | `space.semantic.inset-md` | drawn |
+| `input` | `field` | background |  | `color.semantic.surface` | drawn |
+| `input` | `field` | border-color |  | `color.semantic.border-strong` | drawn |
+| `input` | `field` | border-color | focus | `color.semantic.focus` | drawn |
+| `input` | `field` | radius |  | `radius.semantic.control` | drawn |
+| `input` | `field` | min-height |  | `chat.composer-height` | drawn |
+| `input` | `field` | padding-block |  | `space.semantic.inset-sm` | not drawn |
+| `input` | `field` | padding-inline-start |  | `space.semantic.inset-md` | drawn |
+| `input` | `field` | padding-inline-end |  | `space.semantic.inset-sm` | drawn |
+| `input` | `field` | gap |  | `space.semantic.gap-sm` | drawn |
+| `input` |  | color |  | `color.semantic.text-primary` | drawn |
+| `input` |  | color | placeholder | `color.semantic.text-subtle` | drawn |
+| `input` |  | font-size |  | `font.semantic.size-body` | drawn |
+| `input` |  | line-height |  | `font.semantic.line-height-body` | drawn |
+| `send` |  | background |  | `color.semantic.action` | drawn |
+| `send` |  | color |  | `color.semantic.text-on-action` | drawn |
+| `send` |  | radius |  | `radius.semantic.control` | drawn |
+| `stop` |  | background |  | `color.semantic.surface` | drawn |
+| `stop` |  | border-color |  | `color.semantic.border-strong` | drawn |
+| `stop` |  | radius |  | `radius.semantic.control` | drawn |
+| `stop` |  | color |  | `color.semantic.text-primary` | drawn |
+| `stop` |  | font-size |  | `font.semantic.size-caption` | drawn |
+| `stop` |  | font-weight |  | `font.semantic.weight-strong` | drawn |
+| `rate-limit-notice` |  | background |  | `color.semantic.surface-raised` | drawn |
+| `rate-limit-notice` |  | border-color |  | `color.semantic.border` | drawn |
+| `rate-limit-notice` |  | radius |  | `radius.semantic.control` | drawn |
+| `rate-limit-notice` |  | min-height |  | `chat.composer-height` | drawn |
+| `rate-limit-notice` |  | padding-block |  | `space.semantic.inset-sm` | drawn |
+| `rate-limit-notice` |  | padding-inline |  | `space.semantic.inset-md` | drawn |
+| `rate-limit-notice` |  | gap |  | `space.semantic.gap-sm` | drawn |
+| `rate-limit-notice` |  | color |  | `color.semantic.text-subtle` | drawn |
+| `rate-limit-notice` |  | font-size |  | `font.semantic.size-caption` | drawn |
+| `rate-limit-notice` | `title` | color |  | `color.semantic.text-primary` | drawn |
+| `rate-limit-notice` | `title` | font-weight |  | `font.semantic.weight-strong` | drawn |
 
 ## Contrast
 

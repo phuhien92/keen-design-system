@@ -10,14 +10,14 @@ const here = dirname(fileURLToPath(import.meta.url));
 const root = join(here, "../..");
 const readJson = (path) => JSON.parse(readFileSync(path, "utf8"));
 const schema = readJson(join(here, "component-contract.schema.json"));
+// Token values and descriptions come from the generated baseline, so a contract never copies them.
+const baselineFile = ".keen/baselines/tokens.json";
+const baseline = new Map(readJson(join(root, baselineFile)).tokens.map((t) => [t.name, t]));
 
-// States every contract for a component must name: the approved plans' seven plus the rate-limited and offline follow-up.
-const requiredStates = { Chat: ["empty", "loading", "streaming", "completed", "error", "stopped", "error-mid-stream", "rate-limited", "offline"] };
 // A transition to "previous" returns to the state that was active when its from state was entered.
 const previous = "previous";
 const composerLabels = { send: "Send", stop: "Stop", "send-disabled": "Send, disabled", notice: "Rate-limit notice" };
-const penTypes = { color: "color", dimension: "number", number: "number", fontFamily: "string", fontWeight: "string" };
-const keywords = new Set(["$schema", "$id", "$ref", "$defs", "title", "description", "type", "required", "properties", "additionalProperties", "items", "enum", "pattern", "minLength", "minItems"]);
+const keywords = new Set(["$schema", "$id", "$ref", "$defs", "title", "description", "examples", "type", "required", "properties", "additionalProperties", "items", "enum", "pattern", "minLength", "minItems"]);
 
 function checkKeywords(node, path) {
   if (!node || typeof node !== "object" || Array.isArray(node)) return;
@@ -57,16 +57,10 @@ function validate(node, value, path, errors) {
   }
 }
 
-function penValue(token) {
-  if (token.alias) return `$${token.alias}`;
-  if (token.light) return [{ value: token.light, theme: { mode: "light" } }, { value: token.dark, theme: { mode: "dark" } }];
-  return token.type === "fontWeight" ? String(token.value) : token.value;
-}
-
-function resolveColor(tokens, name, mode) {
-  const token = tokens.get(name);
-  return token.alias ? resolveColor(tokens, token.alias, mode) : token[mode];
-}
+// The tokens a contract uses, in the order its bindings first name them.
+const boundTokens = (c) => [...new Set(c.bindings.map((b) => b.token))];
+// The same form as the generator's describeBinding: part.element property (state).
+const bindingKey = (b) => `${b.part}${b.element ? `.${b.element}` : ""} ${b.property}${b.state ? ` (${b.state})` : ""}`;
 
 function contrast(a, b) {
   const lum = (hex) => {
@@ -79,51 +73,39 @@ function contrast(a, b) {
 
 function crossCheck(c, errors) {
   const fail = (message) => errors.push(message);
-  const tokens = new Map(c.tokens.map((t) => [t.name, t]));
-  const parts = new Set(c.anatomy.map((a) => a.part));
+  const parts = new Map(c.anatomy.map((a) => [a.part, a]));
   const states = c.states.map((s) => s.name);
   const prefix = `${c.component.toLowerCase()}.`;
 
-  for (const name of requiredStates[c.component] ?? []) if (!states.includes(name)) fail(`states: missing required state "${name}"`);
   if (new Set(states).size !== states.length) fail("states: duplicate state name");
+  for (const s of c.states) {
+    for (const mode of ["light", "dark"]) if (!s.evidence.some((p) => p.endsWith(`-${mode}.png`))) fail(`states: ${s.name} has no ${mode} design export`);
+  }
   if (states.includes(previous)) fail(`states: "${previous}" is reserved for transitions`);
   for (const t of c.transitions) for (const s of [...t.from, t.to]) if (!states.includes(s) && s !== previous) fail(`transitions: unknown state "${s}"`);
   for (const s of states.slice(1)) if (!c.transitions.some((t) => t.to === s)) fail(`transitions: no transition reaches "${s}"`);
-  for (const path of [c.design.source, c.design.variables, ...c.states.flatMap((s) => s.evidence)]) {
+  for (const path of [c.design.source, ...c.states.flatMap((s) => s.evidence)]) {
     if (!existsSync(join(root, path))) fail(`missing file ${path}`);
   }
 
-  const pen = existsSync(join(root, c.design.variables)) ? readJson(join(root, c.design.variables)).variables : {};
-  for (const t of c.tokens) {
-    if (!t.name.includes(".semantic.") && !t.name.startsWith(prefix)) fail(`tokens: ${t.name} is neither semantic nor ${prefix}*`);
-    const forms = [t.light !== undefined || t.dark !== undefined, t.value !== undefined, t.alias !== undefined].filter(Boolean).length;
-    if (forms !== 1 || (t.light === undefined) !== (t.dark === undefined)) fail(`tokens: ${t.name} needs exactly one of light+dark, value, or alias`);
-    if (t.alias && !tokens.has(t.alias)) fail(`tokens: ${t.name} aliases unknown token ${t.alias}`);
-    const variable = pen[t.name];
-    if (!variable) fail(`tokens: ${t.name} has no provisional Pen variable in ${c.design.variables}`);
-    else if (variable.type !== penTypes[t.type] || JSON.stringify(variable.value) !== JSON.stringify(penValue(t))) {
-      fail(`tokens: ${t.name} differs from its Pen variable ${JSON.stringify(variable)}`);
-    }
-    if (!c.bindings.some((b) => b.token === t.name)) fail(`tokens: ${t.name} is not bound to any part`);
-  }
-  for (const name of Object.keys(pen)) if (!tokens.has(name)) fail(`Pen variable ${name} has no contract token`);
-
+  // Whether each bound token exists, has the right type, and is drawn is checked by pnpm verify against the token files
+  // and the design. This checks the contract against itself, plus that the baseline it renders values from has the token.
+  const bindings = new Set();
   for (const b of c.bindings) {
-    if (!parts.has(b.part)) fail(`bindings: unknown part "${b.part}"`);
-    if (!tokens.has(b.token)) fail(`bindings: ${b.part} ${b.property} names unknown token ${b.token}`);
+    const part = parts.get(b.part);
+    if (!part) fail(`bindings: unknown part "${b.part}"`);
+    else if (b.element && !part.elements?.some((e) => e.name === b.element)) fail(`bindings: ${b.part} has no element "${b.element}"`);
+    if (bindings.has(bindingKey(b))) fail(`bindings: ${bindingKey(b)} is bound twice`);
+    bindings.add(bindingKey(b));
+    if (!b.token.includes(".semantic.") && !b.token.startsWith(prefix)) fail(`bindings: ${b.token} is neither semantic nor ${prefix}*`);
+    if (!baseline.has(b.token)) fail(`bindings: ${b.token} is not in ${baselineFile}; run pnpm tokens:build`);
   }
+  const bound = new Set(boundTokens(c));
   for (const p of c.contrast) {
-    if (![p.foreground, p.background].every((name) => tokens.get(name)?.type === "color")) {
-      fail(`contrast: ${p.foreground} on ${p.background} needs two color tokens`);
-      continue;
-    }
-    for (const m of ["light", "dark"]) {
-      const r = contrast(resolveColor(tokens, p.foreground, m), resolveColor(tokens, p.background, m));
-      if (r < p.minimum) fail(`contrast: ${p.foreground} on ${p.background} is ${r.toFixed(2)}:1 in ${m}, below ${p.minimum}:1`);
-    }
+    for (const name of [p.foreground, p.background]) if (!bound.has(name)) fail(`contrast: ${name} is not bound to any part`);
   }
 
-  const componentTokens = c.tokens.filter((t) => t.name.startsWith(prefix)).map((t) => t.name).sort();
+  const componentTokens = [...bound].filter((t) => t.startsWith(prefix)).sort();
   if (JSON.stringify([...c.overrides.componentTokens].sort()) !== JSON.stringify(componentTokens)) {
     fail(`overrides.componentTokens must list exactly the ${prefix}* tokens: ${componentTokens.join(", ")}`);
   }
@@ -142,10 +124,15 @@ const list = (items) => items.map((item) => `- ${item}`).join("\n");
 const rel = (path) => `../../${path}`;
 
 function render(c, file) {
-  const tokens = new Map(c.tokens.map((t) => [t.name, t]));
-  const ratio = (p, mode) => contrast(resolveColor(tokens, p.foreground, mode), resolveColor(tokens, p.background, mode)).toFixed(2);
+  const ratio = (p, mode) => contrast(baseline.get(p.foreground)[mode].value, baseline.get(p.background)[mode].value).toFixed(2);
   const boundary = Array.from({ length: Math.max(c.boundary.keen.length, c.boundary.host.length) }, (_, i) => [c.boundary.keen[i], c.boundary.host[i]]);
-  const tokenCell = (t, mode) => (t.alias ? `→ ${code(t.alias)}` : t.value !== undefined ? (mode === "light" ? t.value : "same") : code(t[mode]));
+  // A token that aliases another bound token shows the alias; one that resolves to a primitive shows its value.
+  const tokenCell = (t, mode) => {
+    const { reference, value } = t[mode];
+    if (reference && !reference.includes(".primitive.")) return `→ ${code(reference)}`;
+    return mode === "dark" && t.type !== "color" && value === t.light.value ? "same" : code(value);
+  };
+  const partCell = (a) => code(a.part) + (a.slot ? " (slot)" : "") + (a.drawn === false ? " (not drawn)" : "");
   return `# ${c.component} — Component Guide
 
 > Generated from [${code(file)}](${file}) by ${code("node docs/components/contract.mjs render")}. The Component Contract ${code(file)} is authoritative: if this guide and the contract ever disagree, the contract wins. Edit the contract and regenerate; ${code("node docs/components/contract.mjs check")} fails while they differ.
@@ -154,7 +141,7 @@ function render(c, file) {
 
 ${c.summary}
 
-**Design:** [${code(c.design.source)}](${rel(c.design.source)}), with provisional variables captured in [${code(c.design.variables)}](${rel(c.design.variables)}). ${c.design.note}
+**Design:** [${code(c.design.source)}](${rel(c.design.source)}). ${c.design.note}
 
 ## Host boundary
 
@@ -171,7 +158,9 @@ ${table(["From", "Event", "To"], c.transitions.map((t) => [t.from.map(code).join
 
 ## Anatomy
 
-${table(["Part", "Element", "Pen layer", "Description"], c.anatomy.map((a) => [code(a.part) + (a.slot ? " (slot)" : ""), code(a.element), a.layer ?? "not drawn", a.description]))}
+${table(["Part", "Element", "Elements", "Description"], c.anatomy.map((a) => [partCell(a), code(a.element), (a.elements ?? []).map((e) => code(e.name)).join(", "), a.description]))}
+
+Each layer that draws a part carries ${code('{ "type": "keen-part", "component", "part", "element" }')} metadata in the design, so the link survives a renamed layer.
 
 ## API
 
@@ -197,13 +186,15 @@ ${c.overrides.note}
 
 ## Tokens
 
-Provisional values. Plan 01 transcribes them into DTCG and regenerates the Pen variables from it.
+Every token the bindings use. Values and descriptions come from ${code(baselineFile)}, which ${code("pnpm tokens:build")} generates from ${code("tokens/*.json")}.
 
-${table(["Token", "Type", "Light", "Dark", "Intended use"], c.tokens.map((t) => [code(t.name), t.type, tokenCell(t, "light"), tokenCell(t, "dark"), t.description]))}
+${table(["Token", "Type", "Light", "Dark", "Intended use"], boundTokens(c).map((name) => baseline.get(name)).map((t) => [code(t.name), t.type, tokenCell(t, "light"), tokenCell(t, "dark"), t.description]))}
 
 ## Token bindings
 
-${table(["Part", "Property", "Token"], c.bindings.map((b) => [code(b.part), b.property, code(b.token)]))}
+Properties are CSS properties; ${code("divider-color")} is a one-sided border. A binding without an element styles the part itself, and color and type properties are inherited by the layers inside it.
+
+${table(["Part", "Element", "Property", "State", "Token", "Design"], c.bindings.map((b) => [code(b.part), b.element ? code(b.element) : "", b.property, b.state ?? "", code(b.token), b.drawn === false ? "not drawn" : "drawn"]))}
 
 ## Contrast
 

@@ -12,6 +12,21 @@
       "description": "generated CSS and typed map are deterministic and match the token sources"
     },
     { "id": "tokens-baseline", "tier": "fast", "description": "the committed resolved-token baseline matches the token sources" },
-    { "id": "tokens-contrast", "tier": "fast", "description": "every Component Contract contrast pair passes in light and dark" }
+    { "id": "tokens-contrast", "tier": "fast", "description": "every Component Contract contrast pair passes in light and dark" },
+    {
+      "id": "tokens-contract",
+      "tier": "fast",
+      "description": "every token a Component Contract binds exists in tokens/*.json with a type that fits its property, and every component token is bound"
+    },
+    {
+      "id": "design-variables",
+      "tier": "fast",
+      "description": "every color in design/keen.pen is a token variable, and every variable it uses is declared"
+    },
+    {
+      "id": "design-anatomy",
+      "tier": "fast",
+      "description": "every Component Contract part is drawn and linked by keen-part metadata, and the design draws exactly the tokens the contract binds"
+    }
   ]
 }
