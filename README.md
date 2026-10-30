@@ -87,6 +87,8 @@ Work is tracked in Linear under the Keen Design System project. Branches use Lin
 
 Keen is a pnpm workspace (Node 22.18 or later). `tokens/*.json` is the only hand-edited token source.
 
+Agents, and people, follow [AGENTS.md](AGENTS.md): where each change is made, and every rule the checks enforce, each with a right and a wrong example.
+
 - `pnpm install`
 - `pnpm tokens:build` regenerates the CSS custom properties, typed token map, `.keen/baselines/tokens.json`, and the variables block in `design/keen.pen` from the token files. Colors used only on the design canvas live in `design/canvas.json` and reach Pen alone.
 - `pnpm verify`, `pnpm verify:build`, and `pnpm verify:live` run the fast, build, and live verification tiers listed in `.keen/gates.json`; skipped checks, and tiers with no gates yet, are reported as skipped.

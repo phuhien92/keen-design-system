@@ -17,7 +17,7 @@ const baseline = new Map(readJson(join(root, baselineFile)).tokens.map((t) => [t
 // A transition to "previous" returns to the state that was active when its from state was entered.
 const previous = "previous";
 const composerLabels = { send: "Send", stop: "Stop", "send-disabled": "Send, disabled", notice: "Rate-limit notice" };
-const keywords = new Set(["$schema", "$id", "$ref", "$defs", "title", "description", "type", "required", "properties", "additionalProperties", "items", "enum", "pattern", "minLength", "minItems"]);
+const keywords = new Set(["$schema", "$id", "$ref", "$defs", "title", "description", "examples", "type", "required", "properties", "additionalProperties", "items", "enum", "pattern", "minLength", "minItems"]);
 
 function checkKeywords(node, path) {
   if (!node || typeof node !== "object" || Array.isArray(node)) return;
@@ -59,7 +59,8 @@ function validate(node, value, path, errors) {
 
 // The tokens a contract uses, in the order its bindings first name them.
 const boundTokens = (c) => [...new Set(c.bindings.map((b) => b.token))];
-const bindingKey = (b) => [b.part, b.element ?? "", b.property, b.state ?? ""].join(" ");
+// The same form as the generator's describeBinding: part.element property (state).
+const bindingKey = (b) => `${b.part}${b.element ? `.${b.element}` : ""} ${b.property}${b.state ? ` (${b.state})` : ""}`;
 
 function contrast(a, b) {
   const lum = (hex) => {

@@ -37,6 +37,11 @@
     } },
     "anatomy": { "type": "array", "minItems": 1, "items": {
       "type": "object", "additionalProperties": false, "required": ["part", "element", "description"],
+      "examples": [
+        { "part": "send", "element": "button[type=submit]", "description": "Sends the draft." },
+        { "part": "input", "element": "textarea", "description": "Message input.", "elements": [{ "name": "field", "description": "The bordered field around the textarea." }] },
+        { "part": "live-region", "element": "div[aria-live=polite]", "drawn": false, "description": "Announcements; not visible." }
+      ],
       "properties": {
         "part": { "$ref": "#/$defs/name" },
         "element": { "type": "string" },
@@ -72,6 +77,12 @@
     },
     "bindings": { "type": "array", "minItems": 1, "items": {
       "type": "object", "additionalProperties": false, "required": ["part", "property", "token"],
+      "description": "One CSS property of one part or element, in one state. Never a token value, and never several properties in one binding.",
+      "examples": [
+        { "part": "send", "property": "background", "token": "color.semantic.action" },
+        { "part": "input", "element": "field", "property": "border-color", "state": "focus", "token": "color.semantic.focus" },
+        { "part": "input", "element": "field", "property": "padding-block", "token": "space.semantic.inset-sm", "drawn": false }
+      ],
       "properties": {
         "part": { "$ref": "#/$defs/name" },
         "element": { "description": "An element of the part, from its anatomy entry. Omitted when the binding styles the part itself.", "$ref": "#/$defs/name" },

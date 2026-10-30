@@ -75,7 +75,10 @@ export const gates: Record<string, (ctx: Context) => GateResult> = {
     const pen = files[outputFiles.pen];
     if (pen === undefined) return { status: "skip", reason: `${outputFiles.pen} does not exist` };
     const contracts = readContracts(ctx.root).map(({ file, json }) => ({ file, contract: json as unknown as Contract }));
-    return result(checkDesignAnatomy(JSON.parse(pen), contracts).map((failure) => `${outputFiles.pen}: ${failure}`));
+    // A failure about a contract already names its file; one about a layer is located in the design file.
+    const located = (failure: string) =>
+      contracts.some((c) => failure.startsWith(`${c.file}:`)) ? failure : `${outputFiles.pen}: ${failure}`;
+    return result(checkDesignAnatomy(JSON.parse(pen), contracts).map(located));
   },
 };
 
