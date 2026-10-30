@@ -8,7 +8,6 @@
   },
   "scripts": {
     "tokens:build": "node tools/token-generator/src/cli.ts build",
-    "design:push": "node tools/token-generator/src/cli.ts design-push",
     "build": "pnpm --filter @keen/design-system build",
     "verify": "node tools/token-generator/src/cli.ts verify fast",
     "verify:build": "pnpm build && node tools/token-generator/src/cli.ts verify build",

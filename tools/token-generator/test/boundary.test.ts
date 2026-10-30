@@ -126,15 +126,18 @@ describe("token-reads", () => {
 describe("contract-roles", () => {
   const root = mkdtempSync(join(tmpdir(), "keen-contract-"));
   mkdirSync(join(root, "docs/components"), { recursive: true });
-  writeFileSync(join(root, "docs/components/chat.json"), JSON.stringify({ tokens: [{ name: "color.semantic.action" }] }));
+  writeFileSync(
+    join(root, "docs/components/chat.json"),
+    JSON.stringify({ bindings: [{ part: "root", property: "color", token: "color.semantic.action" }] }),
+  );
 
-  it("accepts reads the contract lists", () => {
+  it("accepts reads the contract binds", () => {
     expect(checkContracts([file("Chat/Chat.css", ".a { color: var(--keen-color-semantic-action); }")], index, root)).toEqual([]);
   });
 
-  it("rejects a semantic role the contract does not list", () => {
+  it("rejects a token the contract does not bind", () => {
     expect(checkContracts([file("Chat/Chat.css", ".a { gap: var(--keen-chat-message-gap); }")], index, root)).toEqual([
-      "packages/keen/src/components/Chat/Chat.css: reads chat.message-gap, which chat.json does not list",
+      "packages/keen/src/components/Chat/Chat.css: reads chat.message-gap, which chat.json does not bind",
     ]);
   });
 

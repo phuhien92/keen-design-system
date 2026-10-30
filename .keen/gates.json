@@ -22,14 +22,24 @@
       "description": "every Component Contract contrast pair passes in light and dark"
     },
     {
-      "id": "pen-variables",
+      "id": "tokens-contract",
       "tier": "fast",
-      "description": "design/keen.variables.json holds exactly the Pen variables the tokens generate"
+      "description": "every token a Component Contract binds exists in tokens/*.json with a type that fits its property, and every component token is bound"
+    },
+    {
+      "id": "design-variables",
+      "tier": "fast",
+      "description": "every color in design/keen.pen is a token variable, and every variable it uses is declared"
+    },
+    {
+      "id": "design-anatomy",
+      "tier": "fast",
+      "description": "every Component Contract part is drawn and linked by keen-part metadata, and the design draws exactly the tokens the contract binds"
     },
     {
       "id": "pen-live",
       "tier": "fast",
-      "description": "design/keen.pen's variables, read through the pen CLI, match the tokens"
+      "description": "Pen itself reads the variables tokens:build wrote into design/keen.pen, unchanged (needs a signed-in pen CLI)"
     },
     {
       "id": "component-forwarding",
@@ -44,7 +54,7 @@
     {
       "id": "contract-roles",
       "tier": "fast",
-      "description": "every token a component reads is listed in its Component Contract"
+      "description": "every token a component reads is bound to a part in its Component Contract"
     },
     {
       "id": "motion-usage",
@@ -67,14 +77,9 @@
       "description": "every ds-allow(<category>): <reason> directive names a known category"
     },
     {
-      "id": "icons-design",
-      "tier": "fast",
-      "description": ".keen/design/icons.json was read from the current design/keen.pen"
-    },
-    {
       "id": "icons-live",
       "tier": "fast",
-      "description": "design/keen.pen's icon nodes, read through the pen CLI, match .keen/design/icons.json"
+      "description": "Pen itself reads the icon nodes that tokens:build recorded in .keen/design/icons.json (needs a signed-in pen CLI)"
     },
     {
       "id": "icon-usage",

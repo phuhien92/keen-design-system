@@ -13,6 +13,7 @@
       "!.claude",
       "!pnpm-lock.yaml",
       "!.keen/baselines",
+      "!.keen/design",
       "!**/*.astro",
       "!packages/keen/src/tokens",
       "!packages/keen/src/icons/registry.ts"

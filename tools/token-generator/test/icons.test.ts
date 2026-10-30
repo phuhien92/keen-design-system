@@ -57,10 +57,15 @@ describe("design gates", () => {
     return root;
   };
 
-  it("fails when the design changed after its icons were read", () => {
+  it("regenerates the snapshot and the registry from an icon node added to the design", () => {
     const root = copy();
-    writeFileSync(join(root, "design/keen.pen"), `${readFileSync(join(root, "design/keen.pen"), "utf8")}\n`);
-    expect(gates["icons-design"](context(root))).toMatchObject({ status: "fail" });
+    const file = join(root, "design/keen.pen");
+    const pen = JSON.parse(readFileSync(file, "utf8"));
+    pen.children[0].children.push({ type: "icon", id: "bell1", name: "Test Bell", icon: "bell", library: "lucide", width: 18 });
+    writeFileSync(file, JSON.stringify(pen, null, 2));
+    const { files } = generate(readSources(root), readExtras(root));
+    expect(JSON.parse(files[iconSnapshotFile]).glyphs.map((g: { glyph: string }) => g.glyph)).toContain("bell");
+    expect(files[outputFiles.registry]).toContain('  "bell": Bell,');
   });
 
   it("fails when generated JavaScript timings drift from their tokens", () => {

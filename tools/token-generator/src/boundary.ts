@@ -87,11 +87,12 @@ export function checkContracts(files: SourceFile[], index: TokenIndex, root: str
       failures.push(`${name}: has no Component Contract at docs/components/${basename(contractPath)}`);
       continue;
     }
-    const listed = new Set<string>(JSON.parse(readFileSync(contractPath, "utf8")).tokens.map((t: { name: string }) => t.name));
+    // The tokens a component may read are the ones its contract binds to a part.
+    const bound = new Set<string>(JSON.parse(readFileSync(contractPath, "utf8")).bindings.map((b: { token: string }) => b.token));
     for (const file of own) {
       for (const [, cssName] of withoutComments(file.text).matchAll(/var\(\s*(--keen-[a-z0-9-]+)/g)) {
         const token = index.vars.get(cssName);
-        if (token && !listed.has(token)) failures.push(`${file.path}: reads ${token}, which ${basename(contractPath)} does not list`);
+        if (token && !bound.has(token)) failures.push(`${file.path}: reads ${token}, which ${basename(contractPath)} does not bind`);
       }
     }
   }

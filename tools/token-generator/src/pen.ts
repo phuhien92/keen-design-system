@@ -1,20 +1,11 @@
-// Generates the Pen document variables from the DTCG tokens, and reads and writes them through the Pen CLI.
+// Writes the token variables into design/keen.pen and walks its layers. The design agent lays out the file; the
+// variables block is generated, so a token change reaches the design the same way it reaches the CSS.
 import { spawnSync } from "node:child_process";
-import { compareTokens } from "./emit.ts";
-import { isReference, modes, referenceName, type Token } from "./model.ts";
+import { compareTokens, emitsVariable } from "./emit.ts";
+import { type Issue, isReference, modes, referenceName, type Token } from "./model.ts";
+import type { Resolved } from "./resolve.ts";
 
-export interface PenVariable {
-  type: "color" | "number" | "string";
-  value: unknown;
-}
-
-export interface PenVariables {
-  themes: Record<string, string[]>;
-  variables: Record<string, PenVariable>;
-}
-
-// Pen has color, number, and string variables. Motion tokens have no Pen equivalent and stay out of the design.
-const penTypes: Record<string, PenVariable["type"]> = {
+const penTypes: Record<string, string> = {
   color: "color",
   dimension: "number",
   number: "number",
@@ -22,51 +13,94 @@ const penTypes: Record<string, PenVariable["type"]> = {
   fontWeight: "string",
 };
 
-function penValue(type: string, authored: unknown): unknown {
-  if (isReference(authored)) return `$${referenceName(authored)}`;
-  switch (type) {
+export type PenValue = string | number;
+export type PenVariable = { type: string; value: PenValue | { value: PenValue; theme: { mode: string } }[] };
+
+// Pen holds a color as hex, a dimension as px, a font family as its primary family, and a weight as a string.
+function penValue(token: Token, value: unknown): PenValue {
+  switch (token.type) {
     case "color":
-      return (authored as { hex: string }).hex;
+      return (value as { hex: string }).hex;
     case "dimension": {
-      const { value, unit } = authored as { value: number; unit: string };
-      return unit === "rem" ? value * 16 : value;
+      const v = value as { value: number; unit: string };
+      return v.unit === "px" ? v.value : `has unit ${v.unit}; Pen variables hold px only`;
     }
     case "fontFamily":
-      return ([] as string[]).concat(authored as string | string[])[0];
+      return ([] as string[]).concat(value as string | string[])[0];
     case "fontWeight":
-      return String(authored);
+      return String(value);
     default:
-      return authored;
+      return value as number;
   }
 }
 
-export function penVariables(tokens: Token[]): PenVariables {
+export function emitPenVariables(
+  tokens: Token[],
+  resolved: Map<string, Resolved>,
+): { variables: Record<string, PenVariable>; issues: Issue[] } {
+  const byName = new Map(tokens.map((t) => [t.name, t]));
   const variables: Record<string, PenVariable> = {};
-  for (const token of [...tokens].sort(compareTokens)) {
+  const issues: Issue[] = [];
+  const designed = tokens.filter((t) => t.tier !== "primitive" && emitsVariable(t) && penTypes[t.type]).sort(compareTokens);
+  for (const token of designed) {
     const type = penTypes[token.type];
-    if (!type) continue;
-    const themed = modes.some((mode) => token.values[mode] !== undefined && mode !== "light");
-    variables[token.name] = {
-      type,
-      value: themed
-        ? modes.map((mode) => ({ value: penValue(token.type, token.values[mode] ?? token.values.light), theme: { mode } }))
-        : penValue(token.type, token.values.light),
-    };
+    // A token that only aliases another designed token stays an alias, so the design keeps the relationship.
+    const authored = token.values.light;
+    const target = isReference(authored) ? byName.get(referenceName(authored)) : undefined;
+    if (target && target.tier !== "primitive" && Object.keys(token.values).length === 1) {
+      variables[token.name] = { type, value: `$${target.name}` };
+      continue;
+    }
+    const values = modes.map((mode) => penValue(token, resolved.get(token.name)?.modes[mode].value));
+    const problem = token.type === "dimension" ? values.find((v) => typeof v === "string") : undefined;
+    if (problem !== undefined) {
+      issues.push({ rule: "pen", token: token.name, message: String(problem) });
+      continue;
+    }
+    variables[token.name] = values.every((v) => v === values[0])
+      ? { type, value: values[0] }
+      : { type, value: values.map((value, i) => ({ value, theme: { mode: modes[i] } })) };
   }
-  return { themes: { mode: [...modes] }, variables };
+  return { variables, issues };
 }
 
-// Pen returns object keys in its own order; compare and store variables in token order.
-export function normalize(pen: PenVariables, order: string[]): PenVariables {
-  const rank = new Map(order.map((name, i) => [name, i]));
-  const names = Object.keys(pen.variables).sort((a, b) => (rank.get(a) ?? 1e9) - (rank.get(b) ?? 1e9) || (a < b ? -1 : 1));
-  return { themes: pen.themes ?? {}, variables: Object.fromEntries(names.map((n) => [n, pen.variables[n]])) };
+// The Pen file versions this reader has been checked against. Pen does not promise to keep its format, so a design
+// saved by a newer Pen stops the build instead of being misread; supporting it means checking the reader, then adding it.
+export const penVersions = ["2.21"];
+
+export function penVersionIssues(design: string, file: string): Issue[] {
+  const { version } = JSON.parse(design) as { version?: unknown };
+  if (typeof version === "string" && penVersions.includes(version)) return [];
+  const supported = penVersions.join(", ");
+  return [{ rule: "pen", token: file, message: `is Pen file version ${JSON.stringify(version)}; the generator reads only ${supported}` }];
 }
+
+// Replaces the variables block and keeps everything else, in Pen's own formatting: two-space JSON, no final newline.
+export function emitPen(design: string, variables: Record<string, PenVariable>): string {
+  const pen = JSON.parse(design);
+  pen.variables = variables;
+  return JSON.stringify(pen, null, 2);
+}
+
+export type PenNode = Record<string, unknown> & { type?: string; id?: string; name?: string; children?: PenNode[] };
+
+// Every layer in the file, depth first, with its ancestors. The variables and themes blocks are not layers.
+export function* layers(pen: { children?: PenNode[] }): Generator<{ node: PenNode; ancestors: PenNode[] }> {
+  function* walk(node: PenNode, ancestors: PenNode[]): Generator<{ node: PenNode; ancestors: PenNode[] }> {
+    yield { node, ancestors };
+    for (const child of node.children ?? []) yield* walk(child, [...ancestors, node]);
+  }
+  for (const child of pen.children ?? []) yield* walk(child, []);
+}
+
+// The layer path a person can find in Pen, such as "State 03 · streaming · dark > Chat > Message log".
+export const layerPath = (node: PenNode, ancestors: PenNode[]) => [...ancestors, node].map((n) => n.name ?? n.id).join(" > ");
 
 export type PenResult = { ok: true; value: unknown } | { ok: false; error: string; unavailable: boolean };
 
-// Runs one headless Pen session on a design file. The snippet must call Emit(value) once; save writes the file back.
-export function runPen(design: string, snippet: string, save: boolean): PenResult {
+// Runs one headless Pen session on a design file, to confirm that Pen itself reads what the generator wrote. The
+// snippet must call Emit(value) once. The generator never writes through Pen; only tests save, and only to a copy.
+export function runPen(design: string, snippet: string, save = false): PenResult {
   const input = `Emit=(v)=>Print("KEEN<<"+JSON.stringify(v)+">>KEEN");${snippet}`;
   const script = [`execute({ input: ${JSON.stringify(input)} })`, ...(save ? ["save()"] : []), "exit()"].join("\n");
   const result = spawnSync("pen", ["interactive", "--in", design, "--out", design], { input: `${script}\n`, encoding: "utf8" });
@@ -79,14 +113,10 @@ export function runPen(design: string, snippet: string, save: boolean): PenResul
   return { ok: true, value: JSON.parse(match[1]) };
 }
 
-export const readPenVariables = (design: string) => runPen(design, "Emit(GetVariables())", false);
+export const readPenVariables = (design: string) => runPen(design, "Emit(GetVariables())");
 
-export const writePenVariables = (design: string, pen: PenVariables) =>
-  runPen(design, `SetVariables(${JSON.stringify(pen.variables)}, true);Emit(GetVariables())`, true);
-
-export const designFile = "design/keen.pen";
-export const variablesFile = "design/keen.variables.json";
-
-// design/keen.variables.json: the Pen variables read back from design/keen.pen after pnpm design:push.
-export const serializeVariables = (pen: PenVariables) =>
-  `${JSON.stringify({ generatedFrom: "tokens/*.json by pnpm design:push, read back from design/keen.pen", ...pen }, null, 2)}\n`;
+// Compares variables regardless of key order, since Pen returns object keys in its own order.
+export function differingVariables(actual: Record<string, PenVariable>, expected: Record<string, PenVariable>): string[] {
+  const names = [...new Set([...Object.keys(actual), ...Object.keys(expected)])].sort();
+  return names.filter((n) => JSON.stringify(actual[n]) !== JSON.stringify(expected[n]));
+}

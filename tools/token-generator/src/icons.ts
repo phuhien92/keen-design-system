@@ -1,22 +1,20 @@
-// Icons come from the design: every icon node in design/keen.pen, read through the pen CLI into a snapshot pinned to
-// the design file's hash, generates the Lucide registry and the icons doc's glyph table.
-import { createHash } from "node:crypto";
-import { readFileSync } from "node:fs";
+// Icons come from the design: every icon node in design/keen.pen generates the snapshot in .keen/design/icons.json,
+// the Lucide registry, and the icons doc's glyph table. pnpm tokens:build reads the nodes from the file itself; the
+// icons-live gate reads them again through the pen CLI, when one is signed in, to confirm Pen sees the same icons.
 import { createRequire } from "node:module";
 import { join } from "node:path";
 import type { Issue } from "./model.ts";
-import { runPen } from "./pen.ts";
+import { layers, type PenNode, runPen } from "./pen.ts";
 
 export const iconSnapshotFile = ".keen/design/icons.json";
 export const registryFile = "packages/keen/src/icons/registry.ts";
 
 export interface IconSnapshot {
   design: string;
-  designSha256: string;
   glyphs: { glyph: string; library: string; layers: string[]; sizes: number[] }[];
 }
 
-export const designHash = (path: string) => createHash("sha256").update(readFileSync(path)).digest("hex");
+type IconNode = { glyph: string; library: string; layer: string; size: number };
 
 // lucide-react names each glyph's component in PascalCase: clock-4 is Clock4.
 export const componentName = (glyph: string) =>
@@ -30,19 +28,10 @@ export function lucideComponents(root: string): Set<string> {
   return new Set(Object.keys(require("lucide-react")));
 }
 
-// Reads every icon node in the design and groups the nodes by glyph.
-export function readDesignIcons(
-  root: string,
-  design: string,
-): { ok: true; snapshot: IconSnapshot } | { ok: false; error: string; unavailable: boolean } {
-  const read = runPen(
-    join(root, design),
-    'const out=[];Get(n=>{if(n.type==="icon")out.push({glyph:n.icon,library:n.library,layer:n.name,size:n.width})});Emit(out)',
-    false,
-  );
-  if (!read.ok) return read;
+// Groups icon nodes by glyph, in a stable order, so the same design always gives the same snapshot.
+function snapshotOf(design: string, nodes: IconNode[]): IconSnapshot {
   const byGlyph = new Map<string, IconSnapshot["glyphs"][number]>();
-  for (const node of read.value as { glyph: string; library: string; layer: string; size: number }[]) {
+  for (const node of nodes) {
     const key = `${node.library}:${node.glyph}`;
     const entry = byGlyph.get(key) ?? { glyph: node.glyph, library: node.library, layers: [], sizes: [] };
     if (!entry.layers.includes(node.layer)) entry.layers.push(node.layer);
@@ -52,7 +41,31 @@ export function readDesignIcons(
   const glyphs = [...byGlyph.values()]
     .map((g) => ({ ...g, layers: g.layers.sort(), sizes: g.sizes.sort((a, b) => a - b) }))
     .sort((a, b) => (a.glyph < b.glyph ? -1 : a.glyph > b.glyph ? 1 : a.library < b.library ? -1 : 1));
-  return { ok: true, snapshot: { design, designSha256: designHash(join(root, design)), glyphs } };
+  return { design, glyphs };
+}
+
+// Reads every icon node from the design file's JSON. This is what pnpm tokens:build uses.
+export function iconsFromDesign(text: string, design: string): IconSnapshot {
+  const nodes: IconNode[] = [];
+  for (const { node } of layers(JSON.parse(text) as { children?: PenNode[] })) {
+    if (node.type === "icon") {
+      nodes.push({ glyph: String(node.icon), library: String(node.library), layer: String(node.name), size: Number(node.width) });
+    }
+  }
+  return snapshotOf(design, nodes);
+}
+
+// Reads every icon node through the pen CLI, for the icons-live cross-check.
+export function readDesignIcons(
+  root: string,
+  design: string,
+): { ok: true; snapshot: IconSnapshot } | { ok: false; error: string; unavailable: boolean } {
+  const read = runPen(
+    join(root, design),
+    'const out=[];Get(n=>{if(n.type==="icon")out.push({glyph:n.icon,library:n.library,layer:n.name,size:n.width})});Emit(out)',
+  );
+  if (!read.ok) return read;
+  return { ok: true, snapshot: snapshotOf(design, read.value as IconNode[]) };
 }
 
 export const serializeSnapshot = (snapshot: IconSnapshot) => `${JSON.stringify(snapshot, null, 2)}\n`;
@@ -73,7 +86,7 @@ export function emitRegistry(snapshot: IconSnapshot): string {
   const glyphs = snapshot.glyphs.map((g) => g.glyph);
   return [
     `// Generated from the icon nodes in ${snapshot.design} by tools/token-generator. Do not edit; add an icon in the design`,
-    "// and run pnpm design:push. This is the only module that imports from Lucide.",
+    "// and run pnpm tokens:build. This is the only module that imports from Lucide.",
     `import { ${glyphs.map(componentName).sort().join(", ")} } from "lucide-react";`,
     "",
     "export const iconRegistry = {",

@@ -2,9 +2,11 @@
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { checkContracts, checkForwarding, checkReads, componentSources, type TokenIndex } from "./boundary.ts";
+import { type Contract, checkContract } from "./contract.ts";
 import { type ContrastPair, checkContrast } from "./contrast.ts";
+import { checkDesignAnatomy, checkDesignVariables } from "./design.ts";
 import { emitsVariable } from "./emit.ts";
-import { designHash, type IconSnapshot, iconSnapshotFile, readDesignIcons, registryFile } from "./icons.ts";
+import { type IconSnapshot, iconSnapshotFile, readDesignIcons, registryFile } from "./icons.ts";
 import {
   checkHostMotion,
   checkReducedMotion as checkLiveReducedMotion,
@@ -19,7 +21,7 @@ import { cssVar } from "./model.ts";
 import { type MotionRegistry, semanticDurations, useVariables } from "./motion.ts";
 import { checkAllowDirectives, checkIconUsage, checkMotionUsage, checkReducedMotion } from "./motion-checks.ts";
 import { checkFixture, checkPackage } from "./package.ts";
-import { designFile, normalize, type PenVariables, penVariables, readPenVariables, serializeVariables, variablesFile } from "./pen.ts";
+import { differingVariables, type PenVariable, readPenVariables } from "./pen.ts";
 import { formatIssue, type Generation, generate, motionRegistryFile, outputFiles, readExtras, readSources } from "./pipeline.ts";
 
 export type Tier = "fast" | "build" | "live";
@@ -80,33 +82,52 @@ export const gates: Record<string, (ctx: Context) => GateResult | Promise<GateRe
   "tokens-contrast": (ctx) => {
     const { resolved, issues } = ctx.generation();
     if (issues.length > 0) return { status: "fail", reasons: ["token sources have issues; see tokens-valid"] };
-    const dir = join(ctx.root, "docs/components");
-    const contracts = readdirSync(dir).filter((f) => f.endsWith(".json") && f !== "component-contract.schema.json");
-    const reasons = contracts.flatMap((file) => {
-      const pairs: ContrastPair[] = JSON.parse(readFileSync(join(dir, file), "utf8")).contrast ?? [];
-      return checkContrast(pairs, resolved, `docs/components/${file}`);
-    });
-    return result(reasons);
+    const check = ({ file, json }: ContractFile) => checkContrast((json.contrast ?? []) as ContrastPair[], resolved, file);
+    return result(readContracts(ctx.root).flatMap(check));
   },
 
-  "pen-variables": (ctx) => {
-    const { tokens, issues } = ctx.generation();
+  "tokens-contract": (ctx) => {
+    const { resolved, issues } = ctx.generation();
     if (issues.length > 0) return { status: "fail", reasons: ["token sources have issues; see tokens-valid"] };
-    if (read(ctx.root, variablesFile) === serializeVariables(penVariables(tokens))) return pass;
-    return { status: "fail", reasons: [`${variablesFile} differs from the variables the tokens generate; run pnpm design:push`] };
+    const check = ({ file, json }: ContractFile) => checkContract(json as unknown as Contract, resolved, file);
+    return result(readContracts(ctx.root).flatMap(check));
   },
 
+  "design-variables": (ctx) => {
+    const { files, issues } = ctx.generation();
+    if (issues.length > 0) return { status: "fail", reasons: ["token sources have issues; see tokens-valid"] };
+    const pen = files[outputFiles.pen];
+    if (pen === undefined) return { status: "skip", reason: `${outputFiles.pen} does not exist` };
+    return result(checkDesignVariables(JSON.parse(pen)).map((failure) => `${outputFiles.pen}: ${failure}`));
+  },
+
+  "design-anatomy": (ctx) => {
+    const { files, issues } = ctx.generation();
+    if (issues.length > 0) return { status: "fail", reasons: ["token sources have issues; see tokens-valid"] };
+    const pen = files[outputFiles.pen];
+    if (pen === undefined) return { status: "skip", reason: `${outputFiles.pen} does not exist` };
+    const contracts = readContracts(ctx.root).map(({ file, json }) => ({ file, contract: json as unknown as Contract }));
+    // A failure about a contract already names its file; one about a layer is located in the design file.
+    const located = (failure: string) =>
+      contracts.some((c) => failure.startsWith(`${c.file}:`)) ? failure : `${outputFiles.pen}: ${failure}`;
+    return result(checkDesignAnatomy(JSON.parse(pen), contracts).map(located));
+  },
+
+  // tokens:build writes the variables into design/keen.pen; this confirms Pen itself reads them back unchanged.
   "pen-live": (ctx) => {
-    const { tokens, issues } = ctx.generation();
+    const { files, issues } = ctx.generation();
     if (issues.length > 0) return { status: "fail", reasons: ["token sources have issues; see tokens-valid"] };
-    const live = readPenVariables(join(ctx.root, designFile));
+    const generated = files[outputFiles.pen];
+    if (generated === undefined) return { status: "skip", reason: `${outputFiles.pen} does not exist` };
+    const live = readPenVariables(join(ctx.root, outputFiles.pen));
     if (!live.ok) return live.unavailable ? { status: "skip", reason: live.error } : { status: "fail", reasons: [live.error] };
-    const expected = penVariables(tokens);
-    const actual = normalize(live.value as PenVariables, Object.keys(expected.variables));
-    if (JSON.stringify(actual) === JSON.stringify(expected)) return pass;
-    const names = new Set([...Object.keys(actual.variables), ...Object.keys(expected.variables)]);
-    const differing = [...names].filter((n) => JSON.stringify(actual.variables[n]) !== JSON.stringify(expected.variables[n]));
-    return { status: "fail", reasons: [`${designFile} variables differ from the tokens: ${differing.join(", ")}; run pnpm design:push`] };
+    const expected: Record<string, PenVariable> = JSON.parse(generated).variables;
+    const differing = differingVariables((live.value as { variables: Record<string, PenVariable> }).variables ?? {}, expected);
+    if (differing.length === 0) return pass;
+    return {
+      status: "fail",
+      reasons: [`Pen reads different variables from ${outputFiles.pen}: ${differing.join(", ")}; run pnpm tokens:build`],
+    };
   },
 
   "component-forwarding": (ctx) => result(checkForwarding(componentSources(ctx.root))),
@@ -157,23 +178,17 @@ export const gates: Record<string, (ctx: Context) => GateResult | Promise<GateRe
 
   "ds-allow": (ctx) => result(checkAllowDirectives(componentSources(ctx.root))),
 
-  "icons-design": (ctx) => {
-    const snapshot = snapshotOf(ctx.root);
-    if (!snapshot) return { status: "fail", reasons: [`${iconSnapshotFile} is missing; run pnpm design:push`] };
-    if (snapshot.designSha256 === designHash(join(ctx.root, snapshot.design))) return pass;
-    return {
-      status: "fail",
-      reasons: [`${snapshot.design} changed since ${iconSnapshotFile} was read; run pnpm design:push and pnpm tokens:build`],
-    };
-  },
-
+  // tokens:build reads the icon nodes from design/keen.pen; this confirms Pen itself sees the same icons.
   "icons-live": (ctx) => {
-    const snapshot = snapshotOf(ctx.root);
-    if (!snapshot) return { status: "fail", reasons: [`${iconSnapshotFile} is missing; run pnpm design:push`] };
+    const { files, issues } = ctx.generation();
+    if (issues.length > 0) return { status: "fail", reasons: ["token sources have issues; see tokens-valid"] };
+    const generated = files[outputFiles.icons];
+    if (generated === undefined) return { status: "skip", reason: `${outputFiles.pen} does not exist` };
+    const snapshot: IconSnapshot = JSON.parse(generated);
     const live = readDesignIcons(ctx.root, snapshot.design);
     if (!live.ok) return live.unavailable ? { status: "skip", reason: live.error } : { status: "fail", reasons: [live.error] };
     if (JSON.stringify(live.snapshot.glyphs) === JSON.stringify(snapshot.glyphs)) return pass;
-    return { status: "fail", reasons: [`the icon nodes in ${snapshot.design} differ from ${iconSnapshotFile}; run pnpm design:push`] };
+    return { status: "fail", reasons: [`Pen reads different icon nodes from ${snapshot.design} than ${iconSnapshotFile} records`] };
   },
 
   "icon-usage": (ctx) => {
@@ -205,6 +220,19 @@ export const gates: Record<string, (ctx: Context) => GateResult | Promise<GateRe
   },
 };
 
+const contractDir = "docs/components";
+
+interface ContractFile {
+  file: string;
+  json: Record<string, unknown>;
+}
+
+function readContracts(root: string): ContractFile[] {
+  return readdirSync(join(root, contractDir))
+    .filter((f) => f.endsWith(".json") && f !== "component-contract.schema.json")
+    .map((f) => ({ file: `${contractDir}/${f}`, json: JSON.parse(readFileSync(join(root, contractDir, f), "utf8")) }));
+}
+
 export interface GateSpec {
   id: string;
   tier: Tier;
@@ -215,7 +243,9 @@ export function readGateSpecs(root: string): GateSpec[] {
   return JSON.parse(readFileSync(join(root, ".keen/gates.json"), "utf8")).gates;
 }
 
-export async function runGates(root: string, tier: Tier, log: (line: string) => void): Promise<boolean> {
+// With strict, a skipped gate fails the run. CI passes it for the tiers whose prerequisites it installs, so a missing
+// browser or fixture there means CI broke, not that the check does not apply.
+export async function runGates(root: string, tier: Tier, log: (line: string) => void, { strict = false } = {}): Promise<boolean> {
   const specs = readGateSpecs(root);
   const declared = new Set(specs.map((s) => s.id));
   const undeclared = Object.keys(gates).filter((id) => !declared.has(id));
@@ -249,5 +279,6 @@ export async function runGates(root: string, tier: Tier, log: (line: string) => 
     if (outcome.status === "pass") for (const note of outcome.notes ?? []) log(`       note: ${note}`);
   }
   log(`${counts.pass} passed, ${counts.fail} failed, ${counts.skip} skipped (skipped checks are not passes)`);
-  return counts.fail === 0;
+  if (strict && counts.skip > 0) log(`strict: ${counts.skip} skipped, which fails the run`);
+  return counts.fail === 0 && !(strict && counts.skip > 0);
 }

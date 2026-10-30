@@ -1,8 +1,8 @@
 # Icons
 
-Keen uses one icon set, [Lucide](https://lucide.dev), the family the Pen design uses. The design is the source of which icons exist: `pnpm design:push` reads every icon node in `design/keen.pen` through the pen CLI into `.keen/design/icons.json`, and `pnpm tokens:build` generates `packages/keen/src/icons/registry.ts`, the only module that imports from Lucide, and the table below. Nobody edits the registry by hand; to add an icon, add it in the design and regenerate.
+Keen uses one icon set, [Lucide](https://lucide.dev), the family the Pen design uses. The design is the source of which icons exist: `pnpm tokens:build` reads every icon node in `design/keen.pen` into `.keen/design/icons.json` and generates `packages/keen/src/icons/registry.ts`, the only module that imports from Lucide, and the table below. Nobody edits the registry by hand; to add an icon, add it in the design and regenerate.
 
-Generation fails when a design icon is not from the Lucide family or names a glyph Lucide does not have. `pnpm verify` fails when the registry is stale, when `design/keen.pen` changed since the snapshot was taken, when anything outside the registry imports Lucide, or when component code names a glyph the registry lacks. The icon set belongs to Keen, so hosts cannot swap icons.
+Generation fails when a design icon is not from the Lucide family or names a glyph Lucide does not have. `pnpm verify` fails when the registry or the snapshot is stale, when anything outside the registry imports Lucide, or when component code names a glyph the registry lacks. The icon set belongs to Keen, so hosts cannot swap icons.
 
 ## Glyphs
 

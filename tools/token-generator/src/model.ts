@@ -1,5 +1,6 @@
 // Loads canonical DTCG token files into a flat, validated token list.
-export type Tier = "primitive" | "semantic" | "component";
+// Canvas tokens color the design file's annotations and frames. They reach Pen only, never the CSS or the typed map.
+export type Tier = "primitive" | "semantic" | "component" | "canvas";
 
 export interface Source {
   file: string;
@@ -28,7 +29,7 @@ export interface Issue {
 export const modes = ["light", "dark"] as const;
 export const types = new Set(["color", "dimension", "number", "fontFamily", "fontWeight", "duration", "cubicBezier", "transition"]);
 // Leading segments that name a token category rather than a component.
-export const categories = new Set(["color", "space", "radius", "font", "motion", "icon"]);
+export const categories = new Set(["color", "space", "radius", "font", "motion", "icon", "canvas"]);
 const groupKeys = new Set(["$type", "$description", "$extensions", "$schema", "$deprecated"]);
 const tokenKeys = new Set(["$value", "$type", "$description", "$extensions", "$deprecated"]);
 const segment = /^[a-z0-9]+(-[a-z0-9]+)*$/;
@@ -83,7 +84,7 @@ function toToken(source: Source, node: Record<string, unknown>, path: string[], 
   const report = (rule: string, message: string) => issues.push({ rule, token: name, message });
   for (const key of Object.keys(node)) if (!tokenKeys.has(key)) report("schema", `has unknown property ${key}`);
   for (const part of path) if (!segment.test(part)) report("naming", `segment "${part}" is not lowercase kebab-case`);
-  const tier = path[1] === "primitive" || path[1] === "semantic" ? path[1] : "component";
+  const tier = path[0] === "canvas" ? "canvas" : path[1] === "primitive" || path[1] === "semantic" ? path[1] : "component";
   if (tier !== source.tier) report("tier", `has tier ${tier} but is authored in ${source.file}, which holds ${source.tier} tokens`);
   if (tier === "component" && (path.length < 2 || categories.has(path[0]))) {
     report("tier", "has no tier segment: use category.primitive.*, category.semantic.*, or component.*");

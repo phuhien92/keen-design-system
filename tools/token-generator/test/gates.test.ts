@@ -43,6 +43,18 @@ const run = async (root: string) => {
 const edit = (root: string, file: string, change: (text: string) => string) =>
   writeFileSync(join(root, file), change(readFileSync(join(root, file), "utf8")));
 
+// Edits one layer of design/keen.pen, keeping Pen's own formatting so only the change is a difference.
+const editLayer = (root: string, id: string, change: (layer: Record<string, unknown>) => void) =>
+  edit(root, outputFiles.pen, (text) => {
+    const pen = JSON.parse(text);
+    const find = (node: { id?: string; children?: unknown[] }): Record<string, unknown> | undefined =>
+      node.id === id ? node : (node.children as (typeof node)[] | undefined)?.map(find).find(Boolean);
+    const layer = find(pen);
+    if (!layer) throw new Error(`no layer ${id}`);
+    change(layer);
+    return JSON.stringify(pen, null, 2);
+  });
+
 describe("fast tier", () => {
   it("passes on the committed repository", async () => {
     const { ok, output } = await run(repoRoot);
@@ -81,6 +93,60 @@ describe("fast tier", () => {
     expect(output).toMatch(/FAIL tokens-contrast[\s\S]*text-subtle on color\.semantic\.surface is .* in light/);
   });
 
+  it("fails when a contract binds a token tokens/*.json does not declare", async () => {
+    const root = copyRepo();
+    edit(root, "docs/components/chat.json", (json) => json.replace('"token": "chat.message-gap"', '"token": "chat.message-gapp"'));
+    const { ok, output } = await run(root);
+    expect(ok).toBe(false);
+    expect(output).toMatch(/FAIL tokens-contract[\s\S]*chat\.message-gapp names a token tokens\/\*\.json does not declare/);
+  });
+
+  it("fails when the Pen variables were edited by hand", async () => {
+    const root = copyRepo();
+    edit(root, outputFiles.pen, (text) => text.replace('"value": "#2557D6"', '"value": "#2557D7"'));
+    const { ok, output } = await run(root);
+    expect(ok).toBe(false);
+    expect(output).toMatch(/FAIL tokens-generated[\s\S]*design\/keen\.pen is stale or hand-edited/);
+  });
+
+  it("fails when the design types in a color", async () => {
+    const root = copyRepo();
+    editLayer(root, "I99YZ", (send) => {
+      send.fill = "#2557D6";
+    });
+    const { ok, output } = await run(root);
+    expect(ok).toBe(false);
+    expect(output).toMatch(/FAIL design-variables[\s\S]*Send: fill is the typed-in color #2557D6; use \$color\.semantic\.action/);
+  });
+
+  it("fails when a layer loses the metadata that links it to its part", async () => {
+    const root = copyRepo();
+    editLayer(root, "BlAXf", (bubble) => {
+      delete bubble.metadata;
+    });
+    const { ok, output } = await run(root);
+    expect(ok).toBe(false);
+    expect(output).toMatch(/FAIL design-anatomy[\s\S]*message-user\.bubble is not drawn; no layer carries its keen-part metadata/);
+  });
+
+  it("fails when an icon is added to the design without regenerating", async () => {
+    const root = copyRepo();
+    editLayer(root, "I99YZ", (send) => {
+      (send.children as unknown[]).push({
+        type: "icon",
+        id: "bell1",
+        name: "Bell",
+        icon: "bell",
+        library: "lucide",
+        width: 18,
+        height: 18,
+      });
+    });
+    const { ok, output } = await run(root);
+    expect(ok).toBe(false);
+    expect(output).toMatch(/FAIL tokens-generated[\s\S]*\.keen\/design\/icons\.json is stale or hand-edited/);
+  });
+
   it("fails when .keen/gates.json and the gate code disagree", async () => {
     const root = copyRepo();
     edit(root, ".keen/gates.json", (json) => json.replace('"tokens-contrast"', '"tokens-contrast-typo"'));
@@ -97,7 +163,7 @@ describe("fast tier", () => {
       const { ok, output } = await run(root);
       expect(ok).toBe(true);
       expect(output).toMatch(/SKIP tokens-contrast[\s\S]*skipped: no contracts/);
-      expect(output).toMatch(/13 passed, 0 failed, 3 skipped/);
+      expect(output).toMatch(/14 passed, 0 failed, 3 skipped/);
     } finally {
       gates["tokens-contrast"] = original;
     }
@@ -105,6 +171,19 @@ describe("fast tier", () => {
 });
 
 describe("tiers without gates", () => {
+  it("fails a run with a skipped gate when strict", async () => {
+    const original = gates["tokens-contrast"];
+    gates["tokens-contrast"] = () => ({ status: "skip", reason: "no contracts" });
+    try {
+      const lines: string[] = [];
+      const ok = await runGates(repoRoot, "fast", (line) => lines.push(line), { strict: true });
+      expect(ok).toBe(false);
+      expect(lines.join("\n")).toMatch(/strict: 3 skipped, which fails the run/);
+    } finally {
+      gates["tokens-contrast"] = original;
+    }
+  });
+
   it("reports a tier with no gates as skipped, not passed", async () => {
     const root = copyRepo();
     edit(root, ".keen/gates.json", (json) =>
