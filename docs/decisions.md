@@ -91,3 +91,21 @@ The README's last "Done when" item stays unchanged: "portfolio-blog renders the 
 DTCG 2025.10 has no modes, so a semantic token's `$value` is its light value and `$extensions.keen.modes.dark` holds its dark value, both as references to primitives. The generator declares the light values on `:root` and the dark values under `[data-keen-mode="dark"]`, so a host switches a page or a subtree by setting that attribute. Every token whose value depends on the mode is declared again in the dark block, because a custom property resolves its `var()` where it is declared.
 
 Rejected: one token file per mode, which would duplicate every non-color token and let the files drift, and the separate DTCG resolver format, which no tool Keen uses reads yet. Moving to the resolver format later changes the token files and the generator, not the generated variable names.
+
+### 2026-10-30: The design file's variables are generated, and its layers use only variables
+
+The design agent draws `design/keen.pen`; `pnpm tokens:build` writes its variables block from `tokens/*.json`, the same way it writes the CSS, and `tokens-generated` fails when that block is edited by hand. Every color on a layer is a variable, which `design-variables` enforces, so a token change reaches the design instead of leaving copies of the old value behind. Colors that exist only for the canvas (annotations and state-frame backgrounds) are tokens too, in `design/canvas.json`, and never reach the CSS, the typed map, or the baseline. `design/keen.variables.json`, a printed copy of the Pen variables, is deleted.
+
+Rejected: keeping Pen's variables hand-maintained and comparing them with the contract, which leaves three copies of every value in sync by checks alone; and putting canvas colors in `tokens/*.json`, which would ship them to hosts. Width and height stay numbers, because Pen 0.3 cannot bind them to a variable; their tokens are named in layer metadata. Reverting means hand-editing the variables block again, which is what this removes.
+
+### 2026-10-30: A Component Contract binds tokens and never copies their values
+
+A contract names the tokens its parts use, in exact bindings: part, optional element, a CSS property, an optional interaction state (`focus`, `placeholder`, and so on), and the token. It stores no values: the Component Guide renders values and descriptions from `.keen/baselines/tokens.json`, and `tokens-contract` checks that each bound token exists with a type that fits its property. A binding the design cannot draw, such as padding the design replaces with a fixed height, says `drawn: false`. Required states are no longer listed in `contract.mjs`; each state must have a light and a dark design export instead.
+
+This follows the "components as data" approach ([Nathan Curtis](https://medium.com/@nathanacurtis/components-as-data-2be178777f21); Adobe's [Spectrum component format](https://opensource.adobe.com/spectrum-design-data/spec/component-format/)): one file defines a component's parts, states, and token bindings, and the design, guide, and code are checked against it. Rejected: keeping values in the contract and gating them against the token files, which checks a copy that need not exist; and prose bindings ("title and detail size"), which no check can read. Adding a property to the vocabulary is a schema change, so the list grows only when a component needs it.
+
+### 2026-10-30: Design layers link to contract parts by metadata, not by layer name
+
+Each layer that draws a part carries `{ "type": "keen-part", "component", "part", "element" }` metadata, plus `sizes` for widths and heights. `design-anatomy` uses it to check that every part and element is drawn, that every token a layer uses is the one its part binds, and that every drawn binding appears in the design. Color and type properties inherit as CSS does: a label takes its color from the nearest part that binds one, and its font family from the component root. An instance override is checked against the part of the layer it restyles.
+
+Rejected: matching layer names, which a rename breaks silently; Figma's Code Connect links by component key for the same reason. Known limit: the check confirms that a state binding's token is drawn somewhere, not in which state, because Pen overrides do not name the state they draw.

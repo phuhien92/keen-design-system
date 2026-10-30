@@ -5,7 +5,7 @@ import type { Resolved } from "./resolve.ts";
 export const cssHeader = "/* Generated from tokens/*.json by tools/token-generator. Do not edit; run pnpm tokens:build. */\n";
 export const tsHeader = "// Generated from tokens/*.json by tools/token-generator. Do not edit; run pnpm tokens:build.\n";
 
-const tierOrder: Record<Tier, number> = { primitive: 0, semantic: 1, component: 2 };
+const tierOrder: Record<Tier, number> = { primitive: 0, semantic: 1, component: 2, canvas: 3 };
 const genericFamilies = new Set([
   "serif",
   "sans-serif",
@@ -123,6 +123,7 @@ const formatResolved = (type: string, value: unknown): unknown => {
   return formatValue(type, value);
 };
 
+// The baseline carries descriptions so the Component Guides can render a token table from it alone.
 export function emitBaseline(resolved: Map<string, Resolved>): string {
   const entries = [...resolved.values()]
     .sort((a, b) => compareTokens(a.token, b.token))
@@ -131,6 +132,7 @@ export function emitBaseline(resolved: Map<string, Resolved>): string {
       cssVar: emitsVariable(token) ? cssVar(token.name) : null,
       tier: token.tier,
       type: token.type,
+      description: token.description ?? null,
       ...Object.fromEntries(
         modes.map((mode) => [mode, { reference: values[mode].reference ?? null, value: formatResolved(token.type, values[mode].value) }]),
       ),

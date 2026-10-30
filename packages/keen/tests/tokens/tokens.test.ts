@@ -10,7 +10,11 @@ const values = (node: object): string[] => Object.values(node).flatMap((v) => (t
 
 describe("generated tokens", () => {
   it("carries the tier in every declared CSS variable", () => {
-    for (const name of declared) expect(name).toMatch(/^--keen-([a-z]+-(primitive|semantic)-|chat-)/);
+    // A category variable names its tier; any other variable is a component token, named after its component.
+    for (const name of declared) {
+      if (/^--keen-(color|space|radius|font|motion|icon)-/.test(name)) expect(name).toMatch(/^--keen-[a-z]+-(primitive|semantic)-/);
+      else expect(name).toMatch(/^--keen-[a-z]+-[a-z0-9]/);
+    }
   });
 
   it("resolves every var() in the stylesheet to a declared variable", () => {

@@ -5,7 +5,7 @@
   "description": "Minimal schema for a Keen Component Contract. contract.mjs validates it with a built-in subset validator (only the keywords used here) and adds the cross-checks a schema cannot express.",
   "type": "object",
   "additionalProperties": false,
-  "required": ["component", "contractVersion", "status", "summary", "design", "boundary", "states", "transitions", "anatomy", "api", "overrides", "tokens", "bindings", "contrast", "structure", "keyboard", "focus", "screenReader"],
+  "required": ["component", "contractVersion", "status", "summary", "design", "boundary", "states", "transitions", "anatomy", "api", "overrides", "bindings", "contrast", "structure", "keyboard", "focus", "screenReader"],
   "properties": {
     "$schema": { "type": "string" },
     "component": { "type": "string", "pattern": "^[A-Z][A-Za-z]+$" },
@@ -13,8 +13,8 @@
     "status": { "enum": ["proposed", "approved", "deprecated"] },
     "summary": { "$ref": "#/$defs/text" },
     "design": {
-      "type": "object", "additionalProperties": false, "required": ["source", "variables", "note"],
-      "properties": { "source": { "$ref": "#/$defs/path" }, "variables": { "$ref": "#/$defs/path" }, "note": { "$ref": "#/$defs/text" } }
+      "type": "object", "additionalProperties": false, "required": ["source", "note"],
+      "properties": { "source": { "$ref": "#/$defs/path" }, "note": { "$ref": "#/$defs/text" } }
     },
     "boundary": {
       "type": "object", "additionalProperties": false, "required": ["keen", "host"],
@@ -36,8 +36,18 @@
       "properties": { "from": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/name" } }, "event": { "$ref": "#/$defs/text" }, "to": { "description": "A state name, or previous: the state that was active when the from state was entered.", "$ref": "#/$defs/name" } }
     } },
     "anatomy": { "type": "array", "minItems": 1, "items": {
-      "type": "object", "additionalProperties": false, "required": ["part", "element", "layer", "description"],
-      "properties": { "part": { "$ref": "#/$defs/name" }, "element": { "type": "string" }, "layer": { "type": ["string", "null"] }, "slot": { "type": "boolean" }, "description": { "$ref": "#/$defs/text" } }
+      "type": "object", "additionalProperties": false, "required": ["part", "element", "description"],
+      "properties": {
+        "part": { "$ref": "#/$defs/name" },
+        "element": { "type": "string" },
+        "slot": { "type": "boolean" },
+        "drawn": { "description": "false for a part the design does not draw, such as a live region.", "type": "boolean" },
+        "description": { "$ref": "#/$defs/text" },
+        "elements": { "description": "Named elements inside the part that bindings style separately.", "type": "array", "minItems": 1, "items": {
+          "type": "object", "additionalProperties": false, "required": ["name", "description"],
+          "properties": { "name": { "$ref": "#/$defs/name" }, "description": { "$ref": "#/$defs/text" } }
+        } }
+      }
     } },
     "api": {
       "type": "object", "additionalProperties": false, "required": ["types", "props", "labels", "behavior"],
@@ -60,21 +70,16 @@
         "note": { "$ref": "#/$defs/text" }
       }
     },
-    "tokens": { "type": "array", "minItems": 1, "items": {
-      "type": "object", "additionalProperties": false, "required": ["name", "type", "description"],
-      "properties": {
-        "name": { "$ref": "#/$defs/token" },
-        "type": { "enum": ["color", "dimension", "number", "fontFamily", "fontWeight"] },
-        "light": { "$ref": "#/$defs/hex" },
-        "dark": { "$ref": "#/$defs/hex" },
-        "value": { "type": ["number", "string"] },
-        "alias": { "$ref": "#/$defs/token" },
-        "description": { "$ref": "#/$defs/text" }
-      }
-    } },
     "bindings": { "type": "array", "minItems": 1, "items": {
       "type": "object", "additionalProperties": false, "required": ["part", "property", "token"],
-      "properties": { "part": { "$ref": "#/$defs/name" }, "property": { "type": "string" }, "token": { "$ref": "#/$defs/token" } }
+      "properties": {
+        "part": { "$ref": "#/$defs/name" },
+        "element": { "description": "An element of the part, from its anatomy entry. Omitted when the binding styles the part itself.", "$ref": "#/$defs/name" },
+        "property": { "description": "A CSS property, or divider-color for a one-sided border.", "enum": ["background", "color", "border-color", "divider-color", "radius", "padding", "padding-block", "padding-block-start", "padding-block-end", "padding-inline", "padding-inline-start", "padding-inline-end", "gap", "max-width", "min-height", "width", "height", "font-family", "font-size", "font-weight", "line-height"] },
+        "state": { "description": "The interaction state the binding applies in. Omitted for the resting state.", "enum": ["hover", "focus", "pressed", "disabled", "placeholder"] },
+        "token": { "$ref": "#/$defs/token" },
+        "drawn": { "description": "false when the design cannot draw the binding, such as padding the design replaces with a fixed height.", "type": "boolean" }
+      }
     } },
     "contrast": { "type": "array", "items": {
       "type": "object", "additionalProperties": false, "required": ["foreground", "background", "minimum"],
@@ -93,7 +98,6 @@
     "texts": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/text" } },
     "name": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" },
     "path": { "type": "string", "pattern": "^[A-Za-z0-9._/-]+$" },
-    "hex": { "type": "string", "pattern": "^#[0-9A-F]{6}$" },
     "token": {
       "description": "Tier-in-name token path: category.semantic.role or component.property. Primitives are not allowed in a contract.",
       "type": "string",

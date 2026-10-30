@@ -16,7 +16,17 @@
     {
       "id": "tokens-contract",
       "tier": "fast",
-      "description": "every Component Contract token value matches tokens/*.json in light and dark, and every component token is documented"
+      "description": "every token a Component Contract binds exists in tokens/*.json with a type that fits its property, and every component token is bound"
+    },
+    {
+      "id": "design-variables",
+      "tier": "fast",
+      "description": "every color in design/keen.pen is a token variable, and every variable it uses is declared"
+    },
+    {
+      "id": "design-anatomy",
+      "tier": "fast",
+      "description": "every Component Contract part is drawn and linked by keen-part metadata, and the design draws exactly the tokens the contract binds"
     }
   ]
 }

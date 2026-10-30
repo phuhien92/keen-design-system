@@ -33,9 +33,23 @@
               "fontSize": "$font.semantic.size-body",
               "fontWeight": "normal"
             }
-          ]
+          ],
+          "metadata": {
+            "type": "keen-part",
+            "component": "Chat",
+            "part": "message-user",
+            "element": "bubble",
+            "sizes": {
+              "max-width": "chat.message-max-width"
+            }
+          }
         }
-      ]
+      ],
+      "metadata": {
+        "type": "keen-part",
+        "component": "Chat",
+        "part": "message-user"
+      }
     },
     {
       "type": "frame",
@@ -53,8 +67,13 @@
           "id": "juYls",
           "name": "Bubble",
           "metadata": {
-            "type": "keen-token",
-            "width": "chat.message-max-width"
+            "type": "keen-part",
+            "component": "Chat",
+            "part": "message-assistant",
+            "element": "bubble",
+            "sizes": {
+              "max-width": "chat.message-max-width"
+            }
           },
           "width": 320,
           "fill": "$chat.message-assistant-background",
@@ -110,9 +129,20 @@
               "fontSize": "$font.semantic.size-caption",
               "fontWeight": "normal"
             }
-          ]
+          ],
+          "metadata": {
+            "type": "keen-part",
+            "component": "Chat",
+            "part": "message-assistant",
+            "element": "status"
+          }
         }
-      ]
+      ],
+      "metadata": {
+        "type": "keen-part",
+        "component": "Chat",
+        "part": "message-assistant"
+      }
     },
     {
       "type": "frame",
@@ -181,9 +211,20 @@
               "fontSize": "$font.semantic.size-caption",
               "fontWeight": "normal"
             }
-          ]
+          ],
+          "metadata": {
+            "type": "keen-part",
+            "component": "Chat",
+            "part": "message-pending",
+            "element": "bubble"
+          }
         }
-      ]
+      ],
+      "metadata": {
+        "type": "keen-part",
+        "component": "Chat",
+        "part": "message-pending"
+      }
     },
     {
       "type": "frame",
@@ -232,7 +273,13 @@
               "content": "Error",
               "fontFamily": "$font.semantic.family-body",
               "fontSize": "$font.semantic.size-caption",
-              "fontWeight": "$font.semantic.weight-strong"
+              "fontWeight": "$font.semantic.weight-strong",
+              "metadata": {
+                "type": "keen-part",
+                "component": "Chat",
+                "part": "error-notice",
+                "element": "title"
+              }
             },
             {
               "type": "text",
@@ -244,7 +291,13 @@
               "content": "Detail",
               "fontFamily": "$font.semantic.family-body",
               "fontSize": "$font.semantic.size-caption",
-              "fontWeight": "normal"
+              "fontWeight": "normal",
+              "metadata": {
+                "type": "keen-part",
+                "component": "Chat",
+                "part": "error-notice",
+                "element": "detail"
+              }
             }
           ]
         },
@@ -284,9 +337,20 @@
               "fontSize": "$font.semantic.size-caption",
               "fontWeight": "$font.semantic.weight-strong"
             }
-          ]
+          ],
+          "metadata": {
+            "type": "keen-part",
+            "component": "Chat",
+            "part": "error-notice",
+            "element": "retry"
+          }
         }
-      ]
+      ],
+      "metadata": {
+        "type": "keen-part",
+        "component": "Chat",
+        "part": "error-notice"
+      }
     },
     {
       "type": "frame",
@@ -308,8 +372,13 @@
           "id": "ObpBo",
           "name": "Field",
           "metadata": {
-            "type": "keen-token",
-            "height": "chat.composer-height"
+            "type": "keen-part",
+            "component": "Chat",
+            "part": "input",
+            "element": "field",
+            "sizes": {
+              "min-height": "chat.composer-height"
+            }
           },
           "width": "fill_container",
           "height": 48,
@@ -337,7 +406,12 @@
               "lineHeight": "$font.semantic.line-height-body",
               "fontFamily": "$font.semantic.family-body",
               "fontSize": "$font.semantic.size-body",
-              "fontWeight": "normal"
+              "fontWeight": "normal",
+              "metadata": {
+                "type": "keen-part",
+                "component": "Chat",
+                "part": "input"
+              }
             },
             {
               "type": "frame",
@@ -360,7 +434,12 @@
                   "library": "lucide",
                   "fill": "$color.semantic.text-on-action"
                 }
-              ]
+              ],
+              "metadata": {
+                "type": "keen-part",
+                "component": "Chat",
+                "part": "send"
+              }
             },
             {
               "type": "frame",
@@ -401,11 +480,21 @@
                   "fontSize": "$font.semantic.size-caption",
                   "fontWeight": "$font.semantic.weight-strong"
                 }
-              ]
+              ],
+              "metadata": {
+                "type": "keen-part",
+                "component": "Chat",
+                "part": "stop"
+              }
             }
           ]
         }
-      ]
+      ],
+      "metadata": {
+        "type": "keen-part",
+        "component": "Chat",
+        "part": "composer"
+      }
     },
     {
       "type": "frame",
@@ -414,7 +503,7 @@
       "y": 200,
       "name": "State 01 · empty · light",
       "width": 464,
-      "fill": "#E8EBF0",
+      "fill": "$canvas.frame-background",
       "cornerRadius": 24,
       "layout": "vertical",
       "gap": 20,
@@ -432,7 +521,7 @@
               "type": "text",
               "id": "hgFoF",
               "name": "Annotation / Index",
-              "fill": "#4A5361",
+              "fill": "$canvas.annotation-label",
               "content": "STATE 01 · EMPTY",
               "fontFamily": "Inter",
               "fontSize": 11,
@@ -443,7 +532,7 @@
               "type": "text",
               "id": "NeV5R",
               "name": "Annotation / Title",
-              "fill": "#101828",
+              "fill": "$canvas.annotation-title",
               "content": "Empty",
               "fontFamily": "Inter",
               "fontSize": 22,
@@ -453,7 +542,7 @@
               "type": "text",
               "id": "GRPfK",
               "name": "Annotation / Summary",
-              "fill": "#344054",
+              "fill": "$canvas.annotation-summary",
               "textGrowth": "fixed-width",
               "width": "fill_container",
               "content": "No messages yet. The empty slot shows host copy and optional suggestions.",
@@ -498,9 +587,20 @@
                   "lineHeight": "$font.semantic.line-height-body",
                   "fontFamily": "$font.semantic.family-body",
                   "fontSize": "$font.semantic.size-title",
-                  "fontWeight": "$font.semantic.weight-strong"
+                  "fontWeight": "$font.semantic.weight-strong",
+                  "metadata": {
+                    "type": "keen-part",
+                    "component": "Chat",
+                    "part": "header",
+                    "element": "title"
+                  }
                 }
-              ]
+              ],
+              "metadata": {
+                "type": "keen-part",
+                "component": "Chat",
+                "part": "header"
+              }
             },
             {
               "type": "frame",
@@ -545,7 +645,13 @@
                           "library": "lucide",
                           "fill": "$color.semantic.action"
                         }
-                      ]
+                      ],
+                      "metadata": {
+                        "type": "keen-part",
+                        "component": "Chat",
+                        "part": "empty",
+                        "element": "icon"
+                      }
                     },
                     {
                       "type": "text",
@@ -556,7 +662,13 @@
                       "lineHeight": "$font.semantic.line-height-body",
                       "fontFamily": "$font.semantic.family-body",
                       "fontSize": "$font.semantic.size-title",
-                      "fontWeight": "$font.semantic.weight-strong"
+                      "fontWeight": "$font.semantic.weight-strong",
+                      "metadata": {
+                        "type": "keen-part",
+                        "component": "Chat",
+                        "part": "empty",
+                        "element": "title"
+                      }
                     },
                     {
                       "type": "text",
@@ -570,7 +682,13 @@
                       "textAlign": "center",
                       "fontFamily": "$font.semantic.family-body",
                       "fontSize": "$font.semantic.size-body",
-                      "fontWeight": "normal"
+                      "fontWeight": "normal",
+                      "metadata": {
+                        "type": "keen-part",
+                        "component": "Chat",
+                        "part": "empty",
+                        "element": "body"
+                      }
                     },
                     {
                       "type": "frame",
@@ -603,7 +721,12 @@
                               "fontSize": "$font.semantic.size-caption",
                               "fontWeight": "normal"
                             }
-                          ]
+                          ],
+                          "metadata": {
+                            "type": "keen-part",
+                            "component": "Chat",
+                            "part": "suggestion"
+                          }
                         },
                         {
                           "type": "frame",
@@ -628,7 +751,12 @@
                               "fontSize": "$font.semantic.size-caption",
                               "fontWeight": "normal"
                             }
-                          ]
+                          ],
+                          "metadata": {
+                            "type": "keen-part",
+                            "component": "Chat",
+                            "part": "suggestion"
+                          }
                         },
                         {
                           "type": "frame",
@@ -653,13 +781,34 @@
                               "fontSize": "$font.semantic.size-caption",
                               "fontWeight": "normal"
                             }
-                          ]
+                          ],
+                          "metadata": {
+                            "type": "keen-part",
+                            "component": "Chat",
+                            "part": "suggestion"
+                          }
                         }
-                      ]
+                      ],
+                      "metadata": {
+                        "type": "keen-part",
+                        "component": "Chat",
+                        "part": "empty",
+                        "element": "suggestions"
+                      }
                     }
-                  ]
+                  ],
+                  "metadata": {
+                    "type": "keen-part",
+                    "component": "Chat",
+                    "part": "empty"
+                  }
                 }
-              ]
+              ],
+              "metadata": {
+                "type": "keen-part",
+                "component": "Chat",
+                "part": "log"
+              }
             },
             {
               "id": "bj3Fh",
@@ -673,7 +822,12 @@
                 }
               }
             }
-          ]
+          ],
+          "metadata": {
+            "type": "keen-part",
+            "component": "Chat",
+            "part": "root"
+          }
         },
         {
           "type": "frame",
@@ -694,7 +848,7 @@
                   "type": "text",
                   "id": "yCQut",
                   "name": "Intent Key",
-                  "fill": "#4A5361",
+                  "fill": "$canvas.annotation-label",
                   "textGrowth": "fixed-width",
                   "width": 72,
                   "content": "FOCUS",
@@ -707,7 +861,7 @@
                   "type": "text",
                   "id": "dBmEd",
                   "name": "Intent Text",
-                  "fill": "#1D2939",
+                  "fill": "$canvas.annotation-text",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
                   "content": "Normal tab order: suggestions, input, Send. Send is disabled while the input is empty.",
@@ -729,7 +883,7 @@
                   "type": "text",
                   "id": "o6lW7X",
                   "name": "Intent Key",
-                  "fill": "#4A5361",
+                  "fill": "$canvas.annotation-label",
                   "textGrowth": "fixed-width",
                   "width": 72,
                   "content": "KEYBOARD",
@@ -742,7 +896,7 @@
                   "type": "text",
                   "id": "B10tP",
                   "name": "Intent Text",
-                  "fill": "#1D2939",
+                  "fill": "$canvas.annotation-text",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
                   "content": "Enter sends. Shift+Enter adds a newline. A suggestion button sends its text.",
@@ -764,7 +918,7 @@
                   "type": "text",
                   "id": "MTvvo",
                   "name": "Intent Key",
-                  "fill": "#4A5361",
+                  "fill": "$canvas.annotation-label",
                   "textGrowth": "fixed-width",
                   "width": 72,
                   "content": "ANNOUNCE",
@@ -777,7 +931,7 @@
                   "type": "text",
                   "id": "B1Bgk",
                   "name": "Intent Text",
-                  "fill": "#1D2939",
+                  "fill": "$canvas.annotation-text",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
                   "content": "The region is named by the header title. Nothing is announced.",
@@ -799,7 +953,7 @@
       "y": 200,
       "name": "State 02 · loading · light",
       "width": 464,
-      "fill": "#E8EBF0",
+      "fill": "$canvas.frame-background",
       "cornerRadius": 24,
       "layout": "vertical",
       "gap": 20,
@@ -817,7 +971,7 @@
               "type": "text",
               "id": "MTapM",
               "name": "Annotation / Index",
-              "fill": "#4A5361",
+              "fill": "$canvas.annotation-label",
               "content": "STATE 02 · LOADING",
               "fontFamily": "Inter",
               "fontSize": 11,
@@ -828,7 +982,7 @@
               "type": "text",
               "id": "mDUgi",
               "name": "Annotation / Title",
-              "fill": "#101828",
+              "fill": "$canvas.annotation-title",
               "content": "Loading",
               "fontFamily": "Inter",
               "fontSize": 22,
@@ -838,7 +992,7 @@
               "type": "text",
               "id": "HGI5e",
               "name": "Annotation / Summary",
-              "fill": "#344054",
+              "fill": "$canvas.annotation-summary",
               "textGrowth": "fixed-width",
               "width": "fill_container",
               "content": "The request is sent and no token has arrived yet.",
@@ -883,9 +1037,20 @@
                   "lineHeight": "$font.semantic.line-height-body",
                   "fontFamily": "$font.semantic.family-body",
                   "fontSize": "$font.semantic.size-title",
-                  "fontWeight": "$font.semantic.weight-strong"
+                  "fontWeight": "$font.semantic.weight-strong",
+                  "metadata": {
+                    "type": "keen-part",
+                    "component": "Chat",
+                    "part": "header",
+                    "element": "title"
+                  }
                 }
-              ]
+              ],
+              "metadata": {
+                "type": "keen-part",
+                "component": "Chat",
+                "part": "header"
+              }
             },
             {
               "type": "frame",
@@ -917,7 +1082,12 @@
                   "name": "Pending message",
                   "width": "fill_container"
                 }
-              ]
+              ],
+              "metadata": {
+                "type": "keen-part",
+                "component": "Chat",
+                "part": "log"
+              }
             },
             {
               "id": "O7U7b",
@@ -938,7 +1108,12 @@
                 }
               }
             }
-          ]
+          ],
+          "metadata": {
+            "type": "keen-part",
+            "component": "Chat",
+            "part": "root"
+          }
         },
         {
           "type": "frame",
@@ -959,7 +1134,7 @@
                   "type": "text",
                   "id": "L737Nj",
                   "name": "Intent Key",
-                  "fill": "#4A5361",
+                  "fill": "$canvas.annotation-label",
                   "textGrowth": "fixed-width",
                   "width": 72,
                   "content": "FOCUS",
@@ -972,7 +1147,7 @@
                   "type": "text",
                   "id": "FhKD2",
                   "name": "Intent Text",
-                  "fill": "#1D2939",
+                  "fill": "$canvas.annotation-text",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
                   "content": "Stays in the input, which was cleared on send. Send is replaced by Stop.",
@@ -994,7 +1169,7 @@
                   "type": "text",
                   "id": "RHLp0",
                   "name": "Intent Key",
-                  "fill": "#4A5361",
+                  "fill": "$canvas.annotation-label",
                   "textGrowth": "fixed-width",
                   "width": 72,
                   "content": "KEYBOARD",
@@ -1007,7 +1182,7 @@
                   "type": "text",
                   "id": "pG7Zy",
                   "name": "Intent Text",
-                  "fill": "#1D2939",
+                  "fill": "$canvas.annotation-text",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
                   "content": "Esc in the input or the Stop button cancels and goes to stopped. Enter does not send while busy.",
@@ -1029,7 +1204,7 @@
                   "type": "text",
                   "id": "YfhOA",
                   "name": "Intent Key",
-                  "fill": "#4A5361",
+                  "fill": "$canvas.annotation-label",
                   "textGrowth": "fixed-width",
                   "width": 72,
                   "content": "ANNOUNCE",
@@ -1042,7 +1217,7 @@
                   "type": "text",
                   "id": "b8z7fg",
                   "name": "Intent Text",
-                  "fill": "#1D2939",
+                  "fill": "$canvas.annotation-text",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
                   "content": "The polite live region says \"Thinking…\" once.",
@@ -1064,7 +1239,7 @@
       "y": 200,
       "name": "State 03 · streaming · light",
       "width": 464,
-      "fill": "#E8EBF0",
+      "fill": "$canvas.frame-background",
       "cornerRadius": 24,
       "layout": "vertical",
       "gap": 20,
@@ -1082,7 +1257,7 @@
               "type": "text",
               "id": "i8UdL",
               "name": "Annotation / Index",
-              "fill": "#4A5361",
+              "fill": "$canvas.annotation-label",
               "content": "STATE 03 · STREAMING",
               "fontFamily": "Inter",
               "fontSize": 11,
@@ -1093,7 +1268,7 @@
               "type": "text",
               "id": "XeC2Y",
               "name": "Annotation / Title",
-              "fill": "#101828",
+              "fill": "$canvas.annotation-title",
               "content": "Streaming",
               "fontFamily": "Inter",
               "fontSize": 22,
@@ -1103,7 +1278,7 @@
               "type": "text",
               "id": "MP11Z",
               "name": "Annotation / Summary",
-              "fill": "#344054",
+              "fill": "$canvas.annotation-summary",
               "textGrowth": "fixed-width",
               "width": "fill_container",
               "content": "Tokens arrive and append to the assistant message.",
@@ -1148,9 +1323,20 @@
                   "lineHeight": "$font.semantic.line-height-body",
                   "fontFamily": "$font.semantic.family-body",
                   "fontSize": "$font.semantic.size-title",
-                  "fontWeight": "$font.semantic.weight-strong"
+                  "fontWeight": "$font.semantic.weight-strong",
+                  "metadata": {
+                    "type": "keen-part",
+                    "component": "Chat",
+                    "part": "header",
+                    "element": "title"
+                  }
                 }
-              ]
+              ],
+              "metadata": {
+                "type": "keen-part",
+                "component": "Chat",
+                "part": "header"
+              }
             },
             {
               "type": "frame",
@@ -1187,7 +1373,12 @@
                     }
                   }
                 }
-              ]
+              ],
+              "metadata": {
+                "type": "keen-part",
+                "component": "Chat",
+                "part": "log"
+              }
             },
             {
               "id": "MTq1u",
@@ -1208,7 +1399,12 @@
                 }
               }
             }
-          ]
+          ],
+          "metadata": {
+            "type": "keen-part",
+            "component": "Chat",
+            "part": "root"
+          }
         },
         {
           "type": "frame",
@@ -1229,7 +1425,7 @@
                   "type": "text",
                   "id": "ZM7tL",
                   "name": "Intent Key",
-                  "fill": "#4A5361",
+                  "fill": "$canvas.annotation-label",
                   "textGrowth": "fixed-width",
                   "width": 72,
                   "content": "FOCUS",
@@ -1242,7 +1438,7 @@
                   "type": "text",
                   "id": "b3S2ji",
                   "name": "Intent Text",
-                  "fill": "#1D2939",
+                  "fill": "$canvas.annotation-text",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
                   "content": "Stays in the input so the next message can be drafted.",
@@ -1264,7 +1460,7 @@
                   "type": "text",
                   "id": "wowB9",
                   "name": "Intent Key",
-                  "fill": "#4A5361",
+                  "fill": "$canvas.annotation-label",
                   "textGrowth": "fixed-width",
                   "width": 72,
                   "content": "KEYBOARD",
@@ -1277,7 +1473,7 @@
                   "type": "text",
                   "id": "rk2NQ",
                   "name": "Intent Text",
-                  "fill": "#1D2939",
+                  "fill": "$canvas.annotation-text",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
                   "content": "Esc or Stop cancels and goes to stopped with the partial text kept.",
@@ -1299,7 +1495,7 @@
                   "type": "text",
                   "id": "kR3UJ",
                   "name": "Intent Key",
-                  "fill": "#4A5361",
+                  "fill": "$canvas.annotation-label",
                   "textGrowth": "fixed-width",
                   "width": 72,
                   "content": "ANNOUNCE",
@@ -1312,7 +1508,7 @@
                   "type": "text",
                   "id": "IKsgi",
                   "name": "Intent Text",
-                  "fill": "#1D2939",
+                  "fill": "$canvas.annotation-text",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
                   "content": "Only newly appended text goes to the polite live region, flushed at sentence ends. The message is aria-busy.",
@@ -1334,7 +1530,7 @@
       "y": 200,
       "name": "State 04 · completed · light",
       "width": 464,
-      "fill": "#E8EBF0",
+      "fill": "$canvas.frame-background",
       "cornerRadius": 24,
       "layout": "vertical",
       "gap": 20,
@@ -1352,7 +1548,7 @@
               "type": "text",
               "id": "jlU9K",
               "name": "Annotation / Index",
-              "fill": "#4A5361",
+              "fill": "$canvas.annotation-label",
               "content": "STATE 04 · COMPLETED",
               "fontFamily": "Inter",
               "fontSize": 11,
@@ -1363,7 +1559,7 @@
               "type": "text",
               "id": "UXXKv",
               "name": "Annotation / Title",
-              "fill": "#101828",
+              "fill": "$canvas.annotation-title",
               "content": "Completed",
               "fontFamily": "Inter",
               "fontSize": 22,
@@ -1373,7 +1569,7 @@
               "type": "text",
               "id": "xeWTd",
               "name": "Annotation / Summary",
-              "fill": "#344054",
+              "fill": "$canvas.annotation-summary",
               "textGrowth": "fixed-width",
               "width": "fill_container",
               "content": "The stream finished. The full response is in the log.",
@@ -1418,9 +1614,20 @@
                   "lineHeight": "$font.semantic.line-height-body",
                   "fontFamily": "$font.semantic.family-body",
                   "fontSize": "$font.semantic.size-title",
-                  "fontWeight": "$font.semantic.weight-strong"
+                  "fontWeight": "$font.semantic.weight-strong",
+                  "metadata": {
+                    "type": "keen-part",
+                    "component": "Chat",
+                    "part": "header",
+                    "element": "title"
+                  }
                 }
-              ]
+              ],
+              "metadata": {
+                "type": "keen-part",
+                "component": "Chat",
+                "part": "header"
+              }
             },
             {
               "type": "frame",
@@ -1457,7 +1664,12 @@
                     }
                   }
                 }
-              ]
+              ],
+              "metadata": {
+                "type": "keen-part",
+                "component": "Chat",
+                "part": "log"
+              }
             },
             {
               "id": "EqYAn",
@@ -1476,7 +1688,12 @@
                 }
               }
             }
-          ]
+          ],
+          "metadata": {
+            "type": "keen-part",
+            "component": "Chat",
+            "part": "root"
+          }
         },
         {
           "type": "frame",
@@ -1497,7 +1714,7 @@
                   "type": "text",
                   "id": "As0eu",
                   "name": "Intent Key",
-                  "fill": "#4A5361",
+                  "fill": "$canvas.annotation-label",
                   "textGrowth": "fixed-width",
                   "width": 72,
                   "content": "FOCUS",
@@ -1510,7 +1727,7 @@
                   "type": "text",
                   "id": "i3dE0O",
                   "name": "Intent Text",
-                  "fill": "#1D2939",
+                  "fill": "$canvas.annotation-text",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
                   "content": "Returned to the input after send and stays there (focus ring shown).",
@@ -1532,7 +1749,7 @@
                   "type": "text",
                   "id": "nbu1v",
                   "name": "Intent Key",
-                  "fill": "#4A5361",
+                  "fill": "$canvas.annotation-label",
                   "textGrowth": "fixed-width",
                   "width": 72,
                   "content": "KEYBOARD",
@@ -1545,7 +1762,7 @@
                   "type": "text",
                   "id": "nkVOM",
                   "name": "Intent Text",
-                  "fill": "#1D2939",
+                  "fill": "$canvas.annotation-text",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
                   "content": "Enter sends the drafted message. Stop is gone, Send is back.",
@@ -1567,7 +1784,7 @@
                   "type": "text",
                   "id": "vlysv",
                   "name": "Intent Key",
-                  "fill": "#4A5361",
+                  "fill": "$canvas.annotation-label",
                   "textGrowth": "fixed-width",
                   "width": 72,
                   "content": "ANNOUNCE",
@@ -1580,7 +1797,7 @@
                   "type": "text",
                   "id": "cL8Mg",
                   "name": "Intent Text",
-                  "fill": "#1D2939",
+                  "fill": "$canvas.annotation-text",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
                   "content": "aria-busy clears. The full message is not re-read.",
@@ -1602,7 +1819,7 @@
       "y": 200,
       "name": "State 05 · error · light",
       "width": 464,
-      "fill": "#E8EBF0",
+      "fill": "$canvas.frame-background",
       "cornerRadius": 24,
       "layout": "vertical",
       "gap": 20,
@@ -1620,7 +1837,7 @@
               "type": "text",
               "id": "QzX9T",
               "name": "Annotation / Index",
-              "fill": "#4A5361",
+              "fill": "$canvas.annotation-label",
               "content": "STATE 05 · ERROR",
               "fontFamily": "Inter",
               "fontSize": 11,
@@ -1631,7 +1848,7 @@
               "type": "text",
               "id": "tgUyK",
               "name": "Annotation / Title",
-              "fill": "#101828",
+              "fill": "$canvas.annotation-title",
               "content": "Error",
               "fontFamily": "Inter",
               "fontSize": 22,
@@ -1641,7 +1858,7 @@
               "type": "text",
               "id": "x9SZC",
               "name": "Annotation / Summary",
-              "fill": "#344054",
+              "fill": "$canvas.annotation-summary",
               "textGrowth": "fixed-width",
               "width": "fill_container",
               "content": "The request failed before any token arrived.",
@@ -1686,9 +1903,20 @@
                   "lineHeight": "$font.semantic.line-height-body",
                   "fontFamily": "$font.semantic.family-body",
                   "fontSize": "$font.semantic.size-title",
-                  "fontWeight": "$font.semantic.weight-strong"
+                  "fontWeight": "$font.semantic.weight-strong",
+                  "metadata": {
+                    "type": "keen-part",
+                    "component": "Chat",
+                    "part": "header",
+                    "element": "title"
+                  }
                 }
-              ]
+              ],
+              "metadata": {
+                "type": "keen-part",
+                "component": "Chat",
+                "part": "header"
+              }
             },
             {
               "type": "frame",
@@ -1728,7 +1956,12 @@
                     }
                   }
                 }
-              ]
+              ],
+              "metadata": {
+                "type": "keen-part",
+                "component": "Chat",
+                "part": "log"
+              }
             },
             {
               "id": "DkAH0",
@@ -1746,7 +1979,12 @@
                 }
               }
             }
-          ]
+          ],
+          "metadata": {
+            "type": "keen-part",
+            "component": "Chat",
+            "part": "root"
+          }
         },
         {
           "type": "frame",
@@ -1767,7 +2005,7 @@
                   "type": "text",
                   "id": "Dawwx",
                   "name": "Intent Key",
-                  "fill": "#4A5361",
+                  "fill": "$canvas.annotation-label",
                   "textGrowth": "fixed-width",
                   "width": 72,
                   "content": "FOCUS",
@@ -1780,7 +2018,7 @@
                   "type": "text",
                   "id": "o6y5j",
                   "name": "Intent Text",
-                  "fill": "#1D2939",
+                  "fill": "$canvas.annotation-text",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
                   "content": "Moves to the input when Stop disappears. Retry precedes the composer in tab order.",
@@ -1802,7 +2040,7 @@
                   "type": "text",
                   "id": "Cdwgg",
                   "name": "Intent Key",
-                  "fill": "#4A5361",
+                  "fill": "$canvas.annotation-label",
                   "textGrowth": "fixed-width",
                   "width": 72,
                   "content": "KEYBOARD",
@@ -1815,7 +2053,7 @@
                   "type": "text",
                   "id": "aSHv4",
                   "name": "Intent Text",
-                  "fill": "#1D2939",
+                  "fill": "$canvas.annotation-text",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
                   "content": "Retry resends the last user message and goes to loading.",
@@ -1837,7 +2075,7 @@
                   "type": "text",
                   "id": "N5mf25",
                   "name": "Intent Key",
-                  "fill": "#4A5361",
+                  "fill": "$canvas.annotation-label",
                   "textGrowth": "fixed-width",
                   "width": 72,
                   "content": "ANNOUNCE",
@@ -1850,7 +2088,7 @@
                   "type": "text",
                   "id": "uhiGn",
                   "name": "Intent Text",
-                  "fill": "#1D2939",
+                  "fill": "$canvas.annotation-text",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
                   "content": "The notice is a role=alert region, announced once.",
@@ -1872,7 +2110,7 @@
       "y": 200,
       "name": "State 06 · stopped · light",
       "width": 464,
-      "fill": "#E8EBF0",
+      "fill": "$canvas.frame-background",
       "cornerRadius": 24,
       "layout": "vertical",
       "gap": 20,
@@ -1890,7 +2128,7 @@
               "type": "text",
               "id": "FgFs3",
               "name": "Annotation / Index",
-              "fill": "#4A5361",
+              "fill": "$canvas.annotation-label",
               "content": "STATE 06 · STOPPED",
               "fontFamily": "Inter",
               "fontSize": 11,
@@ -1901,7 +2139,7 @@
               "type": "text",
               "id": "u8VfGA",
               "name": "Annotation / Title",
-              "fill": "#101828",
+              "fill": "$canvas.annotation-title",
               "content": "Stopped",
               "fontFamily": "Inter",
               "fontSize": 22,
@@ -1911,7 +2149,7 @@
               "type": "text",
               "id": "C7rj7",
               "name": "Annotation / Summary",
-              "fill": "#344054",
+              "fill": "$canvas.annotation-summary",
               "textGrowth": "fixed-width",
               "width": "fill_container",
               "content": "The user stopped generation. The partial response is kept.",
@@ -1956,9 +2194,20 @@
                   "lineHeight": "$font.semantic.line-height-body",
                   "fontFamily": "$font.semantic.family-body",
                   "fontSize": "$font.semantic.size-title",
-                  "fontWeight": "$font.semantic.weight-strong"
+                  "fontWeight": "$font.semantic.weight-strong",
+                  "metadata": {
+                    "type": "keen-part",
+                    "component": "Chat",
+                    "part": "header",
+                    "element": "title"
+                  }
                 }
-              ]
+              ],
+              "metadata": {
+                "type": "keen-part",
+                "component": "Chat",
+                "part": "header"
+              }
             },
             {
               "type": "frame",
@@ -2001,7 +2250,12 @@
                     }
                   }
                 }
-              ]
+              ],
+              "metadata": {
+                "type": "keen-part",
+                "component": "Chat",
+                "part": "log"
+              }
             },
             {
               "id": "BAGvQ",
@@ -2019,7 +2273,12 @@
                 }
               }
             }
-          ]
+          ],
+          "metadata": {
+            "type": "keen-part",
+            "component": "Chat",
+            "part": "root"
+          }
         },
         {
           "type": "frame",
@@ -2040,7 +2299,7 @@
                   "type": "text",
                   "id": "p5sT4",
                   "name": "Intent Key",
-                  "fill": "#4A5361",
+                  "fill": "$canvas.annotation-label",
                   "textGrowth": "fixed-width",
                   "width": 72,
                   "content": "FOCUS",
@@ -2053,7 +2312,7 @@
                   "type": "text",
                   "id": "joCOf",
                   "name": "Intent Text",
-                  "fill": "#1D2939",
+                  "fill": "$canvas.annotation-text",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
                   "content": "Moves from the removed Stop button to the input.",
@@ -2075,7 +2334,7 @@
                   "type": "text",
                   "id": "AbTlH",
                   "name": "Intent Key",
-                  "fill": "#4A5361",
+                  "fill": "$canvas.annotation-label",
                   "textGrowth": "fixed-width",
                   "width": 72,
                   "content": "KEYBOARD",
@@ -2088,7 +2347,7 @@
                   "type": "text",
                   "id": "AEvME",
                   "name": "Intent Text",
-                  "fill": "#1D2939",
+                  "fill": "$canvas.annotation-text",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
                   "content": "Enter sends a new message. The partial response stays in history.",
@@ -2110,7 +2369,7 @@
                   "type": "text",
                   "id": "xa9YD",
                   "name": "Intent Key",
-                  "fill": "#4A5361",
+                  "fill": "$canvas.annotation-label",
                   "textGrowth": "fixed-width",
                   "width": 72,
                   "content": "ANNOUNCE",
@@ -2123,7 +2382,7 @@
                   "type": "text",
                   "id": "dQePh",
                   "name": "Intent Text",
-                  "fill": "#1D2939",
+                  "fill": "$canvas.annotation-text",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
                   "content": "The polite live region says \"Response stopped\".",
@@ -2145,7 +2404,7 @@
       "y": 200,
       "name": "State 07 · error-mid-stream · light",
       "width": 464,
-      "fill": "#E8EBF0",
+      "fill": "$canvas.frame-background",
       "cornerRadius": 24,
       "layout": "vertical",
       "gap": 20,
@@ -2163,7 +2422,7 @@
               "type": "text",
               "id": "QyPFZ",
               "name": "Annotation / Index",
-              "fill": "#4A5361",
+              "fill": "$canvas.annotation-label",
               "content": "STATE 07 · ERROR-MID-STREAM",
               "fontFamily": "Inter",
               "fontSize": 11,
@@ -2174,7 +2433,7 @@
               "type": "text",
               "id": "n12SpV",
               "name": "Annotation / Title",
-              "fill": "#101828",
+              "fill": "$canvas.annotation-title",
               "content": "Error mid-stream",
               "fontFamily": "Inter",
               "fontSize": 22,
@@ -2184,7 +2443,7 @@
               "type": "text",
               "id": "QOZ4v",
               "name": "Annotation / Summary",
-              "fill": "#344054",
+              "fill": "$canvas.annotation-summary",
               "textGrowth": "fixed-width",
               "width": "fill_container",
               "content": "The stream failed after tokens arrived. The partial response is kept.",
@@ -2229,9 +2488,20 @@
                   "lineHeight": "$font.semantic.line-height-body",
                   "fontFamily": "$font.semantic.family-body",
                   "fontSize": "$font.semantic.size-title",
-                  "fontWeight": "$font.semantic.weight-strong"
+                  "fontWeight": "$font.semantic.weight-strong",
+                  "metadata": {
+                    "type": "keen-part",
+                    "component": "Chat",
+                    "part": "header",
+                    "element": "title"
+                  }
                 }
-              ]
+              ],
+              "metadata": {
+                "type": "keen-part",
+                "component": "Chat",
+                "part": "header"
+              }
             },
             {
               "type": "frame",
@@ -2283,7 +2553,12 @@
                     }
                   }
                 }
-              ]
+              ],
+              "metadata": {
+                "type": "keen-part",
+                "component": "Chat",
+                "part": "log"
+              }
             },
             {
               "id": "wqgPe",
@@ -2301,7 +2576,12 @@
                 }
               }
             }
-          ]
+          ],
+          "metadata": {
+            "type": "keen-part",
+            "component": "Chat",
+            "part": "root"
+          }
         },
         {
           "type": "frame",
@@ -2322,7 +2602,7 @@
                   "type": "text",
                   "id": "ZLslt",
                   "name": "Intent Key",
-                  "fill": "#4A5361",
+                  "fill": "$canvas.annotation-label",
                   "textGrowth": "fixed-width",
                   "width": 72,
                   "content": "FOCUS",
@@ -2335,7 +2615,7 @@
                   "type": "text",
                   "id": "hAdQM",
                   "name": "Intent Text",
-                  "fill": "#1D2939",
+                  "fill": "$canvas.annotation-text",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
                   "content": "Moves from the removed Stop button to the input.",
@@ -2357,7 +2637,7 @@
                   "type": "text",
                   "id": "inLuu",
                   "name": "Intent Key",
-                  "fill": "#4A5361",
+                  "fill": "$canvas.annotation-label",
                   "textGrowth": "fixed-width",
                   "width": 72,
                   "content": "KEYBOARD",
@@ -2370,7 +2650,7 @@
                   "type": "text",
                   "id": "p1g8NC",
                   "name": "Intent Text",
-                  "fill": "#1D2939",
+                  "fill": "$canvas.annotation-text",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
                   "content": "Retry replaces the partial reply with a new stream and goes to loading.",
@@ -2392,7 +2672,7 @@
                   "type": "text",
                   "id": "C6gM2R",
                   "name": "Intent Key",
-                  "fill": "#4A5361",
+                  "fill": "$canvas.annotation-label",
                   "textGrowth": "fixed-width",
                   "width": 72,
                   "content": "ANNOUNCE",
@@ -2405,7 +2685,7 @@
                   "type": "text",
                   "id": "fwp39",
                   "name": "Intent Text",
-                  "fill": "#1D2939",
+                  "fill": "$canvas.annotation-text",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
                   "content": "The notice is a role=alert region, announced once.",
@@ -2430,7 +2710,7 @@
         "mode": "dark"
       },
       "width": 464,
-      "fill": "#1A1D24",
+      "fill": "$canvas.frame-background",
       "cornerRadius": 24,
       "layout": "vertical",
       "gap": 20,
@@ -2448,7 +2728,7 @@
               "type": "text",
               "id": "QY1pp",
               "name": "Annotation / Index",
-              "fill": "#A3ABB8",
+              "fill": "$canvas.annotation-label",
               "content": "STATE 01 · EMPTY",
               "fontFamily": "Inter",
               "fontSize": 11,
@@ -2459,7 +2739,7 @@
               "type": "text",
               "id": "h64KsB",
               "name": "Annotation / Title",
-              "fill": "#F2F4F7",
+              "fill": "$canvas.annotation-title",
               "content": "Empty",
               "fontFamily": "Inter",
               "fontSize": 22,
@@ -2469,7 +2749,7 @@
               "type": "text",
               "id": "AKUNZ",
               "name": "Annotation / Summary",
-              "fill": "#D0D5DD",
+              "fill": "$canvas.annotation-summary",
               "textGrowth": "fixed-width",
               "width": "fill_container",
               "content": "No messages yet. The empty slot shows host copy and optional suggestions.",
@@ -2514,9 +2794,20 @@
                   "lineHeight": "$font.semantic.line-height-body",
                   "fontFamily": "$font.semantic.family-body",
                   "fontSize": "$font.semantic.size-title",
-                  "fontWeight": "$font.semantic.weight-strong"
+                  "fontWeight": "$font.semantic.weight-strong",
+                  "metadata": {
+                    "type": "keen-part",
+                    "component": "Chat",
+                    "part": "header",
+                    "element": "title"
+                  }
                 }
-              ]
+              ],
+              "metadata": {
+                "type": "keen-part",
+                "component": "Chat",
+                "part": "header"
+              }
             },
             {
               "type": "frame",
@@ -2561,7 +2852,13 @@
                           "library": "lucide",
                           "fill": "$color.semantic.action"
                         }
-                      ]
+                      ],
+                      "metadata": {
+                        "type": "keen-part",
+                        "component": "Chat",
+                        "part": "empty",
+                        "element": "icon"
+                      }
                     },
                     {
                       "type": "text",
@@ -2572,7 +2869,13 @@
                       "lineHeight": "$font.semantic.line-height-body",
                       "fontFamily": "$font.semantic.family-body",
                       "fontSize": "$font.semantic.size-title",
-                      "fontWeight": "$font.semantic.weight-strong"
+                      "fontWeight": "$font.semantic.weight-strong",
+                      "metadata": {
+                        "type": "keen-part",
+                        "component": "Chat",
+                        "part": "empty",
+                        "element": "title"
+                      }
                     },
                     {
                       "type": "text",
@@ -2586,7 +2889,13 @@
                       "textAlign": "center",
                       "fontFamily": "$font.semantic.family-body",
                       "fontSize": "$font.semantic.size-body",
-                      "fontWeight": "normal"
+                      "fontWeight": "normal",
+                      "metadata": {
+                        "type": "keen-part",
+                        "component": "Chat",
+                        "part": "empty",
+                        "element": "body"
+                      }
                     },
                     {
                       "type": "frame",
@@ -2619,7 +2928,12 @@
                               "fontSize": "$font.semantic.size-caption",
                               "fontWeight": "normal"
                             }
-                          ]
+                          ],
+                          "metadata": {
+                            "type": "keen-part",
+                            "component": "Chat",
+                            "part": "suggestion"
+                          }
                         },
                         {
                           "type": "frame",
@@ -2644,7 +2958,12 @@
                               "fontSize": "$font.semantic.size-caption",
                               "fontWeight": "normal"
                             }
-                          ]
+                          ],
+                          "metadata": {
+                            "type": "keen-part",
+                            "component": "Chat",
+                            "part": "suggestion"
+                          }
                         },
                         {
                           "type": "frame",
@@ -2669,13 +2988,34 @@
                               "fontSize": "$font.semantic.size-caption",
                               "fontWeight": "normal"
                             }
-                          ]
+                          ],
+                          "metadata": {
+                            "type": "keen-part",
+                            "component": "Chat",
+                            "part": "suggestion"
+                          }
                         }
-                      ]
+                      ],
+                      "metadata": {
+                        "type": "keen-part",
+                        "component": "Chat",
+                        "part": "empty",
+                        "element": "suggestions"
+                      }
                     }
-                  ]
+                  ],
+                  "metadata": {
+                    "type": "keen-part",
+                    "component": "Chat",
+                    "part": "empty"
+                  }
                 }
-              ]
+              ],
+              "metadata": {
+                "type": "keen-part",
+                "component": "Chat",
+                "part": "log"
+              }
             },
             {
               "id": "vfdFY",
@@ -2689,7 +3029,12 @@
                 }
               }
             }
-          ]
+          ],
+          "metadata": {
+            "type": "keen-part",
+            "component": "Chat",
+            "part": "root"
+          }
         },
         {
           "type": "frame",
@@ -2710,7 +3055,7 @@
                   "type": "text",
                   "id": "amkSw",
                   "name": "Intent Key",
-                  "fill": "#A3ABB8",
+                  "fill": "$canvas.annotation-label",
                   "textGrowth": "fixed-width",
                   "width": 72,
                   "content": "FOCUS",
@@ -2723,7 +3068,7 @@
                   "type": "text",
                   "id": "wVvN2",
                   "name": "Intent Text",
-                  "fill": "#D0D5DD",
+                  "fill": "$canvas.annotation-text",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
                   "content": "Normal tab order: suggestions, input, Send. Send is disabled while the input is empty.",
@@ -2745,7 +3090,7 @@
                   "type": "text",
                   "id": "YNd4L",
                   "name": "Intent Key",
-                  "fill": "#A3ABB8",
+                  "fill": "$canvas.annotation-label",
                   "textGrowth": "fixed-width",
                   "width": 72,
                   "content": "KEYBOARD",
@@ -2758,7 +3103,7 @@
                   "type": "text",
                   "id": "YiAB9",
                   "name": "Intent Text",
-                  "fill": "#D0D5DD",
+                  "fill": "$canvas.annotation-text",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
                   "content": "Enter sends. Shift+Enter adds a newline. A suggestion button sends its text.",
@@ -2780,7 +3125,7 @@
                   "type": "text",
                   "id": "SS0eR",
                   "name": "Intent Key",
-                  "fill": "#A3ABB8",
+                  "fill": "$canvas.annotation-label",
                   "textGrowth": "fixed-width",
                   "width": 72,
                   "content": "ANNOUNCE",
@@ -2793,7 +3138,7 @@
                   "type": "text",
                   "id": "CcbUY",
                   "name": "Intent Text",
-                  "fill": "#D0D5DD",
+                  "fill": "$canvas.annotation-text",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
                   "content": "The region is named by the header title. Nothing is announced.",
@@ -2818,7 +3163,7 @@
         "mode": "dark"
       },
       "width": 464,
-      "fill": "#1A1D24",
+      "fill": "$canvas.frame-background",
       "cornerRadius": 24,
       "layout": "vertical",
       "gap": 20,
@@ -2836,7 +3181,7 @@
               "type": "text",
               "id": "x0gWZ",
               "name": "Annotation / Index",
-              "fill": "#A3ABB8",
+              "fill": "$canvas.annotation-label",
               "content": "STATE 02 · LOADING",
               "fontFamily": "Inter",
               "fontSize": 11,
@@ -2847,7 +3192,7 @@
               "type": "text",
               "id": "oBYwf",
               "name": "Annotation / Title",
-              "fill": "#F2F4F7",
+              "fill": "$canvas.annotation-title",
               "content": "Loading",
               "fontFamily": "Inter",
               "fontSize": 22,
@@ -2857,7 +3202,7 @@
               "type": "text",
               "id": "yMuRu",
               "name": "Annotation / Summary",
-              "fill": "#D0D5DD",
+              "fill": "$canvas.annotation-summary",
               "textGrowth": "fixed-width",
               "width": "fill_container",
               "content": "The request is sent and no token has arrived yet.",
@@ -2902,9 +3247,20 @@
                   "lineHeight": "$font.semantic.line-height-body",
                   "fontFamily": "$font.semantic.family-body",
                   "fontSize": "$font.semantic.size-title",
-                  "fontWeight": "$font.semantic.weight-strong"
+                  "fontWeight": "$font.semantic.weight-strong",
+                  "metadata": {
+                    "type": "keen-part",
+                    "component": "Chat",
+                    "part": "header",
+                    "element": "title"
+                  }
                 }
-              ]
+              ],
+              "metadata": {
+                "type": "keen-part",
+                "component": "Chat",
+                "part": "header"
+              }
             },
             {
               "type": "frame",
@@ -2936,7 +3292,12 @@
                   "name": "Pending message",
                   "width": "fill_container"
                 }
-              ]
+              ],
+              "metadata": {
+                "type": "keen-part",
+                "component": "Chat",
+                "part": "log"
+              }
             },
             {
               "id": "PXtbh",
@@ -2957,7 +3318,12 @@
                 }
               }
             }
-          ]
+          ],
+          "metadata": {
+            "type": "keen-part",
+            "component": "Chat",
+            "part": "root"
+          }
         },
         {
           "type": "frame",
@@ -2978,7 +3344,7 @@
                   "type": "text",
                   "id": "QwnAT",
                   "name": "Intent Key",
-                  "fill": "#A3ABB8",
+                  "fill": "$canvas.annotation-label",
                   "textGrowth": "fixed-width",
                   "width": 72,
                   "content": "FOCUS",
@@ -2991,7 +3357,7 @@
                   "type": "text",
                   "id": "N1gOPY",
                   "name": "Intent Text",
-                  "fill": "#D0D5DD",
+                  "fill": "$canvas.annotation-text",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
                   "content": "Stays in the input, which was cleared on send. Send is replaced by Stop.",
@@ -3013,7 +3379,7 @@
                   "type": "text",
                   "id": "fCki8",
                   "name": "Intent Key",
-                  "fill": "#A3ABB8",
+                  "fill": "$canvas.annotation-label",
                   "textGrowth": "fixed-width",
                   "width": 72,
                   "content": "KEYBOARD",
@@ -3026,7 +3392,7 @@
                   "type": "text",
                   "id": "qCqYU",
                   "name": "Intent Text",
-                  "fill": "#D0D5DD",
+                  "fill": "$canvas.annotation-text",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
                   "content": "Esc in the input or the Stop button cancels and goes to stopped. Enter does not send while busy.",
@@ -3048,7 +3414,7 @@
                   "type": "text",
                   "id": "lUWAs",
                   "name": "Intent Key",
-                  "fill": "#A3ABB8",
+                  "fill": "$canvas.annotation-label",
                   "textGrowth": "fixed-width",
                   "width": 72,
                   "content": "ANNOUNCE",
@@ -3061,7 +3427,7 @@
                   "type": "text",
                   "id": "f2YKy",
                   "name": "Intent Text",
-                  "fill": "#D0D5DD",
+                  "fill": "$canvas.annotation-text",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
                   "content": "The polite live region says \"Thinking…\" once.",
@@ -3086,7 +3452,7 @@
         "mode": "dark"
       },
       "width": 464,
-      "fill": "#1A1D24",
+      "fill": "$canvas.frame-background",
       "cornerRadius": 24,
       "layout": "vertical",
       "gap": 20,
@@ -3104,7 +3470,7 @@
               "type": "text",
               "id": "rLFx6",
               "name": "Annotation / Index",
-              "fill": "#A3ABB8",
+              "fill": "$canvas.annotation-label",
               "content": "STATE 03 · STREAMING",
               "fontFamily": "Inter",
               "fontSize": 11,
@@ -3115,7 +3481,7 @@
               "type": "text",
               "id": "ujlTH",
               "name": "Annotation / Title",
-              "fill": "#F2F4F7",
+              "fill": "$canvas.annotation-title",
               "content": "Streaming",
               "fontFamily": "Inter",
               "fontSize": 22,
@@ -3125,7 +3491,7 @@
               "type": "text",
               "id": "mydd7",
               "name": "Annotation / Summary",
-              "fill": "#D0D5DD",
+              "fill": "$canvas.annotation-summary",
               "textGrowth": "fixed-width",
               "width": "fill_container",
               "content": "Tokens arrive and append to the assistant message.",
@@ -3170,9 +3536,20 @@
                   "lineHeight": "$font.semantic.line-height-body",
                   "fontFamily": "$font.semantic.family-body",
                   "fontSize": "$font.semantic.size-title",
-                  "fontWeight": "$font.semantic.weight-strong"
+                  "fontWeight": "$font.semantic.weight-strong",
+                  "metadata": {
+                    "type": "keen-part",
+                    "component": "Chat",
+                    "part": "header",
+                    "element": "title"
+                  }
                 }
-              ]
+              ],
+              "metadata": {
+                "type": "keen-part",
+                "component": "Chat",
+                "part": "header"
+              }
             },
             {
               "type": "frame",
@@ -3209,7 +3586,12 @@
                     }
                   }
                 }
-              ]
+              ],
+              "metadata": {
+                "type": "keen-part",
+                "component": "Chat",
+                "part": "log"
+              }
             },
             {
               "id": "kgAs8",
@@ -3230,7 +3612,12 @@
                 }
               }
             }
-          ]
+          ],
+          "metadata": {
+            "type": "keen-part",
+            "component": "Chat",
+            "part": "root"
+          }
         },
         {
           "type": "frame",
@@ -3251,7 +3638,7 @@
                   "type": "text",
                   "id": "PpoHU",
                   "name": "Intent Key",
-                  "fill": "#A3ABB8",
+                  "fill": "$canvas.annotation-label",
                   "textGrowth": "fixed-width",
                   "width": 72,
                   "content": "FOCUS",
@@ -3264,7 +3651,7 @@
                   "type": "text",
                   "id": "K5rEB0",
                   "name": "Intent Text",
-                  "fill": "#D0D5DD",
+                  "fill": "$canvas.annotation-text",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
                   "content": "Stays in the input so the next message can be drafted.",
@@ -3286,7 +3673,7 @@
                   "type": "text",
                   "id": "p9JohQ",
                   "name": "Intent Key",
-                  "fill": "#A3ABB8",
+                  "fill": "$canvas.annotation-label",
                   "textGrowth": "fixed-width",
                   "width": 72,
                   "content": "KEYBOARD",
@@ -3299,7 +3686,7 @@
                   "type": "text",
                   "id": "YaXiJ",
                   "name": "Intent Text",
-                  "fill": "#D0D5DD",
+                  "fill": "$canvas.annotation-text",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
                   "content": "Esc or Stop cancels and goes to stopped with the partial text kept.",
@@ -3321,7 +3708,7 @@
                   "type": "text",
                   "id": "QSaPq",
                   "name": "Intent Key",
-                  "fill": "#A3ABB8",
+                  "fill": "$canvas.annotation-label",
                   "textGrowth": "fixed-width",
                   "width": 72,
                   "content": "ANNOUNCE",
@@ -3334,7 +3721,7 @@
                   "type": "text",
                   "id": "HJOpX",
                   "name": "Intent Text",
-                  "fill": "#D0D5DD",
+                  "fill": "$canvas.annotation-text",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
                   "content": "Only newly appended text goes to the polite live region, flushed at sentence ends. The message is aria-busy.",
@@ -3359,7 +3746,7 @@
         "mode": "dark"
       },
       "width": 464,
-      "fill": "#1A1D24",
+      "fill": "$canvas.frame-background",
       "cornerRadius": 24,
       "layout": "vertical",
       "gap": 20,
@@ -3377,7 +3764,7 @@
               "type": "text",
               "id": "StYCL",
               "name": "Annotation / Index",
-              "fill": "#A3ABB8",
+              "fill": "$canvas.annotation-label",
               "content": "STATE 04 · COMPLETED",
               "fontFamily": "Inter",
               "fontSize": 11,
@@ -3388,7 +3775,7 @@
               "type": "text",
               "id": "cjXnf",
               "name": "Annotation / Title",
-              "fill": "#F2F4F7",
+              "fill": "$canvas.annotation-title",
               "content": "Completed",
               "fontFamily": "Inter",
               "fontSize": 22,
@@ -3398,7 +3785,7 @@
               "type": "text",
               "id": "MXgca",
               "name": "Annotation / Summary",
-              "fill": "#D0D5DD",
+              "fill": "$canvas.annotation-summary",
               "textGrowth": "fixed-width",
               "width": "fill_container",
               "content": "The stream finished. The full response is in the log.",
@@ -3443,9 +3830,20 @@
                   "lineHeight": "$font.semantic.line-height-body",
                   "fontFamily": "$font.semantic.family-body",
                   "fontSize": "$font.semantic.size-title",
-                  "fontWeight": "$font.semantic.weight-strong"
+                  "fontWeight": "$font.semantic.weight-strong",
+                  "metadata": {
+                    "type": "keen-part",
+                    "component": "Chat",
+                    "part": "header",
+                    "element": "title"
+                  }
                 }
-              ]
+              ],
+              "metadata": {
+                "type": "keen-part",
+                "component": "Chat",
+                "part": "header"
+              }
             },
             {
               "type": "frame",
@@ -3482,7 +3880,12 @@
                     }
                   }
                 }
-              ]
+              ],
+              "metadata": {
+                "type": "keen-part",
+                "component": "Chat",
+                "part": "log"
+              }
             },
             {
               "id": "uoRyE",
@@ -3501,7 +3904,12 @@
                 }
               }
             }
-          ]
+          ],
+          "metadata": {
+            "type": "keen-part",
+            "component": "Chat",
+            "part": "root"
+          }
         },
         {
           "type": "frame",
@@ -3522,7 +3930,7 @@
                   "type": "text",
                   "id": "vI3kW",
                   "name": "Intent Key",
-                  "fill": "#A3ABB8",
+                  "fill": "$canvas.annotation-label",
                   "textGrowth": "fixed-width",
                   "width": 72,
                   "content": "FOCUS",
@@ -3535,7 +3943,7 @@
                   "type": "text",
                   "id": "b2BWr",
                   "name": "Intent Text",
-                  "fill": "#D0D5DD",
+                  "fill": "$canvas.annotation-text",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
                   "content": "Returned to the input after send and stays there (focus ring shown).",
@@ -3557,7 +3965,7 @@
                   "type": "text",
                   "id": "O30c9",
                   "name": "Intent Key",
-                  "fill": "#A3ABB8",
+                  "fill": "$canvas.annotation-label",
                   "textGrowth": "fixed-width",
                   "width": 72,
                   "content": "KEYBOARD",
@@ -3570,7 +3978,7 @@
                   "type": "text",
                   "id": "xmrjP",
                   "name": "Intent Text",
-                  "fill": "#D0D5DD",
+                  "fill": "$canvas.annotation-text",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
                   "content": "Enter sends the drafted message. Stop is gone, Send is back.",
@@ -3592,7 +4000,7 @@
                   "type": "text",
                   "id": "ACbfk",
                   "name": "Intent Key",
-                  "fill": "#A3ABB8",
+                  "fill": "$canvas.annotation-label",
                   "textGrowth": "fixed-width",
                   "width": 72,
                   "content": "ANNOUNCE",
@@ -3605,7 +4013,7 @@
                   "type": "text",
                   "id": "q2W7qs",
                   "name": "Intent Text",
-                  "fill": "#D0D5DD",
+                  "fill": "$canvas.annotation-text",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
                   "content": "aria-busy clears. The full message is not re-read.",
@@ -3630,7 +4038,7 @@
         "mode": "dark"
       },
       "width": 464,
-      "fill": "#1A1D24",
+      "fill": "$canvas.frame-background",
       "cornerRadius": 24,
       "layout": "vertical",
       "gap": 20,
@@ -3648,7 +4056,7 @@
               "type": "text",
               "id": "Hc8vG",
               "name": "Annotation / Index",
-              "fill": "#A3ABB8",
+              "fill": "$canvas.annotation-label",
               "content": "STATE 05 · ERROR",
               "fontFamily": "Inter",
               "fontSize": 11,
@@ -3659,7 +4067,7 @@
               "type": "text",
               "id": "P9Wc4I",
               "name": "Annotation / Title",
-              "fill": "#F2F4F7",
+              "fill": "$canvas.annotation-title",
               "content": "Error",
               "fontFamily": "Inter",
               "fontSize": 22,
@@ -3669,7 +4077,7 @@
               "type": "text",
               "id": "jqvTU",
               "name": "Annotation / Summary",
-              "fill": "#D0D5DD",
+              "fill": "$canvas.annotation-summary",
               "textGrowth": "fixed-width",
               "width": "fill_container",
               "content": "The request failed before any token arrived.",
@@ -3714,9 +4122,20 @@
                   "lineHeight": "$font.semantic.line-height-body",
                   "fontFamily": "$font.semantic.family-body",
                   "fontSize": "$font.semantic.size-title",
-                  "fontWeight": "$font.semantic.weight-strong"
+                  "fontWeight": "$font.semantic.weight-strong",
+                  "metadata": {
+                    "type": "keen-part",
+                    "component": "Chat",
+                    "part": "header",
+                    "element": "title"
+                  }
                 }
-              ]
+              ],
+              "metadata": {
+                "type": "keen-part",
+                "component": "Chat",
+                "part": "header"
+              }
             },
             {
               "type": "frame",
@@ -3756,7 +4175,12 @@
                     }
                   }
                 }
-              ]
+              ],
+              "metadata": {
+                "type": "keen-part",
+                "component": "Chat",
+                "part": "log"
+              }
             },
             {
               "id": "DMNwh",
@@ -3774,7 +4198,12 @@
                 }
               }
             }
-          ]
+          ],
+          "metadata": {
+            "type": "keen-part",
+            "component": "Chat",
+            "part": "root"
+          }
         },
         {
           "type": "frame",
@@ -3795,7 +4224,7 @@
                   "type": "text",
                   "id": "b85l25",
                   "name": "Intent Key",
-                  "fill": "#A3ABB8",
+                  "fill": "$canvas.annotation-label",
                   "textGrowth": "fixed-width",
                   "width": 72,
                   "content": "FOCUS",
@@ -3808,7 +4237,7 @@
                   "type": "text",
                   "id": "tfz9h",
                   "name": "Intent Text",
-                  "fill": "#D0D5DD",
+                  "fill": "$canvas.annotation-text",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
                   "content": "Moves to the input when Stop disappears. Retry precedes the composer in tab order.",
@@ -3830,7 +4259,7 @@
                   "type": "text",
                   "id": "RT31z",
                   "name": "Intent Key",
-                  "fill": "#A3ABB8",
+                  "fill": "$canvas.annotation-label",
                   "textGrowth": "fixed-width",
                   "width": 72,
                   "content": "KEYBOARD",
@@ -3843,7 +4272,7 @@
                   "type": "text",
                   "id": "ZZHgA",
                   "name": "Intent Text",
-                  "fill": "#D0D5DD",
+                  "fill": "$canvas.annotation-text",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
                   "content": "Retry resends the last user message and goes to loading.",
@@ -3865,7 +4294,7 @@
                   "type": "text",
                   "id": "aHiXd",
                   "name": "Intent Key",
-                  "fill": "#A3ABB8",
+                  "fill": "$canvas.annotation-label",
                   "textGrowth": "fixed-width",
                   "width": 72,
                   "content": "ANNOUNCE",
@@ -3878,7 +4307,7 @@
                   "type": "text",
                   "id": "ey3C4",
                   "name": "Intent Text",
-                  "fill": "#D0D5DD",
+                  "fill": "$canvas.annotation-text",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
                   "content": "The notice is a role=alert region, announced once.",
@@ -3903,7 +4332,7 @@
         "mode": "dark"
       },
       "width": 464,
-      "fill": "#1A1D24",
+      "fill": "$canvas.frame-background",
       "cornerRadius": 24,
       "layout": "vertical",
       "gap": 20,
@@ -3921,7 +4350,7 @@
               "type": "text",
               "id": "ed0rz",
               "name": "Annotation / Index",
-              "fill": "#A3ABB8",
+              "fill": "$canvas.annotation-label",
               "content": "STATE 06 · STOPPED",
               "fontFamily": "Inter",
               "fontSize": 11,
@@ -3932,7 +4361,7 @@
               "type": "text",
               "id": "BhLh6",
               "name": "Annotation / Title",
-              "fill": "#F2F4F7",
+              "fill": "$canvas.annotation-title",
               "content": "Stopped",
               "fontFamily": "Inter",
               "fontSize": 22,
@@ -3942,7 +4371,7 @@
               "type": "text",
               "id": "Z4gKR",
               "name": "Annotation / Summary",
-              "fill": "#D0D5DD",
+              "fill": "$canvas.annotation-summary",
               "textGrowth": "fixed-width",
               "width": "fill_container",
               "content": "The user stopped generation. The partial response is kept.",
@@ -3987,9 +4416,20 @@
                   "lineHeight": "$font.semantic.line-height-body",
                   "fontFamily": "$font.semantic.family-body",
                   "fontSize": "$font.semantic.size-title",
-                  "fontWeight": "$font.semantic.weight-strong"
+                  "fontWeight": "$font.semantic.weight-strong",
+                  "metadata": {
+                    "type": "keen-part",
+                    "component": "Chat",
+                    "part": "header",
+                    "element": "title"
+                  }
                 }
-              ]
+              ],
+              "metadata": {
+                "type": "keen-part",
+                "component": "Chat",
+                "part": "header"
+              }
             },
             {
               "type": "frame",
@@ -4032,7 +4472,12 @@
                     }
                   }
                 }
-              ]
+              ],
+              "metadata": {
+                "type": "keen-part",
+                "component": "Chat",
+                "part": "log"
+              }
             },
             {
               "id": "ZbpZv",
@@ -4050,7 +4495,12 @@
                 }
               }
             }
-          ]
+          ],
+          "metadata": {
+            "type": "keen-part",
+            "component": "Chat",
+            "part": "root"
+          }
         },
         {
           "type": "frame",
@@ -4071,7 +4521,7 @@
                   "type": "text",
                   "id": "BKEXV",
                   "name": "Intent Key",
-                  "fill": "#A3ABB8",
+                  "fill": "$canvas.annotation-label",
                   "textGrowth": "fixed-width",
                   "width": 72,
                   "content": "FOCUS",
@@ -4084,7 +4534,7 @@
                   "type": "text",
                   "id": "E1o8m0",
                   "name": "Intent Text",
-                  "fill": "#D0D5DD",
+                  "fill": "$canvas.annotation-text",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
                   "content": "Moves from the removed Stop button to the input.",
@@ -4106,7 +4556,7 @@
                   "type": "text",
                   "id": "g6e0Zm",
                   "name": "Intent Key",
-                  "fill": "#A3ABB8",
+                  "fill": "$canvas.annotation-label",
                   "textGrowth": "fixed-width",
                   "width": 72,
                   "content": "KEYBOARD",
@@ -4119,7 +4569,7 @@
                   "type": "text",
                   "id": "C8msw",
                   "name": "Intent Text",
-                  "fill": "#D0D5DD",
+                  "fill": "$canvas.annotation-text",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
                   "content": "Enter sends a new message. The partial response stays in history.",
@@ -4141,7 +4591,7 @@
                   "type": "text",
                   "id": "fnW6P",
                   "name": "Intent Key",
-                  "fill": "#A3ABB8",
+                  "fill": "$canvas.annotation-label",
                   "textGrowth": "fixed-width",
                   "width": 72,
                   "content": "ANNOUNCE",
@@ -4154,7 +4604,7 @@
                   "type": "text",
                   "id": "rhbtT",
                   "name": "Intent Text",
-                  "fill": "#D0D5DD",
+                  "fill": "$canvas.annotation-text",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
                   "content": "The polite live region says \"Response stopped\".",
@@ -4179,7 +4629,7 @@
         "mode": "dark"
       },
       "width": 464,
-      "fill": "#1A1D24",
+      "fill": "$canvas.frame-background",
       "cornerRadius": 24,
       "layout": "vertical",
       "gap": 20,
@@ -4197,7 +4647,7 @@
               "type": "text",
               "id": "aVQRh",
               "name": "Annotation / Index",
-              "fill": "#A3ABB8",
+              "fill": "$canvas.annotation-label",
               "content": "STATE 07 · ERROR-MID-STREAM",
               "fontFamily": "Inter",
               "fontSize": 11,
@@ -4208,7 +4658,7 @@
               "type": "text",
               "id": "h8ozC",
               "name": "Annotation / Title",
-              "fill": "#F2F4F7",
+              "fill": "$canvas.annotation-title",
               "content": "Error mid-stream",
               "fontFamily": "Inter",
               "fontSize": 22,
@@ -4218,7 +4668,7 @@
               "type": "text",
               "id": "M7Lq36",
               "name": "Annotation / Summary",
-              "fill": "#D0D5DD",
+              "fill": "$canvas.annotation-summary",
               "textGrowth": "fixed-width",
               "width": "fill_container",
               "content": "The stream failed after tokens arrived. The partial response is kept.",
@@ -4263,9 +4713,20 @@
                   "lineHeight": "$font.semantic.line-height-body",
                   "fontFamily": "$font.semantic.family-body",
                   "fontSize": "$font.semantic.size-title",
-                  "fontWeight": "$font.semantic.weight-strong"
+                  "fontWeight": "$font.semantic.weight-strong",
+                  "metadata": {
+                    "type": "keen-part",
+                    "component": "Chat",
+                    "part": "header",
+                    "element": "title"
+                  }
                 }
-              ]
+              ],
+              "metadata": {
+                "type": "keen-part",
+                "component": "Chat",
+                "part": "header"
+              }
             },
             {
               "type": "frame",
@@ -4317,7 +4778,12 @@
                     }
                   }
                 }
-              ]
+              ],
+              "metadata": {
+                "type": "keen-part",
+                "component": "Chat",
+                "part": "log"
+              }
             },
             {
               "id": "sHPux",
@@ -4335,7 +4801,12 @@
                 }
               }
             }
-          ]
+          ],
+          "metadata": {
+            "type": "keen-part",
+            "component": "Chat",
+            "part": "root"
+          }
         },
         {
           "type": "frame",
@@ -4356,7 +4827,7 @@
                   "type": "text",
                   "id": "raCxW",
                   "name": "Intent Key",
-                  "fill": "#A3ABB8",
+                  "fill": "$canvas.annotation-label",
                   "textGrowth": "fixed-width",
                   "width": 72,
                   "content": "FOCUS",
@@ -4369,7 +4840,7 @@
                   "type": "text",
                   "id": "L7lf4O",
                   "name": "Intent Text",
-                  "fill": "#D0D5DD",
+                  "fill": "$canvas.annotation-text",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
                   "content": "Moves from the removed Stop button to the input.",
@@ -4391,7 +4862,7 @@
                   "type": "text",
                   "id": "t4Im1",
                   "name": "Intent Key",
-                  "fill": "#A3ABB8",
+                  "fill": "$canvas.annotation-label",
                   "textGrowth": "fixed-width",
                   "width": 72,
                   "content": "KEYBOARD",
@@ -4404,7 +4875,7 @@
                   "type": "text",
                   "id": "fTXQN",
                   "name": "Intent Text",
-                  "fill": "#D0D5DD",
+                  "fill": "$canvas.annotation-text",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
                   "content": "Retry replaces the partial reply with a new stream and goes to loading.",
@@ -4426,7 +4897,7 @@
                   "type": "text",
                   "id": "FDijJ",
                   "name": "Intent Key",
-                  "fill": "#A3ABB8",
+                  "fill": "$canvas.annotation-label",
                   "textGrowth": "fixed-width",
                   "width": 72,
                   "content": "ANNOUNCE",
@@ -4439,7 +4910,7 @@
                   "type": "text",
                   "id": "RU0Ik",
                   "name": "Intent Text",
-                  "fill": "#D0D5DD",
+                  "fill": "$canvas.annotation-text",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
                   "content": "The notice is a role=alert region, announced once.",
@@ -4462,8 +4933,12 @@
       "name": "Chat / Notice / Rate limit",
       "reusable": true,
       "metadata": {
-        "type": "keen-token",
-        "minHeight": "chat.composer-height"
+        "type": "keen-part",
+        "component": "Chat",
+        "part": "rate-limit-notice",
+        "sizes": {
+          "min-height": "chat.composer-height"
+        }
       },
       "width": 368,
       "fill": "$color.semantic.surface-raised",
@@ -4505,7 +4980,13 @@
               "content": "Message limit reached.",
               "fontFamily": "$font.semantic.family-body",
               "fontSize": "$font.semantic.size-caption",
-              "fontWeight": "$font.semantic.weight-strong"
+              "fontWeight": "$font.semantic.weight-strong",
+              "metadata": {
+                "type": "keen-part",
+                "component": "Chat",
+                "part": "rate-limit-notice",
+                "element": "title"
+              }
             },
             {
               "type": "text",
@@ -4571,7 +5052,13 @@
               "content": "You're offline.",
               "fontFamily": "$font.semantic.family-body",
               "fontSize": "$font.semantic.size-caption",
-              "fontWeight": "$font.semantic.weight-strong"
+              "fontWeight": "$font.semantic.weight-strong",
+              "metadata": {
+                "type": "keen-part",
+                "component": "Chat",
+                "part": "offline-banner",
+                "element": "title"
+              }
             },
             {
               "type": "text",
@@ -4583,11 +5070,22 @@
               "content": "Your draft is kept. Send works again when you reconnect.",
               "fontFamily": "$font.semantic.family-body",
               "fontSize": "$font.semantic.size-caption",
-              "fontWeight": "normal"
+              "fontWeight": "normal",
+              "metadata": {
+                "type": "keen-part",
+                "component": "Chat",
+                "part": "offline-banner",
+                "element": "detail"
+              }
             }
           ]
         }
-      ]
+      ],
+      "metadata": {
+        "type": "keen-part",
+        "component": "Chat",
+        "part": "offline-banner"
+      }
     },
     {
       "type": "frame",
@@ -4596,7 +5094,7 @@
       "y": 200,
       "name": "State 08 · rate-limited · light",
       "width": 464,
-      "fill": "#E8EBF0",
+      "fill": "$canvas.frame-background",
       "cornerRadius": 24,
       "layout": "vertical",
       "gap": 20,
@@ -4614,7 +5112,7 @@
               "type": "text",
               "id": "hrUM4",
               "name": "Annotation / Index",
-              "fill": "#4A5361",
+              "fill": "$canvas.annotation-label",
               "content": "STATE 08 · RATE-LIMITED",
               "fontFamily": "Inter",
               "fontSize": 11,
@@ -4625,7 +5123,7 @@
               "type": "text",
               "id": "WKrZt",
               "name": "Annotation / Title",
-              "fill": "#101828",
+              "fill": "$canvas.annotation-title",
               "content": "Rate limited",
               "fontFamily": "Inter",
               "fontSize": 22,
@@ -4635,7 +5133,7 @@
               "type": "text",
               "id": "Rtt5l",
               "name": "Annotation / Summary",
-              "fill": "#344054",
+              "fill": "$canvas.annotation-summary",
               "textGrowth": "fixed-width",
               "width": "fill_container",
               "content": "The host reported a rate limit. A notice with a countdown replaces the input until the retry time.",
@@ -4680,9 +5178,20 @@
                   "lineHeight": "$font.semantic.line-height-body",
                   "fontFamily": "$font.semantic.family-body",
                   "fontSize": "$font.semantic.size-title",
-                  "fontWeight": "$font.semantic.weight-strong"
+                  "fontWeight": "$font.semantic.weight-strong",
+                  "metadata": {
+                    "type": "keen-part",
+                    "component": "Chat",
+                    "part": "header",
+                    "element": "title"
+                  }
                 }
-              ]
+              ],
+              "metadata": {
+                "type": "keen-part",
+                "component": "Chat",
+                "part": "header"
+              }
             },
             {
               "type": "frame",
@@ -4719,7 +5228,12 @@
                     }
                   }
                 }
-              ]
+              ],
+              "metadata": {
+                "type": "keen-part",
+                "component": "Chat",
+                "part": "log"
+              }
             },
             {
               "type": "frame",
@@ -4740,9 +5254,19 @@
                   "name": "Rate limit notice",
                   "width": "fill_container"
                 }
-              ]
+              ],
+              "metadata": {
+                "type": "keen-part",
+                "component": "Chat",
+                "part": "composer"
+              }
             }
-          ]
+          ],
+          "metadata": {
+            "type": "keen-part",
+            "component": "Chat",
+            "part": "root"
+          }
         },
         {
           "type": "frame",
@@ -4763,7 +5287,7 @@
                   "type": "text",
                   "id": "pBYQY",
                   "name": "Intent Key",
-                  "fill": "#4A5361",
+                  "fill": "$canvas.annotation-label",
                   "textGrowth": "fixed-width",
                   "width": 72,
                   "content": "FOCUS",
@@ -4776,7 +5300,7 @@
                   "type": "text",
                   "id": "sf5sX",
                   "name": "Intent Text",
-                  "fill": "#1D2939",
+                  "fill": "$canvas.annotation-text",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
                   "content": "If the input had focus, it moves to the notice, then back to the input when the composer returns.",
@@ -4798,7 +5322,7 @@
                   "type": "text",
                   "id": "FJAPX",
                   "name": "Intent Key",
-                  "fill": "#4A5361",
+                  "fill": "$canvas.annotation-label",
                   "textGrowth": "fixed-width",
                   "width": 72,
                   "content": "KEYBOARD",
@@ -4811,7 +5335,7 @@
                   "type": "text",
                   "id": "rrwiL",
                   "name": "Intent Text",
-                  "fill": "#1D2939",
+                  "fill": "$canvas.annotation-text",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
                   "content": "Nothing to type or send while limited. Retry and suggestions are aria-disabled. The draft comes back with the input.",
@@ -4833,7 +5357,7 @@
                   "type": "text",
                   "id": "Ez2wW",
                   "name": "Intent Key",
-                  "fill": "#4A5361",
+                  "fill": "$canvas.annotation-label",
                   "textGrowth": "fixed-width",
                   "width": 72,
                   "content": "ANNOUNCE",
@@ -4846,7 +5370,7 @@
                   "type": "text",
                   "id": "TBkn8",
                   "name": "Intent Text",
-                  "fill": "#1D2939",
+                  "fill": "$canvas.annotation-text",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
                   "content": "The notice is a polite role=status region, read once with the retry time. Countdown ticks are not announced.",
@@ -4868,7 +5392,7 @@
       "y": 200,
       "name": "State 09 · offline · light",
       "width": 464,
-      "fill": "#E8EBF0",
+      "fill": "$canvas.frame-background",
       "cornerRadius": 24,
       "layout": "vertical",
       "gap": 20,
@@ -4886,7 +5410,7 @@
               "type": "text",
               "id": "fyxtp",
               "name": "Annotation / Index",
-              "fill": "#4A5361",
+              "fill": "$canvas.annotation-label",
               "content": "STATE 09 · OFFLINE",
               "fontFamily": "Inter",
               "fontSize": 11,
@@ -4897,7 +5421,7 @@
               "type": "text",
               "id": "tc9UU",
               "name": "Annotation / Title",
-              "fill": "#101828",
+              "fill": "$canvas.annotation-title",
               "content": "Offline",
               "fontFamily": "Inter",
               "fontSize": 22,
@@ -4907,7 +5431,7 @@
               "type": "text",
               "id": "R0vcvO",
               "name": "Annotation / Summary",
-              "fill": "#344054",
+              "fill": "$canvas.annotation-summary",
               "textGrowth": "fixed-width",
               "width": "fill_container",
               "content": "The host reports no connection. A banner shows and Send is disabled; the draft is kept.",
@@ -4952,9 +5476,20 @@
                   "lineHeight": "$font.semantic.line-height-body",
                   "fontFamily": "$font.semantic.family-body",
                   "fontSize": "$font.semantic.size-title",
-                  "fontWeight": "$font.semantic.weight-strong"
+                  "fontWeight": "$font.semantic.weight-strong",
+                  "metadata": {
+                    "type": "keen-part",
+                    "component": "Chat",
+                    "part": "header",
+                    "element": "title"
+                  }
                 }
-              ]
+              ],
+              "metadata": {
+                "type": "keen-part",
+                "component": "Chat",
+                "part": "header"
+              }
             },
             {
               "id": "di0av",
@@ -4998,7 +5533,12 @@
                     }
                   }
                 }
-              ]
+              ],
+              "metadata": {
+                "type": "keen-part",
+                "component": "Chat",
+                "part": "log"
+              }
             },
             {
               "id": "ftscB",
@@ -5020,7 +5560,12 @@
                 }
               }
             }
-          ]
+          ],
+          "metadata": {
+            "type": "keen-part",
+            "component": "Chat",
+            "part": "root"
+          }
         },
         {
           "type": "frame",
@@ -5041,7 +5586,7 @@
                   "type": "text",
                   "id": "QSwlw",
                   "name": "Intent Key",
-                  "fill": "#4A5361",
+                  "fill": "$canvas.annotation-label",
                   "textGrowth": "fixed-width",
                   "width": 72,
                   "content": "FOCUS",
@@ -5054,7 +5599,7 @@
                   "type": "text",
                   "id": "uXwq8",
                   "name": "Intent Text",
-                  "fill": "#1D2939",
+                  "fill": "$canvas.annotation-text",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
                   "content": "Stays where it is. The banner never takes focus.",
@@ -5076,7 +5621,7 @@
                   "type": "text",
                   "id": "T1FXK",
                   "name": "Intent Key",
-                  "fill": "#4A5361",
+                  "fill": "$canvas.annotation-label",
                   "textGrowth": "fixed-width",
                   "width": 72,
                   "content": "KEYBOARD",
@@ -5089,7 +5634,7 @@
                   "type": "text",
                   "id": "FvRcK",
                   "name": "Intent Text",
-                  "fill": "#1D2939",
+                  "fill": "$canvas.annotation-text",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
                   "content": "Typing works. Enter and Send do nothing; Retry and suggestions are aria-disabled.",
@@ -5111,7 +5656,7 @@
                   "type": "text",
                   "id": "Juh8d",
                   "name": "Intent Key",
-                  "fill": "#4A5361",
+                  "fill": "$canvas.annotation-label",
                   "textGrowth": "fixed-width",
                   "width": 72,
                   "content": "ANNOUNCE",
@@ -5124,7 +5669,7 @@
                   "type": "text",
                   "id": "Ho3HO",
                   "name": "Intent Text",
-                  "fill": "#1D2939",
+                  "fill": "$canvas.annotation-text",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
                   "content": "The banner is a polite role=status region, read once. \"Back online.\" is announced on reconnect.",
@@ -5149,7 +5694,7 @@
         "mode": "dark"
       },
       "width": 464,
-      "fill": "#1A1D24",
+      "fill": "$canvas.frame-background",
       "cornerRadius": 24,
       "layout": "vertical",
       "gap": 20,
@@ -5167,7 +5712,7 @@
               "type": "text",
               "id": "FZKl2",
               "name": "Annotation / Index",
-              "fill": "#A3ABB8",
+              "fill": "$canvas.annotation-label",
               "content": "STATE 08 · RATE-LIMITED",
               "fontFamily": "Inter",
               "fontSize": 11,
@@ -5178,7 +5723,7 @@
               "type": "text",
               "id": "HxX8G",
               "name": "Annotation / Title",
-              "fill": "#F2F4F7",
+              "fill": "$canvas.annotation-title",
               "content": "Rate limited",
               "fontFamily": "Inter",
               "fontSize": 22,
@@ -5188,7 +5733,7 @@
               "type": "text",
               "id": "c168Jh",
               "name": "Annotation / Summary",
-              "fill": "#D0D5DD",
+              "fill": "$canvas.annotation-summary",
               "textGrowth": "fixed-width",
               "width": "fill_container",
               "content": "The host reported a rate limit. A notice with a countdown replaces the input until the retry time.",
@@ -5233,9 +5778,20 @@
                   "lineHeight": "$font.semantic.line-height-body",
                   "fontFamily": "$font.semantic.family-body",
                   "fontSize": "$font.semantic.size-title",
-                  "fontWeight": "$font.semantic.weight-strong"
+                  "fontWeight": "$font.semantic.weight-strong",
+                  "metadata": {
+                    "type": "keen-part",
+                    "component": "Chat",
+                    "part": "header",
+                    "element": "title"
+                  }
                 }
-              ]
+              ],
+              "metadata": {
+                "type": "keen-part",
+                "component": "Chat",
+                "part": "header"
+              }
             },
             {
               "type": "frame",
@@ -5272,7 +5828,12 @@
                     }
                   }
                 }
-              ]
+              ],
+              "metadata": {
+                "type": "keen-part",
+                "component": "Chat",
+                "part": "log"
+              }
             },
             {
               "type": "frame",
@@ -5293,9 +5854,19 @@
                   "name": "Rate limit notice",
                   "width": "fill_container"
                 }
-              ]
+              ],
+              "metadata": {
+                "type": "keen-part",
+                "component": "Chat",
+                "part": "composer"
+              }
             }
-          ]
+          ],
+          "metadata": {
+            "type": "keen-part",
+            "component": "Chat",
+            "part": "root"
+          }
         },
         {
           "type": "frame",
@@ -5316,7 +5887,7 @@
                   "type": "text",
                   "id": "tqgvn",
                   "name": "Intent Key",
-                  "fill": "#A3ABB8",
+                  "fill": "$canvas.annotation-label",
                   "textGrowth": "fixed-width",
                   "width": 72,
                   "content": "FOCUS",
@@ -5329,7 +5900,7 @@
                   "type": "text",
                   "id": "e1Y0UI",
                   "name": "Intent Text",
-                  "fill": "#D0D5DD",
+                  "fill": "$canvas.annotation-text",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
                   "content": "If the input had focus, it moves to the notice, then back to the input when the composer returns.",
@@ -5351,7 +5922,7 @@
                   "type": "text",
                   "id": "RjwDs",
                   "name": "Intent Key",
-                  "fill": "#A3ABB8",
+                  "fill": "$canvas.annotation-label",
                   "textGrowth": "fixed-width",
                   "width": 72,
                   "content": "KEYBOARD",
@@ -5364,7 +5935,7 @@
                   "type": "text",
                   "id": "I0xI7X",
                   "name": "Intent Text",
-                  "fill": "#D0D5DD",
+                  "fill": "$canvas.annotation-text",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
                   "content": "Nothing to type or send while limited. Retry and suggestions are aria-disabled. The draft comes back with the input.",
@@ -5386,7 +5957,7 @@
                   "type": "text",
                   "id": "SzAur",
                   "name": "Intent Key",
-                  "fill": "#A3ABB8",
+                  "fill": "$canvas.annotation-label",
                   "textGrowth": "fixed-width",
                   "width": 72,
                   "content": "ANNOUNCE",
@@ -5399,7 +5970,7 @@
                   "type": "text",
                   "id": "L27yh",
                   "name": "Intent Text",
-                  "fill": "#D0D5DD",
+                  "fill": "$canvas.annotation-text",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
                   "content": "The notice is a polite role=status region, read once with the retry time. Countdown ticks are not announced.",
@@ -5424,7 +5995,7 @@
         "mode": "dark"
       },
       "width": 464,
-      "fill": "#1A1D24",
+      "fill": "$canvas.frame-background",
       "cornerRadius": 24,
       "layout": "vertical",
       "gap": 20,
@@ -5442,7 +6013,7 @@
               "type": "text",
               "id": "O8BJAY",
               "name": "Annotation / Index",
-              "fill": "#A3ABB8",
+              "fill": "$canvas.annotation-label",
               "content": "STATE 09 · OFFLINE",
               "fontFamily": "Inter",
               "fontSize": 11,
@@ -5453,7 +6024,7 @@
               "type": "text",
               "id": "R3O4S",
               "name": "Annotation / Title",
-              "fill": "#F2F4F7",
+              "fill": "$canvas.annotation-title",
               "content": "Offline",
               "fontFamily": "Inter",
               "fontSize": 22,
@@ -5463,7 +6034,7 @@
               "type": "text",
               "id": "xfsMX",
               "name": "Annotation / Summary",
-              "fill": "#D0D5DD",
+              "fill": "$canvas.annotation-summary",
               "textGrowth": "fixed-width",
               "width": "fill_container",
               "content": "The host reports no connection. A banner shows and Send is disabled; the draft is kept.",
@@ -5508,9 +6079,20 @@
                   "lineHeight": "$font.semantic.line-height-body",
                   "fontFamily": "$font.semantic.family-body",
                   "fontSize": "$font.semantic.size-title",
-                  "fontWeight": "$font.semantic.weight-strong"
+                  "fontWeight": "$font.semantic.weight-strong",
+                  "metadata": {
+                    "type": "keen-part",
+                    "component": "Chat",
+                    "part": "header",
+                    "element": "title"
+                  }
                 }
-              ]
+              ],
+              "metadata": {
+                "type": "keen-part",
+                "component": "Chat",
+                "part": "header"
+              }
             },
             {
               "id": "jjkbs",
@@ -5554,7 +6136,12 @@
                     }
                   }
                 }
-              ]
+              ],
+              "metadata": {
+                "type": "keen-part",
+                "component": "Chat",
+                "part": "log"
+              }
             },
             {
               "id": "PxJRe",
@@ -5576,7 +6163,12 @@
                 }
               }
             }
-          ]
+          ],
+          "metadata": {
+            "type": "keen-part",
+            "component": "Chat",
+            "part": "root"
+          }
         },
         {
           "type": "frame",
@@ -5597,7 +6189,7 @@
                   "type": "text",
                   "id": "p6RX7B",
                   "name": "Intent Key",
-                  "fill": "#A3ABB8",
+                  "fill": "$canvas.annotation-label",
                   "textGrowth": "fixed-width",
                   "width": 72,
                   "content": "FOCUS",
@@ -5610,7 +6202,7 @@
                   "type": "text",
                   "id": "mDoLt",
                   "name": "Intent Text",
-                  "fill": "#D0D5DD",
+                  "fill": "$canvas.annotation-text",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
                   "content": "Stays where it is. The banner never takes focus.",
@@ -5632,7 +6224,7 @@
                   "type": "text",
                   "id": "Smxes",
                   "name": "Intent Key",
-                  "fill": "#A3ABB8",
+                  "fill": "$canvas.annotation-label",
                   "textGrowth": "fixed-width",
                   "width": 72,
                   "content": "KEYBOARD",
@@ -5645,7 +6237,7 @@
                   "type": "text",
                   "id": "W1FbPf",
                   "name": "Intent Text",
-                  "fill": "#D0D5DD",
+                  "fill": "$canvas.annotation-text",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
                   "content": "Typing works. Enter and Send do nothing; Retry and suggestions are aria-disabled.",
@@ -5667,7 +6259,7 @@
                   "type": "text",
                   "id": "sXIpF",
                   "name": "Intent Key",
-                  "fill": "#A3ABB8",
+                  "fill": "$canvas.annotation-label",
                   "textGrowth": "fixed-width",
                   "width": 72,
                   "content": "ANNOUNCE",
@@ -5680,7 +6272,7 @@
                   "type": "text",
                   "id": "AbGg3",
                   "name": "Intent Text",
-                  "fill": "#D0D5DD",
+                  "fill": "$canvas.annotation-text",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
                   "content": "The banner is a polite role=status region, read once. \"Back online.\" is announced on reconnect.",
@@ -5703,68 +6295,17 @@
     ]
   },
   "variables": {
-    "color.semantic.surface": {
+    "color.semantic.action": {
       "type": "color",
       "value": [
         {
-          "value": "#FFFFFF",
+          "value": "#2557D6",
           "theme": {
             "mode": "light"
           }
         },
         {
-          "value": "#0F1115",
-          "theme": {
-            "mode": "dark"
-          }
-        }
-      ]
-    },
-    "color.semantic.surface-raised": {
-      "type": "color",
-      "value": [
-        {
-          "value": "#F2F4F7",
-          "theme": {
-            "mode": "light"
-          }
-        },
-        {
-          "value": "#1C2029",
-          "theme": {
-            "mode": "dark"
-          }
-        }
-      ]
-    },
-    "color.semantic.text-primary": {
-      "type": "color",
-      "value": [
-        {
-          "value": "#101828",
-          "theme": {
-            "mode": "light"
-          }
-        },
-        {
-          "value": "#F2F4F7",
-          "theme": {
-            "mode": "dark"
-          }
-        }
-      ]
-    },
-    "color.semantic.text-subtle": {
-      "type": "color",
-      "value": [
-        {
-          "value": "#475467",
-          "theme": {
-            "mode": "light"
-          }
-        },
-        {
-          "value": "#A3ABB8",
+          "value": "#86A8FF",
           "theme": {
             "mode": "dark"
           }
@@ -5805,57 +6346,6 @@
         }
       ]
     },
-    "color.semantic.action": {
-      "type": "color",
-      "value": [
-        {
-          "value": "#2557D6",
-          "theme": {
-            "mode": "light"
-          }
-        },
-        {
-          "value": "#86A8FF",
-          "theme": {
-            "mode": "dark"
-          }
-        }
-      ]
-    },
-    "color.semantic.text-on-action": {
-      "type": "color",
-      "value": [
-        {
-          "value": "#FFFFFF",
-          "theme": {
-            "mode": "light"
-          }
-        },
-        {
-          "value": "#0B1020",
-          "theme": {
-            "mode": "dark"
-          }
-        }
-      ]
-    },
-    "color.semantic.focus": {
-      "type": "color",
-      "value": [
-        {
-          "value": "#1D4ED8",
-          "theme": {
-            "mode": "light"
-          }
-        },
-        {
-          "value": "#A4BEFF",
-          "theme": {
-            "mode": "dark"
-          }
-        }
-      ]
-    },
     "color.semantic.danger": {
       "type": "color",
       "value": [
@@ -5890,77 +6380,107 @@
         }
       ]
     },
-    "space.semantic.inset-sm": {
-      "type": "number",
-      "value": 8
-    },
-    "space.semantic.inset-md": {
-      "type": "number",
-      "value": 16
-    },
-    "space.semantic.gap-sm": {
-      "type": "number",
-      "value": 8
-    },
-    "radius.semantic.control": {
-      "type": "number",
-      "value": 8
-    },
-    "radius.semantic.container": {
-      "type": "number",
-      "value": 12
-    },
-    "font.semantic.family-body": {
-      "type": "string",
-      "value": "Inter"
-    },
-    "font.semantic.weight-strong": {
-      "type": "string",
-      "value": "600"
-    },
-    "font.semantic.size-body": {
-      "type": "number",
-      "value": 15
-    },
-    "font.semantic.size-caption": {
-      "type": "number",
-      "value": 13
-    },
-    "font.semantic.size-title": {
-      "type": "number",
-      "value": 16
-    },
-    "font.semantic.line-height-body": {
-      "type": "number",
-      "value": 1.5
-    },
-    "chat.composer-height": {
-      "type": "number",
-      "value": 48
-    },
-    "chat.message-gap": {
-      "type": "number",
-      "value": 16
-    },
-    "chat.message-max-width": {
-      "type": "number",
-      "value": 320
-    },
-    "chat.message-radius": {
-      "type": "number",
-      "value": 16
-    },
-    "chat.message-user-background": {
+    "color.semantic.focus": {
       "type": "color",
-      "value": "$color.semantic.action"
+      "value": [
+        {
+          "value": "#1D4ED8",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#A4BEFF",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
     },
-    "chat.message-user-text": {
+    "color.semantic.surface": {
       "type": "color",
-      "value": "$color.semantic.text-on-action"
+      "value": [
+        {
+          "value": "#FFFFFF",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#0F1115",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
     },
-    "chat.message-assistant-background": {
+    "color.semantic.surface-raised": {
       "type": "color",
-      "value": "$color.semantic.surface-raised"
+      "value": [
+        {
+          "value": "#F2F4F7",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#1C2029",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "color.semantic.text-on-action": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#FFFFFF",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#0B1020",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "color.semantic.text-primary": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#101828",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#F2F4F7",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "color.semantic.text-subtle": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#475467",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#A3ABB8",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
     },
     "color.semantic.warning": {
       "type": "color",
@@ -5990,6 +6510,163 @@
         },
         {
           "value": "#2B2114",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "font.semantic.family-body": {
+      "type": "string",
+      "value": "Inter"
+    },
+    "font.semantic.line-height-body": {
+      "type": "number",
+      "value": 1.5
+    },
+    "font.semantic.size-body": {
+      "type": "number",
+      "value": 15
+    },
+    "font.semantic.size-caption": {
+      "type": "number",
+      "value": 13
+    },
+    "font.semantic.size-title": {
+      "type": "number",
+      "value": 16
+    },
+    "font.semantic.weight-strong": {
+      "type": "string",
+      "value": "600"
+    },
+    "radius.semantic.container": {
+      "type": "number",
+      "value": 12
+    },
+    "radius.semantic.control": {
+      "type": "number",
+      "value": 8
+    },
+    "space.semantic.gap-sm": {
+      "type": "number",
+      "value": 8
+    },
+    "space.semantic.inset-md": {
+      "type": "number",
+      "value": 16
+    },
+    "space.semantic.inset-sm": {
+      "type": "number",
+      "value": 8
+    },
+    "chat.composer-height": {
+      "type": "number",
+      "value": 48
+    },
+    "chat.message-assistant-background": {
+      "type": "color",
+      "value": "$color.semantic.surface-raised"
+    },
+    "chat.message-gap": {
+      "type": "number",
+      "value": 16
+    },
+    "chat.message-max-width": {
+      "type": "number",
+      "value": 320
+    },
+    "chat.message-radius": {
+      "type": "number",
+      "value": 16
+    },
+    "chat.message-user-background": {
+      "type": "color",
+      "value": "$color.semantic.action"
+    },
+    "chat.message-user-text": {
+      "type": "color",
+      "value": "$color.semantic.text-on-action"
+    },
+    "canvas.annotation-label": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#4A5361",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#A3ABB8",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "canvas.annotation-summary": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#344054",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#D0D5DD",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "canvas.annotation-text": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#1D2939",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#D0D5DD",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "canvas.annotation-title": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#101828",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#F2F4F7",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "canvas.frame-background": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#E8EBF0",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#1A1D24",
           "theme": {
             "mode": "dark"
           }

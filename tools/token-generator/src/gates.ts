@@ -3,7 +3,8 @@ import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { type Contract, checkContract } from "./contract.ts";
 import { type ContrastPair, checkContrast } from "./contrast.ts";
-import { formatIssue, type Generation, generate, outputFiles, readSources } from "./pipeline.ts";
+import { checkDesignAnatomy, checkDesignVariables } from "./design.ts";
+import { formatIssue, type Generation, generate, outputFiles, readDesign, readSources } from "./pipeline.ts";
 
 export type Tier = "fast" | "build" | "live";
 export type GateResult = { status: "pass" } | { status: "fail"; reasons: string[] } | { status: "skip"; reason: string };
@@ -23,7 +24,7 @@ export const gates: Record<string, (ctx: Context) => GateResult> = {
   "tokens-generated": (ctx) => {
     const first = ctx.generation();
     if (first.issues.length > 0) return { status: "fail", reasons: ["token sources have issues; see tokens-valid"] };
-    const second = generate(readSources(ctx.root));
+    const second = generate(readSources(ctx.root), readDesign(ctx.root));
     const reasons: string[] = [];
     for (const [file, content] of Object.entries(first.files)) {
       if (file === outputFiles.baseline) continue;
@@ -58,6 +59,23 @@ export const gates: Record<string, (ctx: Context) => GateResult> = {
     if (issues.length > 0) return { status: "fail", reasons: ["token sources have issues; see tokens-valid"] };
     const check = ({ file, json }: ContractFile) => checkContract(json as unknown as Contract, resolved, file);
     return result(readContracts(ctx.root).flatMap(check));
+  },
+
+  "design-variables": (ctx) => {
+    const { files, issues } = ctx.generation();
+    if (issues.length > 0) return { status: "fail", reasons: ["token sources have issues; see tokens-valid"] };
+    const pen = files[outputFiles.pen];
+    if (pen === undefined) return { status: "skip", reason: `${outputFiles.pen} does not exist` };
+    return result(checkDesignVariables(JSON.parse(pen)).map((failure) => `${outputFiles.pen}: ${failure}`));
+  },
+
+  "design-anatomy": (ctx) => {
+    const { files, issues } = ctx.generation();
+    if (issues.length > 0) return { status: "fail", reasons: ["token sources have issues; see tokens-valid"] };
+    const pen = files[outputFiles.pen];
+    if (pen === undefined) return { status: "skip", reason: `${outputFiles.pen} does not exist` };
+    const contracts = readContracts(ctx.root).map(({ file, json }) => ({ file, contract: json as unknown as Contract }));
+    return result(checkDesignAnatomy(JSON.parse(pen), contracts).map((failure) => `${outputFiles.pen}: ${failure}`));
   },
 };
 
@@ -96,7 +114,7 @@ export function runGates(root: string, tier: Tier, log: (line: string) => void):
     return false;
   }
   let generation: Generation | undefined;
-  const ctx: Context = { root, generation: () => (generation ??= generate(readSources(root))) };
+  const ctx: Context = { root, generation: () => (generation ??= generate(readSources(root), readDesign(root))) };
   const counts = { pass: 0, fail: 0, skip: 0 };
   log(`keen verify: ${tier} tier`);
   const tierSpecs = specs.filter((s) => s.tier === tier);
