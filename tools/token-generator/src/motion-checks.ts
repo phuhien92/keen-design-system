@@ -30,14 +30,29 @@ interface Declaration {
   line: number;
 }
 
-// One declaration per line, as Biome formats CSS. Comments are removed from values but their ds-allow categories kept.
+// Declarations end at ";" or "}" and may span lines; each reports the line it starts on. Comments are removed from
+// values, and a comment's ds-allow categories belong to the declaration it sits in or shares a line with.
 function declarations(text: string): Declaration[] {
-  return text.split("\n").flatMap((raw, i) => {
-    const allowed = [...raw.matchAll(/ds-allow\(([^)]*)\)/g)].map((m) => m[1]);
-    const line = raw.replace(/\/\*.*?\*\//g, "");
-    const m = line.match(/^\s*([a-z-]+)\s*:\s*(.+?);?\s*$/);
-    return m ? [{ property: m[1], value: m[2], allowed, line: i + 1 }] : [];
-  });
+  const css = text.replace(/\/\*[\s\S]*?\*\//g, (c) => c.replace(/[^\n]/g, " "));
+  const lineAt = (i: number) => text.slice(0, i).split("\n").length;
+  const found: (Declaration & { start: number; end: number })[] = [];
+  for (const m of css.matchAll(/[^;{}]*[;{}]/g)) {
+    const d = m[0].match(/^(\s*)([a-z-]+)\s*:\s*([\s\S]+?)\s*[;}]$/);
+    if (!d) continue;
+    const start = m.index + d[1].length;
+    found.push({ property: d[2], value: d[3], allowed: [], line: lineAt(start), start, end: m.index + m[0].length });
+  }
+  for (const c of text.matchAll(/\/\*[\s\S]*?\*\//g)) {
+    const from = c.index;
+    const to = from + c[0].length;
+    const sameLine = (a: number, b: number) => !text.slice(a, b).includes("\n");
+    const owner =
+      found.find((d) => from >= d.start && from < d.end) ??
+      [...found].reverse().find((d) => d.end <= from && sameLine(d.end, from)) ??
+      found.find((d) => d.start >= to && sameLine(to, d.start));
+    owner?.allowed.push(...[...c[0].matchAll(/ds-allow\(([^)]*)\)/g)].map((m) => m[1]));
+  }
+  return found.map(({ start, end, ...d }) => d);
 }
 
 const keyframeProperties = (text: string) =>

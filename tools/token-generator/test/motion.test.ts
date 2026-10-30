@@ -31,6 +31,20 @@ describe("motion-usage", () => {
     ]);
   });
 
+  it("rejects a literal duration in a transition formatted across lines", () => {
+    const text = ".a {\n  color: red;\n  transition:\n    color 200ms ease,\n    background-color 200ms ease;\n}";
+    expect(checkMotionUsage(css(text), uses, empty)).toEqual([
+      "packages/keen/src/components/Chat/Chat.css:3: literal duration or easing in transition; apply a named motion use",
+    ]);
+  });
+
+  it("checks each use of a transition formatted across lines", () => {
+    const text = `.a {\n  transition:\n    background-color ${fast},\n    width ${fast};\n}`;
+    expect(checkMotionUsage(css(text), uses, empty)).toEqual([
+      "packages/keen/src/components/Chat/Chat.css:2: transitions width; animate only opacity, transform, and colors",
+    ]);
+  });
+
   it("rejects a motion primitive read", () => {
     const text = ".a {\n  transition: opacity var(--keen-motion-primitive-duration-150) var(--keen-motion-semantic-easing-standard);\n}";
     const index = { vars: new Map(tokens.map((t) => [cssVar(t.name), t.name])) };
@@ -70,6 +84,11 @@ describe("motion-usage", () => {
 
   it("accepts a literal sanctioned by ds-allow(motion)", () => {
     const text = ".a {\n  transition: opacity 50ms linear; /* ds-allow(motion): caret blink must match the OS rate */\n}";
+    expect(checkMotionUsage(css(text), uses, empty)).toEqual([]);
+  });
+
+  it("accepts a multi-line literal sanctioned by a ds-allow(motion) comment inside it", () => {
+    const text = ".a {\n  transition: /* ds-allow(motion): caret blink must match the OS rate */\n    opacity 50ms linear;\n}";
     expect(checkMotionUsage(css(text), uses, empty)).toEqual([]);
   });
 });
