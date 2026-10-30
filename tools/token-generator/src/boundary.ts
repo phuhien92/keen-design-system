@@ -73,7 +73,8 @@ export function checkReads(files: SourceFile[], index: TokenIndex): { failures: 
   return { failures, read };
 }
 
-// Semantic roles and component tokens a component reads must be listed in its Component Contract.
+// Semantic roles and component tokens a component reads must be bound in its Component Contract. Motion tokens are
+// exempt: a contract binds no motion, and motion-usage already limits a component to the named motion uses.
 export function checkContracts(files: SourceFile[], index: TokenIndex, root: string): string[] {
   const failures: string[] = [];
   const byComponent = new Map<string, SourceFile[]>();
@@ -92,7 +93,8 @@ export function checkContracts(files: SourceFile[], index: TokenIndex, root: str
     for (const file of own) {
       for (const [, cssName] of withoutComments(file.text).matchAll(/var\(\s*(--keen-[a-z0-9-]+)/g)) {
         const token = index.vars.get(cssName);
-        if (token && !bound.has(token)) failures.push(`${file.path}: reads ${token}, which ${basename(contractPath)} does not bind`);
+        if (token && !token.startsWith("motion.") && !bound.has(token))
+          failures.push(`${file.path}: reads ${token}, which ${basename(contractPath)} does not bind`);
       }
     }
   }

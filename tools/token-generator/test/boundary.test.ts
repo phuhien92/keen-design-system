@@ -141,6 +141,15 @@ describe("contract-roles", () => {
     ]);
   });
 
+  it("leaves motion tokens to motion-usage, since a contract binds no motion", () => {
+    const motion: TokenIndex = {
+      vars: new Map([...index.vars, ["--keen-motion-semantic-duration-fast", "motion.semantic.duration-fast"]]),
+    };
+    expect(
+      checkContracts([file("Chat/Chat.css", ".a { transition: color var(--keen-motion-semantic-duration-fast); }")], motion, root),
+    ).toEqual([]);
+  });
+
   it("rejects a component without a contract", () => {
     expect(checkContracts([file("Badge/Badge.css", ".a {}")], index, root)).toEqual([
       "Badge: has no Component Contract at docs/components/badge.json",
