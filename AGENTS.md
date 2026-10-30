@@ -231,3 +231,41 @@ Example: a Button.
    each frame to `design/exports/button-<nn>-<state>-<mode>.png`.
 4. Run `node docs/components/contract.mjs render`, then `pnpm verify`, `pnpm contract:check`, and `pnpm test`.
 5. Build the component in `packages/keen/src/components/Button/`.
+
+## Pull requests
+
+**Keep each pull request to about 400 hand-written lines, added plus deleted.** Reviewers catch fewer defects past
+that, so split larger work into stacked pull requests: each targets the previous one's branch and passes CI on its
+own. Generated files do not count: `pnpm-lock.yaml`, `tokens.css`, `tokens.ts`, the baseline, and the Component
+Guides. `design/keen.pen` does not count either; a design change is reviewed through its exports and the design checks.
+Measure before opening the pull request:
+
+```sh
+git diff --numstat origin/<base>...HEAD -- . ':!pnpm-lock.yaml' ':!packages/keen/src/tokens/tokens.*' \
+  ':!.keen/baselines/**' ':!docs/components/*.md' ':!design/keen.pen' | awk '{ n += $1 + $2 } END { print n }'
+```
+
+```text
+✅ Adding a Button, in three stacked pull requests:
+   1. docs/components/button.json and the button.* tokens                (~250 lines)
+   2. the Button design frames, exports, and keen-part tags              (~50 lines, plus design/keen.pen)
+   3. packages/keen/src/components/Button/, stories, and tests           (~350 lines)
+
+❌ All of it in one pull request: ~650 hand-written lines, so the contract, the design, and the code are reviewed
+   together and none of them closely.
+```
+
+**Put a mechanical migration in its own pull request**, with the script that made it and the assertion that proves
+it, so a reviewer checks the script instead of every changed line.
+
+```text
+✅ "Replace typed-in colors with canvas variables": the diff touches ~1,000 lines of design/keen.pen, and the
+   description includes the migration script and its result: "180 replaced, each equal to its variable's value
+   in that frame's mode; 0 left."
+
+❌ The same 1,000 lines inside a pull request that also adds a new gate, so the reviewer cannot tell the mechanical
+   lines from the ones that need judgment.
+```
+
+**Say in the description when a pull request goes over the limit, and why it could not be split.** No check enforces
+this rule yet; the reviewer does.
