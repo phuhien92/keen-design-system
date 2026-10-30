@@ -97,6 +97,7 @@ Agents, and people, follow [AGENTS.md](AGENTS.md): where each change is made, an
 - `pnpm fixture:install` packs the package and installs the tarball into `apps/fixture-astro`, an Astro + React + Tailwind v4 host outside the workspace; `pnpm verify:build` then checks the package's exports and builds the fixture.
 - With a signed-in `pen` CLI, the `pen-live` and `icons-live` gates read `design/keen.pen` through Pen and fail if Pen sees different variables or icons than the build wrote; without one they are skipped.
 - `pnpm --filter @keen/storybook dev` opens Storybook, the implementation workbench: it loads the generated token CSS, has Mode (light/dark) and Motion (full/reduce) toolbar switches, and picks up `*.stories.tsx` from `packages/keen/src/components/`. `pnpm verify:build` builds it, and `pnpm verify:live` runs Playwright (`pnpm exec playwright install chromium` once) against the built Storybook and `apps/fixture-astro`.
+- `pnpm new:component <Name>` scaffolds a component's contract, code, stylesheet, story, test, and `./react` export; see [AGENTS.md](AGENTS.md#adding-a-component).
 - `pnpm lint`, `pnpm typecheck`, `pnpm test`, and `pnpm contract:check` (Component Contracts and their guides).
 
 ## Brand assets

@@ -404,16 +404,47 @@ Start from a layer's `keen-part` tag, never from its name. For example, the laye
 
 ## Adding a component
 
-Example: a Button.
+**Start every component with `pnpm new:component <Name>`.** It writes the contract, the component, its stylesheet,
+story, and test, and the `./react` export, with the names every check links: the `Button/` folder, `button.json`,
+the `button.*` token prefix, and the `keen-button` class. The code it writes passes every code check.
 
-1. Write `docs/components/button.json` with `status: "proposed"`: states, anatomy (parts, and elements where they are
-   styled separately), API, bindings, contrast pairs, keyboard, focus, and screen-reader rules.
+```text
+✅ pnpm new:component ButtonGroup
+   wrote docs/components/buttongroup.json
+   wrote packages/keen/src/components/ButtonGroup/ButtonGroup.tsx
+   …
+
+❌ creating packages/keen/src/components/ButtonGroup/ by hand next to docs/components/button-group.json.
+   contract-roles fails: "ButtonGroup: has no Component Contract at docs/components/buttongroup.json"
+```
+
+Then, for a Button:
+
+1. Write the `TODO:` placeholders in `docs/components/button.json`: states, anatomy (parts, and elements where they
+   are styled separately), API, bindings, contrast pairs, keyboard, focus, and screen-reader rules.
 2. Add the `button.*` tokens to `tokens/component.json`, plus any new semantic role to `tokens/semantic.json`, each
    with a `$description`. Run `pnpm tokens:build`.
 3. Draw one frame per state, in light and in dark, in `design/keen.pen`: variables only, every part tagged. Export
    each frame to `design/exports/button-<nn>-<state>-<mode>.png`.
 4. Run `node docs/components/contract.mjs render`, then `pnpm verify`, `pnpm contract:check`, and `pnpm test`.
-5. Build the component in `packages/keen/src/components/Button/`.
+5. Build the component in `packages/keen/src/components/Button/`, with a story for each state.
+
+Until the design is drawn, the checks fail on exactly that, and the failures are the to-do list:
+
+```text
+design-anatomy:  "docs/components/button.json: root is not drawn; no layer carries its keen-part metadata"
+contract:check:  "missing file design/exports/button-01-default-light.png"
+```
+
+**Keep a contract `proposed` until every placeholder is written.**
+
+```jsonc
+// ✅ while any TODO: remains
+"status": "proposed"
+
+// ❌ contract:check fails: "status: approved with TODO placeholders left; write them, or keep it proposed"
+"status": "approved"
+```
 
 ## Pull requests
 
