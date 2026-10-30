@@ -1,0 +1,40 @@
+{
+  "$schema": "https://www.designtokens.org/schemas/2025.10/format.json",
+  "chat": {
+    "composer-height": {
+      "$type": "dimension",
+      "$value": { "value": 48, "unit": "px" },
+      "$description": "Minimum height of the composer field and the rate-limit notice. Fits a 32px button with inset-sm above and below."
+    },
+    "message-gap": {
+      "$type": "dimension",
+      "$value": "{space.primitive.md}",
+      "$description": "Vertical gap between items in the message log."
+    },
+    "message-max-width": {
+      "$type": "dimension",
+      "$value": { "value": 320, "unit": "px" },
+      "$description": "Maximum bubble width. Bubbles never exceed the log width."
+    },
+    "message-radius": {
+      "$type": "dimension",
+      "$value": "{radius.primitive.xl}",
+      "$description": "Corner radius of message bubbles."
+    },
+    "message-user-background": {
+      "$type": "color",
+      "$value": "{color.semantic.action}",
+      "$description": "User bubble fill. Override with chat.message-user-text to keep 4.5:1."
+    },
+    "message-user-text": {
+      "$type": "color",
+      "$value": "{color.semantic.text-on-action}",
+      "$description": "User bubble text."
+    },
+    "message-assistant-background": {
+      "$type": "color",
+      "$value": "{color.semantic.surface-raised}",
+      "$description": "Assistant and pending bubble fill. Pairs with text-primary."
+    }
+  }
+}

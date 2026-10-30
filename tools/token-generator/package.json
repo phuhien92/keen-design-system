@@ -1,0 +1,6 @@
+{
+  "name": "@keen/token-generator",
+  "private": true,
+  "type": "module",
+  "description": "Generates Keen's CSS custom properties, typed token map, and token baseline from tokens/*.json, and runs the verification gates."
+}

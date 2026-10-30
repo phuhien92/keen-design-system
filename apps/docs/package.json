@@ -1,0 +1,6 @@
+{
+  "name": "@keen/docs",
+  "private": true,
+  "type": "module",
+  "description": "Keen's documentation site. A shell for now: docs pages and the MCP endpoint arrive with later plans."
+}

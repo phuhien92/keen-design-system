@@ -1,0 +1,5 @@
+{
+  "$comment": "Every looping and entrance animation in component CSS. The generator parks each loop on its frame and drops each entrance under prefers-reduced-motion; pnpm verify fails on an infinite or entrance animation not listed here.",
+  "loops": [],
+  "entrances": []
+}

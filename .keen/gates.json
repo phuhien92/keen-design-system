@@ -1,0 +1,120 @@
+{
+  "$comment": "Keen verification gates. pnpm verify runs the fast tier, pnpm verify:build the build tier, pnpm verify:live the live tier. Every gate in tools/token-generator/src/gates.ts must be listed here.",
+  "gates": [
+    {
+      "id": "tokens-valid",
+      "tier": "fast",
+      "description": "token files are valid DTCG with tiers, types, units, descriptions, and resolvable references"
+    },
+    {
+      "id": "tokens-generated",
+      "tier": "fast",
+      "description": "generated CSS and typed map are deterministic and match the token sources"
+    },
+    {
+      "id": "tokens-baseline",
+      "tier": "fast",
+      "description": "the committed resolved-token baseline matches the token sources"
+    },
+    {
+      "id": "tokens-contrast",
+      "tier": "fast",
+      "description": "every Component Contract contrast pair passes in light and dark"
+    },
+    {
+      "id": "tokens-contract",
+      "tier": "fast",
+      "description": "every token a Component Contract binds exists in tokens/*.json with a type that fits its property, and every component token is bound"
+    },
+    {
+      "id": "design-variables",
+      "tier": "fast",
+      "description": "every color in design/keen.pen is a token variable, and every variable it uses is declared"
+    },
+    {
+      "id": "design-anatomy",
+      "tier": "fast",
+      "description": "every Component Contract part is drawn and linked by keen-part metadata, and the design draws exactly the tokens the contract binds"
+    },
+    {
+      "id": "pen-live",
+      "tier": "fast",
+      "description": "Pen itself reads the variables tokens:build wrote into design/keen.pen, unchanged (needs a signed-in pen CLI)"
+    },
+    {
+      "id": "component-forwarding",
+      "tier": "fast",
+      "description": "no component forwards className or style onto its internals"
+    },
+    {
+      "id": "token-reads",
+      "tier": "fast",
+      "description": "component code reads only generated semantic and component tokens: no primitives, no phantoms"
+    },
+    {
+      "id": "contract-roles",
+      "tier": "fast",
+      "description": "every token a component reads is bound to a part in its Component Contract"
+    },
+    {
+      "id": "motion-usage",
+      "tier": "fast",
+      "description": "component motion applies named uses with no literal durations or easings, animates only opacity, transform, and colors, and registers every loop and entrance"
+    },
+    {
+      "id": "reduced-motion",
+      "tier": "fast",
+      "description": "the generated reduced-motion rules collapse semantic durations to 0.01ms, park registered loops, and stay scoped to Keen's root"
+    },
+    {
+      "id": "motion-timings",
+      "tier": "fast",
+      "description": "generated JavaScript timings match their tokens, and motion and icon tokens are in the baseline"
+    },
+    {
+      "id": "ds-allow",
+      "tier": "fast",
+      "description": "every ds-allow(<category>): <reason> directive names a known category"
+    },
+    {
+      "id": "icons-live",
+      "tier": "fast",
+      "description": "Pen itself reads the icon nodes that tokens:build recorded in .keen/design/icons.json (needs a signed-in pen CLI)"
+    },
+    {
+      "id": "icon-usage",
+      "tier": "fast",
+      "description": "only the generated registry imports Lucide, and component code names only registered glyphs"
+    },
+    {
+      "id": "package-exports",
+      "tier": "build",
+      "description": "the packed package exports only ./react, ./styles.css, and ./tokens, and internals are not importable"
+    },
+    {
+      "id": "fixture-astro",
+      "tier": "build",
+      "description": "apps/fixture-astro installs the packed package, themes it page-wide through semantic tokens that reach the component tokens aliasing them, and builds"
+    },
+    {
+      "id": "storybook-build",
+      "tier": "build",
+      "description": "Storybook builds and indexes the token-sample and motion replay stories"
+    },
+    {
+      "id": "live-token-sample",
+      "tier": "live",
+      "description": "the token-sample story renders every semantic color role with its resolved light and dark value"
+    },
+    {
+      "id": "live-reduced-motion",
+      "tier": "live",
+      "description": "durations equal their tokens and become 0.01ms with reduced motion from the OS or the toolbar, scrolling jumps, and no loop or entrance runs"
+    },
+    {
+      "id": "live-fixture-host",
+      "tier": "live",
+      "description": "in apps/fixture-astro, the host's own transition is unchanged under reduced motion"
+    }
+  ]
+}

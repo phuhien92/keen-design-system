@@ -1,0 +1,33 @@
+{
+  "name": "keen-design-system",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@12.3.4",
+  "engines": {
+    "node": ">=22.18"
+  },
+  "scripts": {
+    "tokens:build": "node tools/token-generator/src/cli.ts build",
+    "build": "pnpm --filter @keen/design-system build",
+    "verify": "node tools/token-generator/src/cli.ts verify fast",
+    "verify:build": "pnpm build && node tools/token-generator/src/cli.ts verify build",
+    "verify:live": "node tools/token-generator/src/cli.ts verify live",
+    "fixture:install": "pnpm build && node apps/fixture-astro/scripts/install-packed.ts",
+    "typecheck": "tsc -p tsconfig.json",
+    "lint": "biome check .",
+    "format": "biome check --write .",
+    "test": "vitest run",
+    "contract:check": "node docs/components/contract.mjs check"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.6.0",
+    "@types/node": "^22.18.0",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "playwright": "^1.64.1",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.5"
+  }
+}
