@@ -107,6 +107,11 @@ function toToken(source: Source, node: Record<string, unknown>, path: string[], 
   if (keen.lifecycle === "deprecated" && typeof keen.replacement !== "string") {
     report("schema", "is deprecated without $extensions.keen.replacement");
   }
+  // A duration that JavaScript timers use is tagged schedule (when something starts or is removed; reduced motion
+  // leaves it alone) or pace (an animation rate; the component skips the animation under reduced motion).
+  if (keen.js !== undefined && (type !== "duration" || (keen.js !== "schedule" && keen.js !== "pace"))) {
+    report("schema", '$extensions.keen.js must be "schedule" or "pace" on a duration token');
+  }
   for (const [mode, value] of Object.entries(values)) {
     const problem = type && types.has(type) ? checkValue(type, value) : undefined;
     if (problem) report("value", `${mode} value ${problem}`);

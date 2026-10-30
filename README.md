@@ -46,6 +46,7 @@ Settled, with the reasoning in [docs/decisions.md](docs/decisions.md):
 - Components are written in React, which fits portfolio-blog's Astro 5 and React 19 islands.
 - Hosts install Keen as a pinned package build and never copy or edit component source.
 - Hosts customize through themes only: semantic and component tokens, plus the variants and slots each component names.
+- Host theme overrides are page-level: they go on `:root` and the `[data-keen-mode]` selectors. Theming one subtree differently is not supported yet.
 - DTCG JSON is the one hand-edited token source; CSS custom properties and TypeScript exports are generated from it.
 - Every token name carries its tier (`color.semantic.action`), and components never read primitive tokens.
 - The repository is a pnpm workspace with tokens, the `keen` package, a token generator, docs, Storybook, and an Astro fixture app.
@@ -85,13 +86,17 @@ Work is tracked in Linear under the Keen Design System project. Branches use Lin
 
 ## Development
 
-Keen is a pnpm workspace (Node 22.18 or later). `tokens/*.json` is the only hand-edited token source.
+Keen is a pnpm workspace (Node 22.18 or later). `tokens/*.json` is the only hand-edited token source. Motion and icon foundations are described in [`docs/foundations/`](docs/foundations).
 
 Agents, and people, follow [AGENTS.md](AGENTS.md): where each change is made, and every rule the checks enforce, each with a right and a wrong example.
 
 - `pnpm install`
-- `pnpm tokens:build` regenerates the CSS custom properties, typed token map, `.keen/baselines/tokens.json`, and the variables block in `design/keen.pen` from the token files. Colors used only on the design canvas live in `design/canvas.json` and reach Pen alone.
+- `pnpm tokens:build` regenerates the CSS custom properties, typed token map, `.keen/baselines/tokens.json`, and the variables block in `design/keen.pen` from the token files, and reads the design's icon nodes into `.keen/design/icons.json` and the Lucide icon registry. Colors used only on the design canvas live in `design/canvas.json` and reach Pen alone.
 - `pnpm verify`, `pnpm verify:build`, and `pnpm verify:live` run the fast, build, and live verification tiers listed in `.keen/gates.json`; skipped checks, and tiers with no gates yet, are reported as skipped.
+- `pnpm build` builds `packages/keen` (`@keen/design-system`), which exports `./react` (components), `./styles.css` (the generated token stylesheet plus component styles), and `./tokens` (the typed token map), and nothing else.
+- `pnpm fixture:install` packs the package and installs the tarball into `apps/fixture-astro`, an Astro + React + Tailwind v4 host outside the workspace; `pnpm verify:build` then checks the package's exports and builds the fixture.
+- With a signed-in `pen` CLI, the `pen-live` and `icons-live` gates read `design/keen.pen` through Pen and fail if Pen sees different variables or icons than the build wrote; without one they are skipped.
+- `pnpm --filter @keen/storybook dev` opens Storybook, the implementation workbench: it loads the generated token CSS, has Mode (light/dark) and Motion (full/reduce) toolbar switches, and picks up `*.stories.tsx` from `packages/keen/src/components/`. `pnpm verify:build` builds it, and `pnpm verify:live` runs Playwright (`pnpm exec playwright install chromium` once) against the built Storybook and `apps/fixture-astro`.
 - `pnpm lint`, `pnpm typecheck`, `pnpm test`, and `pnpm contract:check` (Component Contracts and their guides).
 
 ## Brand assets

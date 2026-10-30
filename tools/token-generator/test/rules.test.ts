@@ -177,7 +177,7 @@ describe("contract bindings", () => {
 
 describe("Pen variables", () => {
   const design = JSON.stringify({ version: "2.21", children: [], themes: { mode: ["light", "dark"] }, variables: {} }, null, 2);
-  const variablesOf = (f: ReturnType<typeof fixture>) => JSON.parse(generate(sources(f), design).files["design/keen.pen"]).variables;
+  const variablesOf = (f: ReturnType<typeof fixture>) => JSON.parse(generate(sources(f), { design }).files["design/keen.pen"]).variables;
 
   it("writes semantic and component tokens and leaves primitives out", () => {
     const variables = variablesOf(fixture());
@@ -203,12 +203,19 @@ describe("Pen variables", () => {
   it("rejects a dimension Pen cannot hold", () => {
     const f = fixture();
     f.primitive.space.primitive.md.$value = { value: 1, unit: "rem" };
-    expect(generate(sources(f), design).issues.map((i) => `${i.rule} ${i.token}`)).toEqual(["pen chat.message-gap"]);
+    expect(generate(sources(f), { design }).issues.map((i) => `${i.rule} ${i.token}`)).toEqual(["pen chat.message-gap"]);
+  });
+
+  it("refuses a Pen file version the reader has not been checked against", () => {
+    const newer = design.replace('"version": "2.21"', '"version": "3.0"');
+    expect(generate(sources(fixture()), { design: newer }).issues).toEqual([
+      { rule: "pen", token: "design/keen.pen", message: 'is Pen file version "3.0"; the generator reads only 2.21' },
+    ]);
   });
 
   it("writes canvas tokens to Pen only", () => {
     const canvas = { canvas: { $type: "color", note: { $value: color("#4A5361"), $description: "Annotation text." } } };
-    const { files } = generate([...sources(fixture()), { file: "design/canvas.json", tier: "canvas", json: canvas }], design);
+    const { files } = generate([...sources(fixture()), { file: "design/canvas.json", tier: "canvas", json: canvas }], { design });
     expect(JSON.parse(files["design/keen.pen"]).variables["canvas.note"]).toEqual({ type: "color", value: "#4A5361" });
     expect(files["packages/keen/src/tokens/tokens.css"]).not.toContain("canvas");
     expect(files[".keen/baselines/tokens.json"]).not.toContain("canvas");
@@ -307,11 +314,17 @@ describe("generated output", () => {
     expect(css).toContain("--keen-color-semantic-action: var(--keen-color-primitive-blue-600);");
   });
 
-  it("re-declares mode-dependent tokens in the dark block", () => {
+  it("re-declares mode-dependent tokens in both the light and the dark block", () => {
     const f = fixture();
     f.semantic.color.semantic.surface.$extensions = { keen: { modes: { dark: "{color.primitive.blue-600}" } } };
     const css = generate(sources(f)).files["packages/keen/src/tokens/tokens.css"];
+    expect(css).toMatch(/\[data-keen-mode="light"\] \{\n {2}--keen-color-semantic-surface: var\(--keen-color-primitive-white\);\n\}/);
     expect(css).toMatch(/\[data-keen-mode="dark"\] \{\n {2}--keen-color-semantic-surface: var\(--keen-color-primitive-blue-600\);\n\}/);
+  });
+
+  it("emits no mode blocks when no token depends on the mode", () => {
+    const css = generate(sources(fixture())).files["packages/keen/src/tokens/tokens.css"];
+    expect(css).not.toContain("[data-keen-mode=");
   });
 
   it("declares an alias token as a custom property that references its target", () => {

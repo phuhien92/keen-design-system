@@ -1,4 +1,6 @@
 /* Generated from tokens/*.json by tools/token-generator. Do not edit; run pnpm tokens:build. */
+/* Hosts theme Keen page-wide: override semantic and component tokens on :root and on [data-keen-mode] selectors.
+   Overrides scoped to any other subtree do not reach the tokens that alias them; subtree theming is not supported yet. */
 
 :root {
   --keen-color-primitive-amber-50: #FFFAEB;
@@ -31,6 +33,17 @@
   --keen-font-primitive-size-15: 15px;
   --keen-font-primitive-size-16: 16px;
   --keen-font-primitive-weight-semibold: 600;
+  --keen-icon-primitive-size-12: 12px;
+  --keen-icon-primitive-size-18: 18px;
+  --keen-motion-primitive-duration-75: 75ms;
+  --keen-motion-primitive-duration-150: 150ms;
+  --keen-motion-primitive-duration-200: 200ms;
+  --keen-motion-primitive-duration-300: 300ms;
+  --keen-motion-primitive-duration-1400: 1400ms;
+  --keen-motion-primitive-easing-emphasized: cubic-bezier(0.2, 0, 0, 1);
+  --keen-motion-primitive-easing-entrance: cubic-bezier(0, 0, 0.2, 1);
+  --keen-motion-primitive-easing-linear: linear;
+  --keen-motion-primitive-easing-standard: cubic-bezier(0.4, 0, 0.2, 1);
   --keen-radius-primitive-lg: 12px;
   --keen-radius-primitive-md: 8px;
   --keen-radius-primitive-xl: 16px;
@@ -55,6 +68,17 @@
   --keen-font-semantic-size-caption: var(--keen-font-primitive-size-13);
   --keen-font-semantic-size-title: var(--keen-font-primitive-size-16);
   --keen-font-semantic-weight-strong: var(--keen-font-primitive-weight-semibold);
+  --keen-icon-semantic-size-md: var(--keen-icon-primitive-size-18);
+  --keen-icon-semantic-size-sm: var(--keen-icon-primitive-size-12);
+  --keen-motion-semantic-duration-base: var(--keen-motion-primitive-duration-200);
+  --keen-motion-semantic-duration-fast: var(--keen-motion-primitive-duration-150);
+  --keen-motion-semantic-duration-instant: var(--keen-motion-primitive-duration-75);
+  --keen-motion-semantic-duration-loop: var(--keen-motion-primitive-duration-1400);
+  --keen-motion-semantic-duration-slow: var(--keen-motion-primitive-duration-300);
+  --keen-motion-semantic-easing-emphasized: var(--keen-motion-primitive-easing-emphasized);
+  --keen-motion-semantic-easing-entrance: var(--keen-motion-primitive-easing-entrance);
+  --keen-motion-semantic-easing-linear: var(--keen-motion-primitive-easing-linear);
+  --keen-motion-semantic-easing-standard: var(--keen-motion-primitive-easing-standard);
   --keen-radius-semantic-container: var(--keen-radius-primitive-lg);
   --keen-radius-semantic-control: var(--keen-radius-primitive-md);
   --keen-space-semantic-gap-sm: var(--keen-space-primitive-sm);
@@ -65,6 +89,25 @@
   --keen-chat-message-gap: var(--keen-space-primitive-md);
   --keen-chat-message-max-width: 320px;
   --keen-chat-message-radius: var(--keen-radius-primitive-xl);
+  --keen-chat-message-user-background: var(--keen-color-semantic-action);
+  --keen-chat-message-user-text: var(--keen-color-semantic-text-on-action);
+}
+
+[data-keen-mode="light"] {
+  --keen-color-semantic-action: var(--keen-color-primitive-blue-600);
+  --keen-color-semantic-border: var(--keen-color-primitive-gray-100);
+  --keen-color-semantic-border-strong: var(--keen-color-primitive-gray-400);
+  --keen-color-semantic-danger: var(--keen-color-primitive-red-700);
+  --keen-color-semantic-danger-surface: var(--keen-color-primitive-red-50);
+  --keen-color-semantic-focus: var(--keen-color-primitive-blue-700);
+  --keen-color-semantic-surface: var(--keen-color-primitive-white);
+  --keen-color-semantic-surface-raised: var(--keen-color-primitive-gray-50);
+  --keen-color-semantic-text-on-action: var(--keen-color-primitive-white);
+  --keen-color-semantic-text-primary: var(--keen-color-primitive-gray-900);
+  --keen-color-semantic-text-subtle: var(--keen-color-primitive-gray-600);
+  --keen-color-semantic-warning: var(--keen-color-primitive-amber-700);
+  --keen-color-semantic-warning-surface: var(--keen-color-primitive-amber-50);
+  --keen-chat-message-assistant-background: var(--keen-color-semantic-surface-raised);
   --keen-chat-message-user-background: var(--keen-color-semantic-action);
   --keen-chat-message-user-text: var(--keen-color-semantic-text-on-action);
 }

@@ -6540,6 +6540,14 @@
       "type": "string",
       "value": "600"
     },
+    "icon.semantic.size-md": {
+      "type": "number",
+      "value": 18
+    },
+    "icon.semantic.size-sm": {
+      "type": "number",
+      "value": 12
+    },
     "radius.semantic.container": {
       "type": "number",
       "value": 12

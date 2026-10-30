@@ -1,9 +1,35 @@
 {
   "$schema": "https://biomejs.dev/schemas/2.6.3/schema.json",
-  "vcs": { "enabled": true, "clientKind": "git", "useIgnoreFile": true },
-  "files": {
-    "includes": ["**", "!design", "!docs", "!.claude", "!pnpm-lock.yaml", "!.keen/baselines", "!packages/keen/src/tokens/tokens.*"]
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git",
+    "useIgnoreFile": true
   },
-  "formatter": { "indentStyle": "space", "indentWidth": 2, "lineWidth": 140 },
-  "linter": { "enabled": true }
+  "files": {
+    "includes": [
+      "**",
+      "!design",
+      "!docs",
+      "!.claude",
+      "!pnpm-lock.yaml",
+      "!.keen/baselines",
+      "!.keen/design",
+      "!**/*.astro",
+      "!packages/keen/src/tokens",
+      "!packages/keen/src/icons/registry.ts"
+    ]
+  },
+  "formatter": {
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineWidth": 140
+  },
+  "linter": {
+    "enabled": true
+  },
+  "css": {
+    "parser": {
+      "tailwindDirectives": true
+    }
+  }
 }

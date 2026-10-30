@@ -1,5 +1,6 @@
 // Writes the token variables into design/keen.pen and walks its layers. The design agent lays out the file; the
 // variables block is generated, so a token change reaches the design the same way it reaches the CSS.
+import { spawnSync } from "node:child_process";
 import { compareTokens, emitsVariable } from "./emit.ts";
 import { type Issue, isReference, modes, referenceName, type Token } from "./model.ts";
 import type { Resolved } from "./resolve.ts";
@@ -63,6 +64,17 @@ export function emitPenVariables(
   return { variables, issues };
 }
 
+// The Pen file versions this reader has been checked against. Pen does not promise to keep its format, so a design
+// saved by a newer Pen stops the build instead of being misread; supporting it means checking the reader, then adding it.
+export const penVersions = ["2.21"];
+
+export function penVersionIssues(design: string, file: string): Issue[] {
+  const { version } = JSON.parse(design) as { version?: unknown };
+  if (typeof version === "string" && penVersions.includes(version)) return [];
+  const supported = penVersions.join(", ");
+  return [{ rule: "pen", token: file, message: `is Pen file version ${JSON.stringify(version)}; the generator reads only ${supported}` }];
+}
+
 // Replaces the variables block and keeps everything else, in Pen's own formatting: two-space JSON, no final newline.
 export function emitPen(design: string, variables: Record<string, PenVariable>): string {
   const pen = JSON.parse(design);
@@ -83,3 +95,28 @@ export function* layers(pen: { children?: PenNode[] }): Generator<{ node: PenNod
 
 // The layer path a person can find in Pen, such as "State 03 · streaming · dark > Chat > Message log".
 export const layerPath = (node: PenNode, ancestors: PenNode[]) => [...ancestors, node].map((n) => n.name ?? n.id).join(" > ");
+
+export type PenResult = { ok: true; value: unknown } | { ok: false; error: string; unavailable: boolean };
+
+// Runs one headless Pen session on a design file, to confirm that Pen itself reads what the generator wrote. The
+// snippet must call Emit(value) once. The generator never writes through Pen; only tests save, and only to a copy.
+export function runPen(design: string, snippet: string, save = false): PenResult {
+  const input = `Emit=(v)=>Print("KEEN<<"+JSON.stringify(v)+">>KEEN");${snippet}`;
+  const script = [`execute({ input: ${JSON.stringify(input)} })`, ...(save ? ["save()"] : []), "exit()"].join("\n");
+  const result = spawnSync("pen", ["interactive", "--in", design, "--out", design], { input: `${script}\n`, encoding: "utf8" });
+  if (result.error) return { ok: false, unavailable: true, error: `the pen CLI is not installed (${result.error.message})` };
+  const output = `${result.stdout}${result.stderr}`;
+  if (/Authentication required/.test(output))
+    return { ok: false, unavailable: true, error: "the pen CLI is not signed in (pen login or PEN_CLI_KEY)" };
+  const match = output.match(/KEEN<<([\s\S]*?)>>KEEN/);
+  if (result.status !== 0 || !match) return { ok: false, unavailable: false, error: output.trim().split("\n").slice(-6).join("\n") };
+  return { ok: true, value: JSON.parse(match[1]) };
+}
+
+export const readPenVariables = (design: string) => runPen(design, "Emit(GetVariables())");
+
+// Compares variables regardless of key order, since Pen returns object keys in its own order.
+export function differingVariables(actual: Record<string, PenVariable>, expected: Record<string, PenVariable>): string[] {
+  const names = [...new Set([...Object.keys(actual), ...Object.keys(expected)])].sort();
+  return names.filter((n) => JSON.stringify(actual[n]) !== JSON.stringify(expected[n]));
+}

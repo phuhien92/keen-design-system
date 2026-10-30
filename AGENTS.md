@@ -10,7 +10,7 @@ that broke. The reasoning behind each rule is in [docs/decisions.md](docs/decisi
 | ----------------------------------------------------------- | -------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
 | A token value                                               | `tokens/*.json`                              | `packages/keen/src/tokens/tokens.css`, `tokens.ts`, `.keen/baselines/tokens.json`, the `variables` block in `design/keen.pen` |
 | A canvas color (annotations, frame backgrounds)             | `design/canvas.json`                         | the `variables` block in `design/keen.pen`                                                                                    |
-| A screen or layer in the design                             | the layers (`children`) of `design/keen.pen` | its `variables` block                                                                                                         |
+| A screen, layer, or icon in the design                      | the layers (`children`) of `design/keen.pen` | its `variables` block, `.keen/design/icons.json`, `packages/keen/src/icons/registry.ts`                                       |
 | What a component is, its parts, and which tokens style them | `docs/components/<name>.json`                | `docs/components/<name>.md`                                                                                                   |
 
 After any of these edits, run:
@@ -109,6 +109,18 @@ the layer and the token goes in the metadata.
 // ❌ the 48 is unexplained. design-anatomy fails:
 //    "docs/components/chat.json: binding input.field min-height → chat.composer-height is not drawn; draw it or mark it drawn: false"
 { "type": "frame", "name": "Field", "height": 48, "metadata": { "type": "keen-part", "component": "Chat", "part": "input", "element": "field" } }
+```
+
+**Add an icon by drawing it in the design, then rebuild.** `pnpm tokens:build` reads every icon node in
+`design/keen.pen` into `.keen/design/icons.json` and the Lucide registry, the only module that imports Lucide.
+
+```jsonc
+// ✅ design/keen.pen, then pnpm tokens:build
+{ "type": "icon", "name": "Bell Icon", "icon": "bell", "library": "lucide", "width": 18, "height": 18 }
+
+// ❌ packages/keen/src/icons/registry.ts: a generated file. tokens-generated fails:
+//    "packages/keen/src/icons/registry.ts is stale or hand-edited; run pnpm tokens:build"
+"bell": Bell,
 ```
 
 **Draw an interaction state as an override on an instance, using the token the contract binds for that state.**

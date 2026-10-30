@@ -1,0 +1,11 @@
+/* Icons are sized through --keen-icon-size, never font-size, and inherit currentColor. */
+.keen-icon {
+  --keen-icon-size: var(--keen-icon-semantic-size-md);
+  flex: none;
+  width: var(--keen-icon-size);
+  height: var(--keen-icon-size);
+}
+
+.keen-icon--sm {
+  --keen-icon-size: var(--keen-icon-semantic-size-sm);
+}

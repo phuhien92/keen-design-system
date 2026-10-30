@@ -133,5 +133,108 @@
         "$description": "Line height multiplier for message text."
       }
     }
+  },
+  "motion": {
+    "semantic": {
+      "duration-instant": {
+        "$type": "duration",
+        "$value": "{motion.primitive.duration-75}",
+        "$description": "Near-immediate feedback, such as the composer growing a line. Collapses to 0.01ms under reduced motion.",
+        "$extensions": { "keen": { "js": "schedule" } }
+      },
+      "duration-fast": {
+        "$type": "duration",
+        "$value": "{motion.primitive.duration-150}",
+        "$description": "Hover and icon changes. Collapses to 0.01ms under reduced motion.",
+        "$extensions": { "keen": { "js": "schedule" } }
+      },
+      "duration-base": {
+        "$type": "duration",
+        "$value": "{motion.primitive.duration-200}",
+        "$description": "Color and opacity changes. Collapses to 0.01ms under reduced motion.",
+        "$extensions": { "keen": { "js": "schedule" } }
+      },
+      "duration-slow": {
+        "$type": "duration",
+        "$value": "{motion.primitive.duration-300}",
+        "$description": "A notice or message appearing. Collapses to 0.01ms under reduced motion.",
+        "$extensions": { "keen": { "js": "schedule" } }
+      },
+      "duration-loop": {
+        "$type": "duration",
+        "$value": "{motion.primitive.duration-1400}",
+        "$description": "One cycle of a looping indicator, such as the loading dots. Registered loops park on a static frame under reduced motion.",
+        "$extensions": { "keen": { "js": "pace" } }
+      },
+      "easing-standard": {
+        "$type": "cubicBezier",
+        "$value": "{motion.primitive.easing-standard}",
+        "$description": "Default curve for state changes that start and end on screen."
+      },
+      "easing-emphasized": {
+        "$type": "cubicBezier",
+        "$value": "{motion.primitive.easing-emphasized}",
+        "$description": "Curve for a change the user should notice. Not used by any named use yet."
+      },
+      "easing-entrance": {
+        "$type": "cubicBezier",
+        "$value": "{motion.primitive.easing-entrance}",
+        "$description": "Decelerating curve for content entering the view. Entrances are dropped under reduced motion."
+      },
+      "easing-linear": {
+        "$type": "cubicBezier",
+        "$value": "{motion.primitive.easing-linear}",
+        "$description": "Constant rate for loops, such as the loading dots."
+      },
+      "use-hover": {
+        "$type": "transition",
+        "$value": {
+          "duration": "{motion.semantic.duration-fast}",
+          "delay": { "value": 0, "unit": "ms" },
+          "timingFunction": "{motion.semantic.easing-standard}"
+        },
+        "$description": "Hover and press feedback on controls. Expanded where applied; never a custom property."
+      },
+      "use-message-enter": {
+        "$type": "transition",
+        "$value": {
+          "duration": "{motion.semantic.duration-slow}",
+          "delay": { "value": 0, "unit": "ms" },
+          "timingFunction": "{motion.semantic.easing-entrance}"
+        },
+        "$description": "A new message entering the log. An entrance: dropped under reduced motion."
+      },
+      "use-notice": {
+        "$type": "transition",
+        "$value": {
+          "duration": "{motion.semantic.duration-slow}",
+          "delay": { "value": 0, "unit": "ms" },
+          "timingFunction": "{motion.semantic.easing-standard}"
+        },
+        "$description": "A notice or banner appearing or leaving."
+      },
+      "use-loop": {
+        "$type": "transition",
+        "$value": {
+          "duration": "{motion.semantic.duration-loop}",
+          "delay": { "value": 0, "unit": "ms" },
+          "timingFunction": "{motion.semantic.easing-linear}"
+        },
+        "$description": "One cycle of a registered looping animation, such as the loading dots or streaming caret."
+      }
+    }
+  },
+  "icon": {
+    "$type": "dimension",
+    "semantic": {
+      "size-sm": {
+        "$value": "{icon.primitive.size-12}",
+        "$description": "Icons inside compact controls and status lines, such as Stop, Retry, and the stopped status."
+      },
+      "size-md": {
+        "$value": "{icon.primitive.size-18}",
+        "$description": "Icons in Send and in notices, such as the error, rate-limit, and offline icons."
+      }
+    }
   }
 }
