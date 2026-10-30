@@ -26,14 +26,20 @@ export function componentSources(root: string): SourceFile[] {
 
 const withoutComments = (text: string) => text.replace(/\/\*[\s\S]*?\*\//g, "").replace(/(^|[^:])\/\/.*$/gm, "$1");
 
-// Components forward no className or style onto internals: their props declare neither, and JSX never spreads props.
+const domAttributeTypes = /\b(\w*HTMLAttributes|HTMLProps|DetailedHTMLProps|DOMAttributes|SVGAttributes|SVGProps|ComponentProps\w*)\b/g;
+
+// Components forward no className or style onto internals: their props neither declare, inherit, nor destructure
+// either, and JSX never spreads props.
 export function checkForwarding(files: SourceFile[]): string[] {
   const failures: string[] = [];
   for (const file of files.filter((f) => f.path.endsWith(".tsx"))) {
     const text = withoutComments(file.text);
-    for (const m of text.matchAll(/^\s*(className|style)\??\s*:/gm))
+    for (const m of text.matchAll(/(?:^|[{(,;])\s*(className|style)\??\s*:/gm))
       failures.push(`${file.path}: props declare ${m[1]}, a styling escape hatch`);
-    for (const m of text.matchAll(/\b(className|style)=\{[^}]*\b(props|rest)\b/g))
+    for (const m of text.matchAll(domAttributeTypes)) failures.push(`${file.path}: props use ${m[1]}, which carries className and style`);
+    for (const m of text.matchAll(/(?:\(|\b(?:const|let|var)\s+)\{[^{}]*?\b(className|style)\b[^{}]*\}/g))
+      failures.push(`${file.path}: destructures ${m[1]}, a styling escape hatch`);
+    for (const m of text.matchAll(/\b(className|style)=\{[^}]*\b(props|rest|className|style)\b/g))
       failures.push(`${file.path}: forwards ${m[1]} from props`);
     if (/<[A-Za-z][\w.]*[^>]*\{\s*\.\.\./.test(text)) failures.push(`${file.path}: spreads props onto an element`);
   }

@@ -33,6 +33,40 @@ describe("component-forwarding", () => {
     expect(checkForwarding([file("Chat/Chat.tsx", "return <div className={props.className} />;")])).toHaveLength(1);
   });
 
+  it("rejects className or style declared inline in a props type", () => {
+    expect(checkForwarding([file("Chat/Chat.tsx", "export function Chat(props: { labels: Labels; className?: string }) {}")])).toEqual([
+      "packages/keen/src/components/Chat/Chat.tsx: props declare className, a styling escape hatch",
+    ]);
+  });
+
+  it.each([
+    ["interface Props extends React.HTMLAttributes<HTMLElement> { labels: Labels }", "HTMLAttributes"],
+    ["type Props = ComponentProps<'section'> & { labels: Labels };", "ComponentProps"],
+    ["interface Props extends ComponentPropsWithoutRef<'div'> {}", "ComponentPropsWithoutRef"],
+    ["interface Props extends AllHTMLAttributes<HTMLElement> {}", "AllHTMLAttributes"],
+  ])("rejects props that inherit DOM attributes: %s", (source, type) => {
+    expect(checkForwarding([file("Chat/Chat.tsx", source)])).toEqual([
+      `packages/keen/src/components/Chat/Chat.tsx: props use ${type}, which carries className and style`,
+    ]);
+  });
+
+  it("rejects className and style destructured from parameters and forwarded by name", () => {
+    const source =
+      "export function Chat({ className, style, labels }: ChatProps) {\n  return <section className={cx('keen-chat', className)} style={style} />;\n}";
+    expect(checkForwarding([file("Chat/Chat.tsx", source)])).toEqual([
+      "packages/keen/src/components/Chat/Chat.tsx: destructures className, a styling escape hatch",
+      "packages/keen/src/components/Chat/Chat.tsx: forwards className from props",
+      "packages/keen/src/components/Chat/Chat.tsx: forwards style from props",
+    ]);
+  });
+
+  it("rejects style destructured from props in the body", () => {
+    expect(checkForwarding([file("Chat/Chat.tsx", "const { style: hostStyle } = props;")])).toEqual([
+      "packages/keen/src/components/Chat/Chat.tsx: props declare style, a styling escape hatch",
+      "packages/keen/src/components/Chat/Chat.tsx: destructures style, a styling escape hatch",
+    ]);
+  });
+
   it("rejects spreading props onto an element", () => {
     expect(checkForwarding([file("Chat/Chat.tsx", "return <div {...rest} />;")])).toEqual([
       "packages/keen/src/components/Chat/Chat.tsx: spreads props onto an element",
