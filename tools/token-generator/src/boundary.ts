@@ -32,13 +32,14 @@ const domAttributeTypes = /\b(\w*HTMLAttributes|HTMLProps|DetailedHTMLProps|DOMA
 // either, and JSX never spreads props.
 export function checkForwarding(files: SourceFile[]): string[] {
   const failures: string[] = [];
-  for (const file of files.filter((f) => f.path.endsWith(".tsx"))) {
+  for (const file of files.filter((f) => /\.tsx?$/.test(f.path))) {
     const text = withoutComments(file.text);
     for (const m of text.matchAll(/(?:^|[{(,;])\s*(className|style)\??\s*:/gm))
       failures.push(`${file.path}: props declare ${m[1]}, a styling escape hatch`);
     for (const m of text.matchAll(domAttributeTypes)) failures.push(`${file.path}: props use ${m[1]}, which carries className and style`);
     for (const m of text.matchAll(/(?:\(|\b(?:const|let|var)\s+)\{[^{}]*?\b(className|style)\b[^{}]*\}/g))
       failures.push(`${file.path}: destructures ${m[1]}, a styling escape hatch`);
+    if (!file.path.endsWith(".tsx")) continue;
     for (const m of text.matchAll(/\b(className|style)=\{[^}]*\b(props|rest|className|style)\b/g))
       failures.push(`${file.path}: forwards ${m[1]} from props`);
     if (/<[A-Za-z][\w.]*[^>]*\{\s*\.\.\./.test(text)) failures.push(`${file.path}: spreads props onto an element`);

@@ -67,6 +67,26 @@ describe("component-forwarding", () => {
     ]);
   });
 
+  it("rejects a props type in a .ts sibling that inherits DOM attributes or declares className", () => {
+    const failures = checkForwarding([
+      file("Chat/types.ts", "export interface ChatProps extends HTMLAttributes<HTMLElement> { labels: Labels }"),
+      file("Chat/options.ts", "export interface ChatOptions {\n  className?: string;\n}"),
+      file(
+        "Chat/Chat.tsx",
+        'export function Chat(p: ChatProps) { const hostClass = p.className; return <section className={cx("keen-chat", hostClass)} />; }',
+      ),
+    ]);
+    expect(failures).toEqual([
+      "packages/keen/src/components/Chat/types.ts: props use HTMLAttributes, which carries className and style",
+      "packages/keen/src/components/Chat/options.ts: props declare className, a styling escape hatch",
+    ]);
+  });
+
+  it("does not apply JSX checks to .ts files", () => {
+    const source = "export const pick = (a: number, b: number) => { if (a < b) return { ...defaults }; return defaults; };";
+    expect(checkForwarding([file("Chat/pick.ts", source)])).toEqual([]);
+  });
+
   it("rejects spreading props onto an element", () => {
     expect(checkForwarding([file("Chat/Chat.tsx", "return <div {...rest} />;")])).toEqual([
       "packages/keen/src/components/Chat/Chat.tsx: spreads props onto an element",
