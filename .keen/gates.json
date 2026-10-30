@@ -90,6 +90,26 @@
       "id": "fixture-astro",
       "tier": "build",
       "description": "apps/fixture-astro installs the packed package, themes it page-wide through semantic tokens that reach the component tokens aliasing them, and builds"
+    },
+    {
+      "id": "storybook-build",
+      "tier": "build",
+      "description": "Storybook builds and indexes the token-sample and motion replay stories"
+    },
+    {
+      "id": "live-token-sample",
+      "tier": "live",
+      "description": "the token-sample story renders every semantic color role with its resolved light and dark value"
+    },
+    {
+      "id": "live-reduced-motion",
+      "tier": "live",
+      "description": "durations equal their tokens and become 0.01ms with reduced motion from the OS or the toolbar, scrolling jumps, and no loop or entrance runs"
+    },
+    {
+      "id": "live-fixture-host",
+      "tier": "live",
+      "description": "in apps/fixture-astro, the host's own transition is unchanged under reduced motion"
     }
   ]
 }

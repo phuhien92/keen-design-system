@@ -5,6 +5,16 @@ import { checkContracts, checkForwarding, checkReads, componentSources, type Tok
 import { type ContrastPair, checkContrast } from "./contrast.ts";
 import { emitsVariable } from "./emit.ts";
 import { designHash, type IconSnapshot, iconSnapshotFile, readDesignIcons, registryFile } from "./icons.ts";
+import {
+  checkHostMotion,
+  checkReducedMotion as checkLiveReducedMotion,
+  checkStorybookBuild,
+  checkTokenSample,
+  fixtureDist,
+  type LiveResult,
+  storybookDir,
+  withPage,
+} from "./live.ts";
 import { cssVar } from "./model.ts";
 import { type MotionRegistry, semanticDurations, useVariables } from "./motion.ts";
 import { checkAllowDirectives, checkIconUsage, checkMotionUsage, checkReducedMotion } from "./motion-checks.ts";
@@ -35,9 +45,10 @@ const snapshotOf = (root: string): IconSnapshot | undefined => {
   const text = read(root, iconSnapshotFile);
   return text ? JSON.parse(text) : undefined;
 };
+const live = (outcome: LiveResult): GateResult => ("skip" in outcome ? { status: "skip", reason: outcome.skip } : result(outcome.failures));
 const read = (root: string, file: string) => (existsSync(join(root, file)) ? readFileSync(join(root, file), "utf8") : undefined);
 
-export const gates: Record<string, (ctx: Context) => GateResult> = {
+export const gates: Record<string, (ctx: Context) => GateResult | Promise<GateResult>> = {
   "tokens-valid": (ctx) => result(ctx.generation().issues.map(formatIssue)),
 
   "tokens-generated": (ctx) => {
@@ -172,6 +183,22 @@ export const gates: Record<string, (ctx: Context) => GateResult> = {
 
   "package-exports": (ctx) => result(checkPackage(ctx.root)),
 
+  "storybook-build": (ctx) => result(checkStorybookBuild(ctx.root)),
+
+  "live-token-sample": async (ctx) => {
+    const entries: { name: string }[] = JSON.parse(read(ctx.root, outputFiles.baseline) ?? '{ "tokens": [] }').tokens;
+    const baseline = new Map(entries.map((t) => [t.name, t as unknown as Record<string, { value: string }>]));
+    return live(await withPage(ctx.root, storybookDir, "pnpm verify:build", checkTokenSample(baseline)));
+  },
+
+  "live-reduced-motion": async (ctx) => {
+    const fast = ctx.generation().resolved.get("motion.semantic.duration-fast")?.modes.light.value as { value: number } | undefined;
+    return live(await withPage(ctx.root, storybookDir, "pnpm verify:build", checkLiveReducedMotion(fast?.value ?? Number.NaN)));
+  },
+
+  "live-fixture-host": async (ctx) =>
+    live(await withPage(ctx.root, fixtureDist, "pnpm fixture:install && pnpm verify:build", checkHostMotion)),
+
   "fixture-astro": (ctx) => {
     const { skip, failures } = checkFixture(ctx.root);
     return skip ? { status: "skip", reason: skip } : result(failures);
@@ -188,7 +215,7 @@ export function readGateSpecs(root: string): GateSpec[] {
   return JSON.parse(readFileSync(join(root, ".keen/gates.json"), "utf8")).gates;
 }
 
-export function runGates(root: string, tier: Tier, log: (line: string) => void): boolean {
+export async function runGates(root: string, tier: Tier, log: (line: string) => void): Promise<boolean> {
   const specs = readGateSpecs(root);
   const declared = new Set(specs.map((s) => s.id));
   const undeclared = Object.keys(gates).filter((id) => !declared.has(id));
@@ -211,7 +238,7 @@ export function runGates(root: string, tier: Tier, log: (line: string) => void):
   for (const spec of tierSpecs) {
     let outcome: GateResult;
     try {
-      outcome = gates[spec.id](ctx);
+      outcome = await gates[spec.id](ctx);
     } catch (error) {
       outcome = { status: "fail", reasons: [error instanceof Error ? error.message : String(error)] };
     }

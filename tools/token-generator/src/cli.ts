@@ -28,7 +28,7 @@ if (command === "build") {
     console.log(`wrote ${file}`);
   }
 } else if (command === "verify" && (arg === "fast" || arg === "build" || arg === "live")) {
-  process.exit(runGates(repoRoot, arg as Tier, (line) => console.log(line)) ? 0 : 1);
+  process.exit((await runGates(repoRoot, arg as Tier, (line) => console.log(line))) ? 0 : 1);
 } else if (command === "design-push") {
   const expected = penVariables(validGeneration().tokens);
   const written = writePenVariables(join(repoRoot, designFile), expected);

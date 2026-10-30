@@ -37,7 +37,7 @@ export function emitReducedMotion(tokens: Token[], registry: MotionRegistry): st
       keenRoot,
       semanticDurations(tokens).map((t) => `${cssVar(t.name)}: ${reducedDuration};`),
     ),
-    rule(`${keenRoot},\n  ${keenRoot} *`, ["scroll-behavior: auto;"]),
+    rule(`${keenRoot},\n  ${keenRoot} *`, ["scroll-behavior: auto !important;"]),
     ...registry.loops.map((loop) =>
       rule(`${keenRoot} ${loop.selector}`, ["animation: none;", ...Object.entries(loop.frame).map(([p, v]) => `${p}: ${v};`)]),
     ),
