@@ -21,7 +21,7 @@
       "properties": { "keen": { "$ref": "#/$defs/texts" }, "host": { "$ref": "#/$defs/texts" } }
     },
     "states": { "type": "array", "minItems": 1, "items": {
-      "type": "object", "additionalProperties": false, "required": ["name", "description", "composer", "partialResponse", "announcement", "evidence"],
+      "type": "object", "additionalProperties": false, "required": ["name", "description", "announcement", "evidence"],
       "properties": {
         "name": { "$ref": "#/$defs/name" },
         "description": { "$ref": "#/$defs/text" },

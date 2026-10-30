@@ -1,8 +1,12 @@
 import type { Preview } from "@storybook/react-vite";
 import "../../../packages/keen/src/tokens/tokens.css";
 import "../../../packages/keen/src/icons/Icon.css";
-import "../../../packages/keen/src/tokens/reduced-motion.css";
 import reducedMotion from "../../../packages/keen/src/tokens/reduced-motion.css?raw";
+
+// Every component's stylesheet, as packages/keen/scripts/build-styles.ts bundles them, so a story needs no CSS import;
+// then the reduced-motion rules, last, as styles.css declares them.
+import.meta.glob("../../../packages/keen/src/components/*/*.css", { eager: true });
+import.meta.glob("../../../packages/keen/src/tokens/reduced-motion.css", { eager: true });
 
 // The toolbar's reduced-motion switch applies Keen's generated reduced-motion rules without the media query, under
 // [data-keen-motion="reduce"], so every story can be reviewed with reduced motion whatever the OS setting.
