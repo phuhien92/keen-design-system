@@ -54,7 +54,7 @@
     {
       "id": "fixture-astro",
       "tier": "build",
-      "description": "apps/fixture-astro installs the packed package, themes it through semantic tokens, and builds"
+      "description": "apps/fixture-astro installs the packed package, themes it page-wide through semantic tokens that reach the component tokens aliasing them, and builds"
     }
   ]
 }

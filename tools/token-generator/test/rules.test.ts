@@ -154,11 +154,17 @@ describe("generated output", () => {
     expect(css).toContain("--keen-color-semantic-action: var(--keen-color-primitive-blue-600);");
   });
 
-  it("re-declares mode-dependent tokens in the dark block", () => {
+  it("re-declares mode-dependent tokens in both the light and the dark block", () => {
     const f = fixture();
     f.semantic.color.semantic.surface.$extensions = { keen: { modes: { dark: "{color.primitive.blue-600}" } } };
     const css = generate(sources(f)).files["packages/keen/src/tokens/tokens.css"];
+    expect(css).toMatch(/\[data-keen-mode="light"\] \{\n {2}--keen-color-semantic-surface: var\(--keen-color-primitive-white\);\n\}/);
     expect(css).toMatch(/\[data-keen-mode="dark"\] \{\n {2}--keen-color-semantic-surface: var\(--keen-color-primitive-blue-600\);\n\}/);
+  });
+
+  it("emits no mode blocks when no token depends on the mode", () => {
+    const css = generate(sources(fixture())).files["packages/keen/src/tokens/tokens.css"];
+    expect(css).not.toContain("[data-keen-mode=");
   });
 
   it("declares an alias token as a custom property that references its target", () => {

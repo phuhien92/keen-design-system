@@ -1,8 +1,8 @@
 import { keenTokens } from "@keen/design-system/tokens";
 
-const { color, font, radius, space } = keenTokens;
+const { chat, color, font, radius, space } = keenTokens;
 
-// Host-owned markup styled with Keen's typed token map and Tailwind utilities mapped to Keen roles.
+// Host-owned markup styled with Keen's typed token map, component tokens included, and Tailwind utilities mapped to Keen roles.
 export function ThemedSample({ mode }: { mode: "light" | "dark" }) {
   return (
     <section
@@ -25,6 +25,12 @@ export function ThemedSample({ mode }: { mode: "light" | "dark" }) {
       >
         Host action
       </button>
+      <p
+        data-testid="user-bubble"
+        style={{ background: chat["message-user-background"], color: chat["message-user-text"], borderRadius: chat["message-radius"] }}
+      >
+        A component token that aliases the host's action color
+      </p>
     </section>
   );
 }

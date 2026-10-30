@@ -3,6 +3,7 @@ import { execFileSync } from "node:child_process";
 import { existsSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, realpathSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
+import { contexts, keenProperties, styleRules } from "./cascade.ts";
 
 export const packageDir = "packages/keen";
 export const publicExports = ["./react", "./styles.css", "./tokens"];
@@ -73,7 +74,7 @@ export function checkPackage(root: string): string[] {
 
 export const fixtureDir = "apps/fixture-astro";
 
-// The fixture installs the packed package (not a workspace link), themes it through semantic tokens, and builds.
+// The fixture installs the packed package (not a workspace link), themes it page-wide through semantic tokens, and builds.
 export function checkFixture(root: string): { skip?: string; failures: string[] } {
   const installed = join(root, fixtureDir, "node_modules/@keen/design-system");
   if (!existsSync(installed)) return { skip: `${fixtureDir} has no installed package; run pnpm fixture:install`, failures: [] };
@@ -88,13 +89,37 @@ export function checkFixture(root: string): { skip?: string; failures: string[] 
     .filter((f) => f.endsWith(".css"))
     .map((f) => readFileSync(join(dist, f), "utf8"))
     .join("\n");
-  if (!html.includes('data-testid="themed-sample"')) failures.push("the built page does not render the themed sample");
-  if (!/--keen-color-primitive-blue-600:\s*#2557D6/i.test(css)) failures.push("the built CSS does not include Keen's token stylesheet");
-  if (!/\.fixture-theme\{[^}]*--keen-color-semantic-action:/.test(css.replace(/\s+/g, ""))) {
-    failures.push("the built CSS does not theme --keen-color-semantic-action in .fixture-theme");
-  }
-  if (/\.fixture-theme\{[^}]*--keen-[a-z-]*-primitive-/.test(css.replace(/\s+/g, ""))) {
-    failures.push("the fixture theme overrides a primitive; hosts theme through semantic tokens");
-  }
+  for (const testid of ["themed-sample", "user-bubble"])
+    if (!html.includes(`data-testid="${testid}"`)) failures.push(`the built page does not render ${testid}`);
+  failures.push(...checkFixtureCss(css, readFileSync(join(installed, "dist/styles.css"), "utf8")));
   return { failures };
+}
+
+const themedSemantic = "--keen-color-semantic-action";
+const aliasingComponent = "--keen-chat-message-user-background";
+
+const primitiveDeclarations = (css: string) =>
+  styleRules(css)
+    .flatMap((rule) => rule.declarations.map(([name]) => name))
+    .filter((name) => /^--keen-[a-z-]*-primitive-/.test(name))
+    .sort();
+
+// The host's built CSS includes Keen's stylesheet, overrides a semantic token page-wide in every mode context, and that
+// override reaches a component token that aliases it. Hosts never redeclare a primitive.
+export function checkFixtureCss(css: string, keenCss: string): string[] {
+  const failures: string[] = [];
+  if (!/--keen-color-primitive-blue-600:\s*#2557D6/i.test(css)) failures.push("the built CSS does not include Keen's token stylesheet");
+  for (const context of contexts) {
+    const host = keenProperties(css, context);
+    const action = host.get(themedSemantic);
+    if (action === keenProperties(keenCss, context).get(themedSemantic)) {
+      failures.push(`the fixture does not override ${themedSemantic} in the ${context} context`);
+    } else if (host.get(aliasingComponent) !== action) {
+      failures.push(`${aliasingComponent} is ${host.get(aliasingComponent)} in the ${context} context, not the host's ${action}`);
+    }
+  }
+  if (JSON.stringify(primitiveDeclarations(css)) !== JSON.stringify(primitiveDeclarations(keenCss))) {
+    failures.push("the fixture overrides a primitive; hosts theme through semantic tokens");
+  }
+  return failures;
 }

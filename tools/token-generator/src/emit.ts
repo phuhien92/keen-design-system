@@ -63,23 +63,26 @@ const declaration = (token: Token, authored: unknown) =>
   `  ${cssVar(token.name)}: ${isReference(authored) ? `var(${cssVar(referenceName(authored))})` : formatValue(token.type, authored)};\n`;
 
 // A custom property resolves its var() where it is declared, so a token that references a mode-dependent token
-// must be declared again in that mode's block, or a mode set below :root would leave it on the light value.
-const dependsOnMode = (token: Token, mode: string, byName: Map<string, Token>): boolean => {
-  if (token.values[mode] !== undefined) return true;
+// must be declared again in every mode's block, or a mode set below :root would keep the page's value.
+const dependsOnModes = (token: Token, byName: Map<string, Token>): boolean => {
+  if (modes.some((mode) => mode !== "light" && token.values[mode] !== undefined)) return true;
   const authored = token.values.light;
   const target = isReference(authored) ? byName.get(referenceName(authored)) : undefined;
-  return target ? dependsOnMode(target, mode, byName) : false;
+  return target ? dependsOnModes(target, byName) : false;
 };
+
+const themingNote =
+  "/* Hosts theme Keen page-wide: override semantic and component tokens on :root and on [data-keen-mode] selectors.\n   Overrides scoped to any other subtree do not reach the tokens that alias them; subtree theming is not supported yet. */\n";
 
 export function emitCss(tokens: Token[]): string {
   const byName = new Map(tokens.map((t) => [t.name, t]));
   const sorted = tokens.filter(emitsVariable).sort(compareTokens);
-  let css = `${cssHeader}\n:root {\n`;
+  let css = `${cssHeader}${themingNote}\n:root {\n`;
   for (const token of sorted) css += declaration(token, token.values.light);
   css += "}\n";
-  for (const mode of modes.slice(1)) {
-    const themed = sorted.filter((t) => dependsOnMode(t, mode, byName));
-    if (themed.length === 0) continue;
+  const themed = sorted.filter((t) => dependsOnModes(t, byName));
+  if (themed.length === 0) return css;
+  for (const mode of modes) {
     css += `\n[data-keen-mode="${mode}"] {\n`;
     for (const token of themed) css += declaration(token, token.values[mode] ?? token.values.light);
     css += "}\n";
@@ -107,7 +110,7 @@ export function emitTypes(tokens: Token[]): string {
     );
     return `{\n${lines.join("\n")}\n${"  ".repeat(depth)}}`;
   };
-  return `${tsHeader}// Semantic and component tokens only: primitives are not part of the typed API.\nexport const keenTokens = ${print(tree, 0)} as const;\n\nexport type KeenTokens = typeof keenTokens;\n`;
+  return `${tsHeader}// Semantic and component tokens only: primitives are not part of the typed API.\n// Host overrides are page-level (:root and [data-keen-mode] selectors); subtree theming is not supported yet.\nexport const keenTokens = ${print(tree, 0)} as const;\n\nexport type KeenTokens = typeof keenTokens;\n`;
 }
 
 const formatResolved = (type: string, value: unknown): unknown => {

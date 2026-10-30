@@ -1,4 +1,6 @@
 /* Generated from tokens/*.json by tools/token-generator. Do not edit; run pnpm tokens:build. */
+/* Hosts theme Keen page-wide: override semantic and component tokens on :root and on [data-keen-mode] selectors.
+   Overrides scoped to any other subtree do not reach the tokens that alias them; subtree theming is not supported yet. */
 
 :root {
   --keen-color-primitive-amber-50: #FFFAEB;
@@ -65,6 +67,25 @@
   --keen-chat-message-gap: var(--keen-space-primitive-md);
   --keen-chat-message-max-width: 320px;
   --keen-chat-message-radius: var(--keen-radius-primitive-xl);
+  --keen-chat-message-user-background: var(--keen-color-semantic-action);
+  --keen-chat-message-user-text: var(--keen-color-semantic-text-on-action);
+}
+
+[data-keen-mode="light"] {
+  --keen-color-semantic-action: var(--keen-color-primitive-blue-600);
+  --keen-color-semantic-border: var(--keen-color-primitive-gray-100);
+  --keen-color-semantic-border-strong: var(--keen-color-primitive-gray-400);
+  --keen-color-semantic-danger: var(--keen-color-primitive-red-700);
+  --keen-color-semantic-danger-surface: var(--keen-color-primitive-red-50);
+  --keen-color-semantic-focus: var(--keen-color-primitive-blue-700);
+  --keen-color-semantic-surface: var(--keen-color-primitive-white);
+  --keen-color-semantic-surface-raised: var(--keen-color-primitive-gray-50);
+  --keen-color-semantic-text-on-action: var(--keen-color-primitive-white);
+  --keen-color-semantic-text-primary: var(--keen-color-primitive-gray-900);
+  --keen-color-semantic-text-subtle: var(--keen-color-primitive-gray-600);
+  --keen-color-semantic-warning: var(--keen-color-primitive-amber-700);
+  --keen-color-semantic-warning-surface: var(--keen-color-primitive-amber-50);
+  --keen-chat-message-assistant-background: var(--keen-color-semantic-surface-raised);
   --keen-chat-message-user-background: var(--keen-color-semantic-action);
   --keen-chat-message-user-text: var(--keen-color-semantic-text-on-action);
 }

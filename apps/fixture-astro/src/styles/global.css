@@ -7,14 +7,15 @@
   --radius-keen-control: var(--keen-radius-semantic-control);
 }
 
-/* The host's brand, applied through semantic tokens only. */
-.fixture-theme {
+/* The host's brand, applied page-wide through semantic tokens only, on the same selectors Keen declares them on. */
+:root,
+[data-keen-mode="light"] {
   --keen-color-semantic-action: #6d28d9;
   --keen-color-semantic-text-on-action: #ffffff;
   --keen-space-semantic-inset-md: 24px;
 }
 
-.fixture-theme[data-keen-mode="dark"] {
+[data-keen-mode="dark"] {
   --keen-color-semantic-action: #c4b5fd;
   --keen-color-semantic-text-on-action: #1e1033;
 }

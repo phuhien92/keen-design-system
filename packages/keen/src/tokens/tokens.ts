@@ -1,5 +1,6 @@
 // Generated from tokens/*.json by tools/token-generator. Do not edit; run pnpm tokens:build.
 // Semantic and component tokens only: primitives are not part of the typed API.
+// Host overrides are page-level (:root and [data-keen-mode] selectors); subtree theming is not supported yet.
 export const keenTokens = {
   color: {
     semantic: {

@@ -88,9 +88,15 @@ The README's last "Done when" item stays unchanged: "portfolio-blog renders the 
 
 ### 2026-10-29: Dark values live in a namespaced mode extension
 
-DTCG 2025.10 has no modes, so a semantic token's `$value` is its light value and `$extensions.keen.modes.dark` holds its dark value, both as references to primitives. The generator declares the light values on `:root` and the dark values under `[data-keen-mode="dark"]`, so a host switches a page or a subtree by setting that attribute. Every token whose value depends on the mode is declared again in the dark block, because a custom property resolves its `var()` where it is declared.
+DTCG 2025.10 has no modes, so a semantic token's `$value` is its light value and `$extensions.keen.modes.dark` holds its dark value, both as references to primitives. The generator declares the light values on `:root`, and every token whose value depends on the mode again under both `[data-keen-mode="light"]` and `[data-keen-mode="dark"]`, so a host switches a page or a subtree by setting that attribute, including a light subtree inside a dark page. Mode-dependent tokens are declared again in each mode block because a custom property resolves its `var()` where it is declared.
 
 Rejected: one token file per mode, which would duplicate every non-color token and let the files drift, and the separate DTCG resolver format, which no tool Keen uses reads yet. Moving to the resolver format later changes the token files and the generator, not the generated variable names.
+
+### 2026-10-29: Host theme overrides are page-level
+
+For Milestone 1, hosts override semantic and component tokens on `:root` and on the `[data-keen-mode]` selectors, the same places Keen declares them. Keen's tokens stay declared on `:root`, and a custom property resolves its `var()` where it is declared, so an override scoped to any other subtree does not reach the tokens that alias it: a subtree that sets `--keen-color-semantic-action` would leave `--keen-chat-message-user-background` on Keen's blue. The `fixture-astro` gate checks that the host's override reaches a component token that aliases it in the page, light, and dark contexts.
+
+Subtree theming is deferred until a host needs two differently themed chats on one page. Supporting it means declaring dependent tokens again on a Keen root element, which changes the public theming surface. Rejected for now: re-declaring every semantic and component token on each Keen root, which doubles the stylesheet for a need no host has yet.
 
 ### 2026-10-29: The package is @keen/design-system with three entry points
 

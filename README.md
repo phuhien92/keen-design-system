@@ -46,6 +46,7 @@ Settled, with the reasoning in [docs/decisions.md](docs/decisions.md):
 - Components are written in React, which fits portfolio-blog's Astro 5 and React 19 islands.
 - Hosts install Keen as a pinned package build and never copy or edit component source.
 - Hosts customize through themes only: semantic and component tokens, plus the variants and slots each component names.
+- Host theme overrides are page-level: they go on `:root` and the `[data-keen-mode]` selectors. Theming one subtree differently is not supported yet.
 - DTCG JSON is the one hand-edited token source; CSS custom properties and TypeScript exports are generated from it.
 - Every token name carries its tier (`color.semantic.action`), and components never read primitive tokens.
 - The repository is a pnpm workspace with tokens, the `keen` package, a token generator, docs, Storybook, and an Astro fixture app.
