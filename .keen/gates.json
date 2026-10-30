@@ -12,6 +12,11 @@
       "description": "generated CSS and typed map are deterministic and match the token sources"
     },
     { "id": "tokens-baseline", "tier": "fast", "description": "the committed resolved-token baseline matches the token sources" },
-    { "id": "tokens-contrast", "tier": "fast", "description": "every Component Contract contrast pair passes in light and dark" }
+    { "id": "tokens-contrast", "tier": "fast", "description": "every Component Contract contrast pair passes in light and dark" },
+    {
+      "id": "tokens-contract",
+      "tier": "fast",
+      "description": "every Component Contract token value matches tokens/*.json in light and dark, and every component token is documented"
+    }
   ]
 }

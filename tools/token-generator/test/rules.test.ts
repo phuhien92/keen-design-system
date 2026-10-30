@@ -1,5 +1,6 @@
 // Each fast-tier token rule, proven by a deliberately broken fixture.
 import { describe, expect, it } from "vitest";
+import { type ContractToken, checkContract } from "../src/contract.ts";
 import { checkContrast } from "../src/contrast.ts";
 import type { Source } from "../src/model.ts";
 import { generate } from "../src/pipeline.ts";
@@ -137,6 +138,49 @@ describe("token rules", () => {
     );
     expect(failures).toHaveLength(2);
     expect(failures[0]).toMatch(/below 3:1/);
+  });
+});
+
+describe("contract token values", () => {
+  const contract = (tokens: ContractToken[]) => ({ component: "Chat", tokens });
+  const valid: ContractToken[] = [
+    { name: "color.semantic.action", type: "color", light: "#2557D6", dark: "#2557D6" },
+    { name: "chat.message-gap", type: "dimension", value: 16 },
+  ];
+  const check = (f: ReturnType<typeof fixture>, tokens: ContractToken[]) =>
+    checkContract(contract(tokens), generate(sources(f)).resolved, "chat.json");
+
+  it("accepts a contract that matches the token files", () => {
+    expect(check(fixture(), valid)).toEqual([]);
+  });
+
+  it("rejects a color the token files resolve differently", () => {
+    const failures = check(fixture(), [{ ...valid[0], dark: "#86A8FF" }, valid[1]]);
+    expect(failures).toEqual(['chat.json: color.semantic.action is "#86A8FF" in the contract but "#2557D6" in dark']);
+  });
+
+  it("rejects a px dimension the token files declare in another unit", () => {
+    const f = fixture();
+    f.primitive.space.primitive.md.$value = { value: 16, unit: "rem" };
+    expect(check(f, valid)).toHaveLength(2);
+  });
+
+  it("rejects an alias the token files do not reference", () => {
+    const f = fixture();
+    f.component.chat["user-background"] = { $type: "color", $value: "{color.semantic.surface}", $description: "User bubble." };
+    const failures = check(f, [...valid, { name: "chat.user-background", type: "color", alias: "color.semantic.action" }]);
+    expect(failures[0]).toMatch(/aliases color\.semantic\.action in the contract but references color\.semantic\.surface in light/);
+  });
+
+  it("rejects a contract token the token files do not declare", () => {
+    const failures = check(fixture(), [...valid, { name: "color.semantic.focus", type: "color", light: "#1D4ED8", dark: "#A4BEFF" }]);
+    expect(failures).toEqual(["chat.json: color.semantic.focus is not declared in tokens/*.json"]);
+  });
+
+  it("rejects a component token the contract does not document", () => {
+    expect(check(fixture(), [valid[0]])).toEqual([
+      "chat.json: chat.message-gap is declared in tokens/*.json but not documented in the contract",
+    ]);
   });
 });
 

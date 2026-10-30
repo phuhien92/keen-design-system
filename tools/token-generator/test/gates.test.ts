@@ -61,6 +61,14 @@ describe("fast tier", () => {
     expect(output).toMatch(/FAIL tokens-contrast[\s\S]*text-subtle on color\.semantic\.surface is .* in light/);
   });
 
+  it("fails when a contract documents a value tokens/*.json does not have", () => {
+    const root = copyRepo();
+    edit(root, "docs/components/chat.json", (json) => json.replace('"dark": "#A3ABB8"', '"dark": "#A3ABB9"'));
+    const { ok, output } = run(root);
+    expect(ok).toBe(false);
+    expect(output).toMatch(/FAIL tokens-contract[\s\S]*color\.semantic\.text-subtle is "#A3ABB9" in the contract but "#A3ABB8" in dark/);
+  });
+
   it("fails when .keen/gates.json and the gate code disagree", () => {
     const root = copyRepo();
     edit(root, ".keen/gates.json", (json) => json.replace('"tokens-contrast"', '"tokens-contrast-typo"'));
@@ -77,7 +85,7 @@ describe("fast tier", () => {
       const { ok, output } = run(root);
       expect(ok).toBe(true);
       expect(output).toMatch(/SKIP tokens-contrast[\s\S]*skipped: no contracts/);
-      expect(output).toMatch(/3 passed, 0 failed, 1 skipped/);
+      expect(output).toMatch(/4 passed, 0 failed, 1 skipped/);
     } finally {
       gates["tokens-contrast"] = original;
     }
