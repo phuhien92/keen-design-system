@@ -10,7 +10,8 @@
     "erasableSyntaxOnly": true,
     "verbatimModuleSyntax": true,
     "skipLibCheck": true,
-    "types": ["node"]
+    "types": ["node", "react"],
+    "jsx": "react-jsx"
   },
   "include": ["tools/*/src", "tools/*/test", "packages/*/src", "packages/*/tests", "vitest.config.ts"]
 }

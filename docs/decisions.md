@@ -103,3 +103,13 @@ Subtree theming is deferred until a host needs two differently themed chats on o
 `packages/keen` publishes as `@keen/design-system` with exactly three exports: `./react` for components, `./styles.css` for the generated token stylesheet followed by each component's styles, and `./tokens` for the typed token map of semantic and component tokens. There is no root export, so no internal module is importable; the build tier packs the package, installs the tarball into a scratch consumer, and fails if anything else resolves. The name and the `./react` and `./styles.css` paths follow the consumer sketch in the portfolio-blog integration plan.
 
 `apps/fixture-astro` installs that tarball with npm rather than through the pnpm workspace, so it consumes the package the way a host does and never through a workspace link. Renaming the package later changes every host's imports, so the name should settle before a second consumer.
+
+### 2026-10-29: The design's icons reach CI through a hash-pinned snapshot
+
+The icon registry is generated from the icon nodes in `design/keen.pen`, which only a signed-in pen CLI can read, and CI has no pen credentials. `pnpm design:push` reads the icon nodes into `.keen/design/icons.json` together with the SHA-256 of `design/keen.pen`, and `pnpm tokens:build` generates the registry and the icons doc from that snapshot. CI fails when the design file's hash no longer matches the snapshot, so a design change cannot ship without re-reading its icons, and a run with the pen CLI also compares the snapshot with the live design.
+
+Rejected: parsing `.pen` JSON directly, which ties Keen to a versioned file format Pen does not promise to keep, and adding pen credentials to CI, which puts a personal account secret in every workflow run.
+
+### 2026-10-29: Keen's root element is marked with data-keen-root
+
+Reduced-motion rules are scoped under `[data-keen-root]`, the attribute every Keen component's root element carries, and declared last in `styles.css`. A host's own elements, and any Keen variable a host reads outside a Keen component, keep their full motion. The attribute is a styling hook for Keen's own stylesheet, not a host API.

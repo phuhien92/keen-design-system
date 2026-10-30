@@ -29,6 +29,25 @@ export const keenTokens = {
       "weight-strong": "var(--keen-font-semantic-weight-strong)",
     },
   },
+  icon: {
+    semantic: {
+      "size-md": "var(--keen-icon-semantic-size-md)",
+      "size-sm": "var(--keen-icon-semantic-size-sm)",
+    },
+  },
+  motion: {
+    semantic: {
+      "duration-base": "var(--keen-motion-semantic-duration-base)",
+      "duration-fast": "var(--keen-motion-semantic-duration-fast)",
+      "duration-instant": "var(--keen-motion-semantic-duration-instant)",
+      "duration-loop": "var(--keen-motion-semantic-duration-loop)",
+      "duration-slow": "var(--keen-motion-semantic-duration-slow)",
+      "easing-emphasized": "var(--keen-motion-semantic-easing-emphasized)",
+      "easing-entrance": "var(--keen-motion-semantic-easing-entrance)",
+      "easing-linear": "var(--keen-motion-semantic-easing-linear)",
+      "easing-standard": "var(--keen-motion-semantic-easing-standard)",
+    },
+  },
   radius: {
     semantic: {
       container: "var(--keen-radius-semantic-container)",

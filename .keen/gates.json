@@ -47,6 +47,41 @@
       "description": "every token a component reads is listed in its Component Contract"
     },
     {
+      "id": "motion-usage",
+      "tier": "fast",
+      "description": "component motion applies named uses with no literal durations or easings, animates only opacity, transform, and colors, and registers every loop and entrance"
+    },
+    {
+      "id": "reduced-motion",
+      "tier": "fast",
+      "description": "the generated reduced-motion rules collapse semantic durations to 0.01ms, park registered loops, and stay scoped to Keen's root"
+    },
+    {
+      "id": "motion-timings",
+      "tier": "fast",
+      "description": "generated JavaScript timings match their tokens, and motion and icon tokens are in the baseline"
+    },
+    {
+      "id": "ds-allow",
+      "tier": "fast",
+      "description": "every ds-allow(<category>): <reason> directive names a known category"
+    },
+    {
+      "id": "icons-design",
+      "tier": "fast",
+      "description": ".keen/design/icons.json was read from the current design/keen.pen"
+    },
+    {
+      "id": "icons-live",
+      "tier": "fast",
+      "description": "design/keen.pen's icon nodes, read through the pen CLI, match .keen/design/icons.json"
+    },
+    {
+      "id": "icon-usage",
+      "tier": "fast",
+      "description": "only the generated registry imports Lucide, and component code names only registered glyphs"
+    },
+    {
       "id": "package-exports",
       "tier": "build",
       "description": "the packed package exports only ./react, ./styles.css, and ./tokens, and internals are not importable"

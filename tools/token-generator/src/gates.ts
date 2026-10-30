@@ -4,10 +4,13 @@ import { join } from "node:path";
 import { checkContracts, checkForwarding, checkReads, componentSources, type TokenIndex } from "./boundary.ts";
 import { type ContrastPair, checkContrast } from "./contrast.ts";
 import { emitsVariable } from "./emit.ts";
+import { designHash, type IconSnapshot, iconSnapshotFile, readDesignIcons, registryFile } from "./icons.ts";
 import { cssVar } from "./model.ts";
+import { type MotionRegistry, semanticDurations, useVariables } from "./motion.ts";
+import { checkAllowDirectives, checkIconUsage, checkMotionUsage, checkReducedMotion } from "./motion-checks.ts";
 import { checkFixture, checkPackage } from "./package.ts";
 import { designFile, normalize, type PenVariables, penVariables, readPenVariables, serializeVariables, variablesFile } from "./pen.ts";
-import { formatIssue, type Generation, generate, outputFiles, readSources } from "./pipeline.ts";
+import { formatIssue, type Generation, generate, motionRegistryFile, outputFiles, readExtras, readSources } from "./pipeline.ts";
 
 export type Tier = "fast" | "build" | "live";
 export type GateResult = { status: "pass"; notes?: string[] } | { status: "fail"; reasons: string[] } | { status: "skip"; reason: string };
@@ -27,6 +30,11 @@ const tokenIndex = (ctx: Context): TokenIndex => ({
       .map((t) => [cssVar(t.name), t.name]),
   ),
 });
+const motionRegistry = (root: string): MotionRegistry => JSON.parse(read(root, motionRegistryFile) ?? '{ "loops": [], "entrances": [] }');
+const snapshotOf = (root: string): IconSnapshot | undefined => {
+  const text = read(root, iconSnapshotFile);
+  return text ? JSON.parse(text) : undefined;
+};
 const read = (root: string, file: string) => (existsSync(join(root, file)) ? readFileSync(join(root, file), "utf8") : undefined);
 
 export const gates: Record<string, (ctx: Context) => GateResult> = {
@@ -35,7 +43,7 @@ export const gates: Record<string, (ctx: Context) => GateResult> = {
   "tokens-generated": (ctx) => {
     const first = ctx.generation();
     if (first.issues.length > 0) return { status: "fail", reasons: ["token sources have issues; see tokens-valid"] };
-    const second = generate(readSources(ctx.root));
+    const second = generate(readSources(ctx.root), readExtras(ctx.root));
     const reasons: string[] = [];
     for (const [file, content] of Object.entries(first.files)) {
       if (file === outputFiles.baseline) continue;
@@ -105,6 +113,63 @@ export const gates: Record<string, (ctx: Context) => GateResult> = {
 
   "contract-roles": (ctx) => result(checkContracts(componentSources(ctx.root), tokenIndex(ctx), ctx.root)),
 
+  "motion-usage": (ctx) =>
+    result(checkMotionUsage(componentSources(ctx.root), useVariables(ctx.generation().tokens), motionRegistry(ctx.root))),
+
+  "reduced-motion": (ctx) => {
+    const durations = semanticDurations(ctx.generation().tokens).map((t) => cssVar(t.name));
+    return result(
+      checkReducedMotion(read(ctx.root, outputFiles.reducedMotion), durations, motionRegistry(ctx.root), componentSources(ctx.root)),
+    );
+  },
+
+  "motion-timings": (ctx) => {
+    const { tokens, resolved, issues } = ctx.generation();
+    if (issues.length > 0) return { status: "fail", reasons: ["token sources have issues; see tokens-valid"] };
+    const committed = read(ctx.root, outputFiles.motionTimings) ?? "";
+    const entries = new Map(
+      [...committed.matchAll(/"([\w-]+)": \{ ms: (\d+(?:\.\d+)?), kind: "(\w+)" \}/g)].map((m) => [m[1], `${m[2]} ${m[3]}`]),
+    );
+    const reasons: string[] = [];
+    for (const token of semanticDurations(tokens).filter((t) => t.keen.js)) {
+      const key = token.path[token.path.length - 1];
+      const value = resolved.get(token.name)?.modes.light.value as { value: number; unit: string };
+      const expected = `${value.unit === "s" ? value.value * 1000 : value.value} ${token.keen.js}`;
+      if (entries.get(key) !== expected) reasons.push(`motion.ts ${key} is ${entries.get(key) ?? "missing"}; the token says ${expected}`);
+    }
+    const baseline = read(ctx.root, outputFiles.baseline) ?? "";
+    for (const name of ["motion.semantic.duration-fast", "motion.semantic.use-hover", "icon.semantic.size-md"]) {
+      if (!baseline.includes(`"name": "${name}"`)) reasons.push(`the token baseline does not record ${name}`);
+    }
+    return result(reasons);
+  },
+
+  "ds-allow": (ctx) => result(checkAllowDirectives(componentSources(ctx.root))),
+
+  "icons-design": (ctx) => {
+    const snapshot = snapshotOf(ctx.root);
+    if (!snapshot) return { status: "fail", reasons: [`${iconSnapshotFile} is missing; run pnpm design:push`] };
+    if (snapshot.designSha256 === designHash(join(ctx.root, snapshot.design))) return pass;
+    return {
+      status: "fail",
+      reasons: [`${snapshot.design} changed since ${iconSnapshotFile} was read; run pnpm design:push and pnpm tokens:build`],
+    };
+  },
+
+  "icons-live": (ctx) => {
+    const snapshot = snapshotOf(ctx.root);
+    if (!snapshot) return { status: "fail", reasons: [`${iconSnapshotFile} is missing; run pnpm design:push`] };
+    const live = readDesignIcons(ctx.root, snapshot.design);
+    if (!live.ok) return live.unavailable ? { status: "skip", reason: live.error } : { status: "fail", reasons: [live.error] };
+    if (JSON.stringify(live.snapshot.glyphs) === JSON.stringify(snapshot.glyphs)) return pass;
+    return { status: "fail", reasons: [`the icon nodes in ${snapshot.design} differ from ${iconSnapshotFile}; run pnpm design:push`] };
+  },
+
+  "icon-usage": (ctx) => {
+    const glyphs = new Set((snapshotOf(ctx.root)?.glyphs ?? []).map((g) => g.glyph));
+    return result(checkIconUsage(componentSources(ctx.root), registryFile, glyphs));
+  },
+
   "package-exports": (ctx) => result(checkPackage(ctx.root)),
 
   "fixture-astro": (ctx) => {
@@ -135,7 +200,7 @@ export function runGates(root: string, tier: Tier, log: (line: string) => void):
     return false;
   }
   let generation: Generation | undefined;
-  const ctx: Context = { root, generation: () => (generation ??= generate(readSources(root))) };
+  const ctx: Context = { root, generation: () => (generation ??= generate(readSources(root), readExtras(root))) };
   const counts = { pass: 0, fail: 0, skip: 0 };
   log(`keen verify: ${tier} tier`);
   const tierSpecs = specs.filter((s) => s.tier === tier);

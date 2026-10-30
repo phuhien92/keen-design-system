@@ -53,5 +53,25 @@
       "size-16": { "$type": "dimension", "$value": { "value": 16, "unit": "px" } },
       "line-height-150": { "$type": "number", "$value": 1.5 }
     }
+  },
+  "motion": {
+    "primitive": {
+      "duration-75": { "$type": "duration", "$value": { "value": 75, "unit": "ms" } },
+      "duration-150": { "$type": "duration", "$value": { "value": 150, "unit": "ms" } },
+      "duration-200": { "$type": "duration", "$value": { "value": 200, "unit": "ms" } },
+      "duration-300": { "$type": "duration", "$value": { "value": 300, "unit": "ms" } },
+      "duration-1400": { "$type": "duration", "$value": { "value": 1400, "unit": "ms" } },
+      "easing-standard": { "$type": "cubicBezier", "$value": [0.4, 0, 0.2, 1] },
+      "easing-emphasized": { "$type": "cubicBezier", "$value": [0.2, 0, 0, 1] },
+      "easing-entrance": { "$type": "cubicBezier", "$value": [0, 0, 0.2, 1] },
+      "easing-linear": { "$type": "cubicBezier", "$value": [0, 0, 1, 1] }
+    }
+  },
+  "icon": {
+    "$type": "dimension",
+    "primitive": {
+      "size-12": { "$value": { "value": 12, "unit": "px" } },
+      "size-18": { "$value": { "value": 18, "unit": "px" } }
+    }
   }
 }

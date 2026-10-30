@@ -1,26 +1,36 @@
 // The gate runner against a temporary copy of the repository's token inputs and outputs.
-import { cpSync, mkdtempSync, readFileSync, writeFileSync } from "node:fs";
+import { cpSync, mkdtempSync, readFileSync, symlinkSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { gates, runGates } from "../src/gates.ts";
-import { variablesFile } from "../src/pen.ts";
 import { outputFiles, repoRoot } from "../src/pipeline.ts";
 
-// Reading design/keen.pen through the pen CLI is slow and needs a signed-in CLI; pen.test.ts covers that gate.
-const penLive = gates["pen-live"];
+// Reading design/keen.pen through the pen CLI is slow and needs a signed-in CLI; pen.test.ts and icons.test.ts cover those gates.
+const live = { pen: gates["pen-live"], icons: gates["icons-live"] };
 beforeAll(() => {
   gates["pen-live"] = () => ({ status: "skip", reason: "stubbed in gates.test.ts" });
+  gates["icons-live"] = () => ({ status: "skip", reason: "stubbed in gates.test.ts" });
 });
 afterAll(() => {
-  gates["pen-live"] = penLive;
+  gates["pen-live"] = live.pen;
+  gates["icons-live"] = live.icons;
 });
 
 function copyRepo() {
   const root = mkdtempSync(join(tmpdir(), "keen-gates-"));
-  for (const path of ["tokens", ".keen", "docs/components", variablesFile, ...Object.values(outputFiles)]) {
+  for (const path of [
+    "tokens",
+    ".keen",
+    "docs",
+    "design",
+    "packages/keen/package.json",
+    "packages/keen/src",
+    ...Object.values(outputFiles),
+  ]) {
     cpSync(join(repoRoot, path), join(root, path), { recursive: true });
   }
+  symlinkSync(join(repoRoot, "packages/keen/node_modules"), join(root, "packages/keen/node_modules"));
   return root;
 }
 
@@ -87,7 +97,7 @@ describe("fast tier", () => {
       const { ok, output } = run(root);
       expect(ok).toBe(true);
       expect(output).toMatch(/SKIP tokens-contrast[\s\S]*skipped: no contracts/);
-      expect(output).toMatch(/7 passed, 0 failed, 2 skipped/);
+      expect(output).toMatch(/13 passed, 0 failed, 3 skipped/);
     } finally {
       gates["tokens-contrast"] = original;
     }

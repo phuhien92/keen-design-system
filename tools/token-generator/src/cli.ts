@@ -1,17 +1,19 @@
 // keen token generator.
 //   node tools/token-generator/src/cli.ts build           regenerate every output from tokens/*.json
 //   node tools/token-generator/src/cli.ts verify <tier>   run the fast, build, or live verification gates
-//   node tools/token-generator/src/cli.ts design-push     regenerate the Pen variables in design/keen.pen (needs a signed-in pen CLI)
+//   node tools/token-generator/src/cli.ts design-push     regenerate the Pen variables in design/keen.pen and read its icon nodes
+//                                                         into .keen/design/icons.json (needs a signed-in pen CLI)
 import { mkdirSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { runGates, type Tier } from "./gates.ts";
+import { iconSnapshotFile, readDesignIcons, serializeSnapshot } from "./icons.ts";
 import { designFile, normalize, type PenVariables, penVariables, serializeVariables, variablesFile, writePenVariables } from "./pen.ts";
-import { formatIssue, type Generation, generate, readSources, repoRoot } from "./pipeline.ts";
+import { formatIssue, type Generation, generate, readExtras, readSources, repoRoot } from "./pipeline.ts";
 
 const [command, arg] = process.argv.slice(2);
 
 function validGeneration(): Generation {
-  const generation = generate(readSources(repoRoot));
+  const generation = generate(readSources(repoRoot), readExtras(repoRoot));
   if (generation.issues.length > 0) {
     for (const issue of generation.issues) console.error(formatIssue(issue));
     process.exit(1);
@@ -41,6 +43,16 @@ if (command === "build") {
   }
   writeFileSync(join(repoRoot, variablesFile), serializeVariables(readBack));
   console.log(`wrote ${Object.keys(readBack.variables).length} Pen variables to ${designFile} and ${variablesFile}`);
+  const icons = readDesignIcons(repoRoot, designFile);
+  if (!icons.ok) {
+    console.error(`could not read the design's icons: ${icons.error}`);
+    process.exit(1);
+  }
+  mkdirSync(dirname(join(repoRoot, iconSnapshotFile)), { recursive: true });
+  writeFileSync(join(repoRoot, iconSnapshotFile), serializeSnapshot(icons.snapshot));
+  console.log(
+    `wrote ${icons.snapshot.glyphs.length} design glyphs to ${iconSnapshotFile}; run pnpm tokens:build to regenerate the registry`,
+  );
 } else {
   console.error("usage: cli.ts build | verify <fast|build|live> | design-push");
   process.exit(2);
