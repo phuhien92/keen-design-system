@@ -220,6 +220,177 @@ note. Every other binding must appear in the design.
 { "name": "loading", …, "evidence": ["design/exports/chat-02-loading-light.png"] }
 ```
 
+## Component code
+
+These rules cover everything in `packages/keen/src/components/<Name>/` and `packages/keen/src/icons/`. Stories and
+tests are exempt.
+
+**Expose no `className` or `style`, and spread no props.** Hosts customize through tokens, slots, and the props the
+contract names, so Keen can change its internals without breaking them.
+
+```tsx
+// ✅ a slot from the contract
+export interface ChatProps {
+  labels: { title: string };
+  header?: ReactNode;
+}
+
+// ❌ component-forwarding fails:
+//    "packages/keen/src/components/Chat/Chat.tsx: props declare className, a styling escape hatch"
+export interface ChatProps {
+  labels: string;
+  className?: string;
+}
+
+// ❌ "…/Chat.tsx: props use HTMLAttributes, which carries className and style"
+export interface ChatProps extends HTMLAttributes<HTMLElement> { labels: string }
+
+// ❌ "…/Chat.tsx: spreads props onto an element"
+return <section className="keen-chat" {...props} />;
+```
+
+**Read semantic and component tokens only, and never declare one.** Hosts override tokens; components only read them.
+
+```css
+/* ✅ */
+.keen-chat {
+  background: var(--keen-color-semantic-surface);
+}
+
+/* ❌ token-reads fails: "…/Chat.css: reads primitive --keen-color-primitive-blue-600; components read semantic or component tokens" */
+.keen-chat {
+  background: var(--keen-color-primitive-blue-600);
+}
+
+/* ❌ "…/Chat.css: reads --keen-chat-bubble-background, which no token generates (phantom)" */
+.keen-chat {
+  background: var(--keen-chat-bubble-background);
+}
+
+/* ❌ "…/Chat.css: declares token --keen-color-semantic-action; only hosts override tokens" */
+.keen-chat {
+  --keen-color-semantic-action: #6d28d9;
+}
+```
+
+**Read only the tokens your contract binds.** To use another token, add a binding to the contract first. Motion
+tokens are the exception: no contract binds motion, and the motion rules below govern it.
+
+```css
+/* ✅ chat.json binds root background → color.semantic.surface */
+.keen-chat {
+  background: var(--keen-color-semantic-surface);
+}
+
+/* ❌ contract-roles fails: "…/Chat.css: reads icon.semantic.size-md, which chat.json does not bind" */
+.keen-chat svg {
+  width: var(--keen-icon-semantic-size-md);
+}
+```
+
+**Animate with a named motion use: its duration, then its easing, in the `transition` or `animation` shorthand.** The
+uses are `use-hover`, `use-message-enter`, `use-notice`, and `use-loop` in `tokens/semantic.json`.
+
+```css
+/* ✅ use-hover */
+.keen-chat-send {
+  transition: background-color var(--keen-motion-semantic-duration-fast) var(--keen-motion-semantic-easing-standard);
+}
+
+/* ❌ motion-usage fails: "…/Chat.css:<line>: literal duration or easing in transition; apply a named motion use" */
+.keen-chat-send {
+  transition: background-color 150ms ease;
+}
+
+/* ❌ "…/Chat.css:<line>: transition-duration splits a use; write the transition shorthand with a named use" */
+.keen-chat-send {
+  transition-duration: var(--keen-motion-semantic-duration-fast);
+}
+```
+
+**Animate only opacity, transform, and colors.**
+
+```css
+/* ✅ */
+.keen-chat-bubble {
+  transition: opacity var(--keen-motion-semantic-duration-fast) var(--keen-motion-semantic-easing-standard);
+}
+
+/* ❌ motion-usage fails: "…/Chat.css:<line>: transitions width; animate only opacity, transform, and colors" */
+.keen-chat-bubble {
+  transition: width var(--keen-motion-semantic-duration-fast) var(--keen-motion-semantic-easing-standard);
+}
+```
+
+**Register every looping and entrance animation, then rebuild.** Reduced motion parks a registered loop on its
+`frame` and drops a registered entrance; the rebuild writes those rules into `reduced-motion.css`.
+
+```jsonc
+// ✅ packages/keen/src/motion/registry.json, then pnpm tokens:build
+{ "loops": [{ "keyframes": "keen-pulse", "selector": ".keen-chat-dot", "frame": { "opacity": "1" } }], "entrances": [] }
+```
+
+```css
+/* ❌ without the registry entry, motion-usage fails: "…/Chat.css:<line>: infinite animation keen-pulse is not in the loop registry"
+   ❌ with the entry but without the rebuild, reduced-motion fails: "reduced-motion.css has no rule parking loop keen-pulse" */
+.keen-chat-dot {
+  animation: keen-pulse var(--keen-motion-semantic-duration-loop) var(--keen-motion-semantic-easing-linear) infinite;
+}
+```
+
+**Scope any reduced-motion rule of your own to `[data-keen-root]`**, which every component's root element carries, so
+a host's own motion is untouched.
+
+```css
+/* ✅ */
+@media (prefers-reduced-motion: reduce) {
+  [data-keen-root] .keen-chat-dot {
+    opacity: 1;
+  }
+}
+
+/* ❌ reduced-motion fails: "…/Chat.css: reduced-motion rule ".keen-chat-dot" is not scoped to [data-keen-root]" */
+@media (prefers-reduced-motion: reduce) {
+  .keen-chat-dot {
+    opacity: 1;
+  }
+}
+```
+
+**Make an exception only with `ds-allow(<category>): <reason>`, on the same line as the declaration.** The categories
+are `motion`, `icon-size`, and `color`. A comment on the line above does not attach to the declaration.
+
+```css
+/* ✅ */
+.keen-chat-caret {
+  transition: opacity 530ms steps(1); /* ds-allow(motion): the caret blinks at the platform's 530ms rate */
+}
+
+/* ❌ ds-allow fails: "…/Chat.css: unknown ds-allow category "timing"; use motion, icon-size, color" */
+transition: opacity 530ms steps(1); /* ds-allow(timing): the caret blinks at the platform's 530ms rate */
+
+/* ❌ "…/Chat.css: malformed "ds-allow(motion)"; write ds-allow(<category>): <reason>" */
+transition: opacity 530ms steps(1); /* ds-allow(motion) */
+
+/* ❌ on its own line, the exception does not apply, and motion-usage fails:
+   "…/Chat.css:<line>: literal duration or easing in transition; apply a named motion use" */
+/* ds-allow(motion): the caret blinks at the platform's 530ms rate */
+transition: opacity 530ms steps(1);
+```
+
+**Use icons through `Icon`, with a glyph the design uses.** Only the generated registry imports Lucide.
+
+```tsx
+// ✅
+<Icon name="arrow-up" />;
+
+// ❌ icon-usage fails: "…/Chat.tsx: imports lucide-react; only packages/keen/src/icons/registry.ts may"
+import { ArrowUp } from "lucide-react";
+
+// ❌ "…/Chat.tsx: names icon "bell", which the design does not use". Draw the icon in the design first.
+<Icon name="bell" />;
+```
+
 ## Reading the design to write code
 
 Start from a layer's `keen-part` tag, never from its name. For example, the layer tagged
